@@ -1,12 +1,12 @@
 {
   "meta": {
     "title": "Nossa Senhora de Fátima — Cronologia",
-    "subtitle": "Chronology of the reported apparitions at Fátima, Portugal (1916–2017)",
-    "description": "An open, source-referenced chronology of the reported apparitions of Our Lady of the Rosary at the Cova da Iria, Fátima, Portugal (1917), the three seers, the Church's canonical judgment of 1930, and the later beatifications, canonizations and the publication of the 'Third Secret'.",
+    "subtitle": "Chronology of the reported apparitions at Fátima, Portugal, and of what came before and after them (1881–2017)",
+    "description": "An open, source-referenced chronology of the reported apparitions of Our Lady of the Rosary at the Cova da Iria, Fátima, Portugal (1917): the anticlerical politics and the suppressed diocese that preceded them, the three seers, the Church's canonical judgment of 1930, the shrine, the pilgrimage and the seers' causes that followed, and the reported cures — recorded as accounts and as the Church acts that judged them, never as events.",
     "language": "en",
     "siteUrl": "https://cronologia.github.io/fatima/",
     "lastUpdated": "2026-08-05",
-    "dataQualityNote": "Work-in-progress dataset compiled from public sources (see references). The apparitions are REPORTED events: this site records who reported what and when, and what the Church ruled and when, citing the ruling documents — it never asserts the supernatural claim as fact in its own voice. Details attested only retrospectively (the 1916 Angel apparitions, the 'Secret') are flagged as such; dates not yet verified against a primary source carry a ? mark. Corrections against primary sources are welcome."
+    "dataQualityNote": "Work-in-progress dataset compiled from public sources (see references). The apparitions are REPORTED events: this site records who reported what and when, and what the Church ruled and when, citing the ruling documents — it never asserts the supernatural claim as fact in its own voice. Reported miracles are handled the same way, and only two things attached to them are datable: that a cure was REPORTED — by whom, and when first attested — and any RECOGNITION ACT, a dated decision of the Church with a document behind it. No entry here says that a cure happened, aggregate claims are attributed to whoever makes them, and reported cures earn no rung on the approval ladder, which records judgments on the apparitions alone. The chronology also carries context before 1917 (the suppressed diocese, the First Republic, the 1911 Law of Separation) and the institutional history after it (the shrine, the pilgrimage, the seers' later lives and causes). Details attested only retrospectively (the 1916 Angel apparitions, the 'Secret') are flagged as such; dates not yet verified against a primary source carry a ? mark, and where sources disagree the disagreement is recorded rather than resolved. Corrections against primary sources are welcome."
   },
   "approvalLadder": {
     "note": "Fátima's approval is DIOCESAN. The judgment that the visions are 'worthy of belief' was made by the bishop of Leiria in 1930; this chronology has located no act of the Holy See ruling on whether the 1917 apparitions were supernatural. Each rung below records one authority — what it did, when, and in which document — and the page adds them up into no overall verdict.",
@@ -85,14 +85,62 @@
     },
     {
       "label": "Sanctuary",
-      "value": "The Santuário de Fátima at the Cova da Iria is today one of the most visited Marian shrines in the world; its documentation service publishes the multi-volume critical edition of the sources, the 'Documentação Crítica de Fátima'.",
+      "value": "The Santuário de Fátima at the Cova da Iria grew from a small chapel built by devotees in 1919 to the Basilica of Our Lady of the Rosary (dedicated 1953) and the Basilica of the Most Holy Trinity (dedicated 2007, 8,633 seats), and is today one of the most visited Marian shrines in the world; its documentation service publishes the multi-volume critical edition of the sources, the 'Documentação Crítica de Fátima'.",
       "sources": [
+        "fatima-lugares-aparicoes",
+        "fatima-lugares-culto",
         "fatima-dcf-selecao",
         "wikipedia-our-lady-fatima"
+      ]
+    },
+    {
+      "label": "Reported cures",
+      "value": "Cures have been reported at Fátima since the 1920s. The canonical commission's report of 13 April 1930 lists seventeen cases, each with a named physician's certificate and the numbered issue of 'Voz da Fátima' that carried the account, and describes sick pilgrims passing through a 'posto das verificações médicas' at the shrine. No act declaring any of those seventeen cures miraculous has been located, and no standing medical bureau comparable to the one Lourdes established in 1883 has been located either — a record of what was and was not found in the sources cited here, not a claim that none exists. The only Church acts on reported cures connected with Fátima that this chronology has located are the two decrees in the seers' cause, 28 June 1999 and 23 March 2017, which judge cures attributed to the intercession of Francisco and Jacinta Marto rather than the apparitions. This site records the reporting and the acts; it asserts no cure.",
+      "sources": [
+        "fatima-dcf-selecao",
+        "causesanti-marto",
+        "causesanti-decreti-2017"
       ]
     }
   ],
   "events": [
+    {
+      "year": 1881,
+      "date": "1881-09-30",
+      "dateVerified": true,
+      "place": "Leiria, Portugal",
+      "title": "Diocese of Leiria suppressed",
+      "text": "The see erected in 1545 is suppressed on 30 September 1881 in the liberal monarchy's reorganisation of the Portuguese dioceses, and its territory — including the parish of Fátima — passes to the Patriarchate of Lisbon. It is still suppressed in 1917, which is why the reported apparitions fall under no local bishop. The suppression is an act of the monarchy, not of the Republic proclaimed in 1910; the two are often run together.",
+      "sources": [
+        "leiria-fatima-resenha",
+        "leiria-fatima-bula-1918",
+        "leiria-fatima-aparicoes-restauracao"
+      ]
+    },
+    {
+      "year": 1910,
+      "date": "1910-10-05",
+      "dateVerified": true,
+      "place": "Lisbon, Portugal",
+      "title": "The Republic proclaimed in Portugal",
+      "text": "The monarchy falls and the Republic is proclaimed at Lisbon on 5 October 1910. The Provisional Government that takes office is anticlerical in programme, and the Diocese of Leiria-Fátima's own historical sketch describes the years that follow as ones of confiscation and persecution — the diocese's characterisation, recorded here as its own. This is the political setting in which the 1917 reports were received and opposed; the site records it as setting, not as cause.",
+      "sources": [
+        "parlamento-separacao-1911",
+        "leiria-fatima-resenha"
+      ]
+    },
+    {
+      "year": 1911,
+      "date": "1911-04-20",
+      "dateVerified": true,
+      "place": "Lisbon, Portugal",
+      "title": "The Law of Separation of Church and State",
+      "text": "The Provisional Government decrees the Lei da Separação do Estado das Igrejas on 20 April 1911, drafted by Afonso Costa as Minister of Justice and Worship and published in the Diário do Governo the next day. It ends the Catholic religion's standing as the religion of the State, withdraws public support from worship, places Church property under state control, removes religious teaching from state schools and subjects public acts of worship to civil authorisation. It is the legal regime under which the administrator of the county of Vila Nova de Ourém acted against the children in August 1917.",
+      "sources": [
+        "parlamento-separacao-1911",
+        "leiria-fatima-resenha"
+      ]
+    },
     {
       "year": 1916,
       "date": "1916",
@@ -190,6 +238,20 @@
       ]
     },
     {
+      "year": 1918,
+      "date": "1918-01-17",
+      "dateVerified": true,
+      "dateNote": "The restoration is dated here by the bull (17 January 1918). Two other dates are in the sources and neither is discarded: 30 April 1917, when Gasparri communicated that the decision had been made, and 4 May 1918, when the bull was executed at Lisbon.",
+      "place": "Leiria, Portugal",
+      "title": "Diocese of Leiria restored by the bull 'Quo vehementius'",
+      "text": "Benedict XV restores the Diocese of Leiria by the bull 'Quo vehementius' of 17 January 1918, as a suffragan see of the Patriarchate of Lisbon with fifty parishes; Cardinal António Mendes Belo executed it at Lisbon on 4 May 1918. The decision had been taken in Rome before the reported apparitions: Cardinal Pietro Gasparri communicated it to the nuncio on 30 April 1917, thirteen days before 13 May. The restored diocese then went two years without a resident bishop, which is why no diocesan judgment on the 1917 reports was canonically possible before 1922.",
+      "sources": [
+        "leiria-fatima-bula-1918",
+        "leiria-fatima-aparicoes-restauracao",
+        "leiria-fatima-resenha"
+      ]
+    },
+    {
       "year": 1919,
       "date": "1919-04-04",
       "dateVerified": true,
@@ -199,6 +261,17 @@
       "sources": [
         "fatima-cronologia-videntes",
         "jp2-beatification-2000"
+      ]
+    },
+    {
+      "year": 1919,
+      "date": "1919-04-28 – 1919-06-15",
+      "dateVerified": true,
+      "place": "Cova da Iria, Fátima, Portugal",
+      "title": "The Capelinha das Aparições built at the Cova da Iria",
+      "text": "A small chapel is built at the Cova da Iria between 28 April and 15 June 1919, on the initiative of local devotees and years before the diocese ruled on the reports. An image of Our Lady of the Rosary, offered by a devotee, was blessed on 13 May 1920 and brought to the chapel about a month later; the first Mass was celebrated there on 13 October 1921.",
+      "sources": [
+        "fatima-lugares-aparicoes"
       ]
     },
     {
@@ -214,6 +287,30 @@
       ]
     },
     {
+      "year": 1920,
+      "date": "1920-05-15",
+      "dateVerified": true,
+      "place": "Leiria, Portugal",
+      "title": "First resident bishop of the restored diocese appointed",
+      "text": "By the bull 'Commissum humilitati nostrae' of 15 May 1920, José Alves Correia da Silva is appointed to the restored see of Leiria; he is consecrated at Porto Cathedral on 25 July 1920, takes canonical possession by proxy on 4 August and makes his solemn entry into Leiria on 5 August. Until then the parish priest of Fátima had reported to the Patriarchate of Lisbon and no bishop resided in the diocese. This is the bishop who ordered the canonical process in 1922 and issued the judgment of 1930.",
+      "sources": [
+        "leiria-fatima-bispo-1920",
+        "leiria-fatima-paroco"
+      ]
+    },
+    {
+      "year": 1922,
+      "date": "1922-03-06",
+      "dateVerified": true,
+      "place": "Cova da Iria, Fátima, Portugal",
+      "title": "Bomb attack destroys the Capelinha",
+      "text": "In the early hours of 6 March 1922 explosive charges set in the walls of the chapel at the Cova da Iria bring down its roof; a fifth charge, placed at the root of the holm oak, did not go off. The attack is attested by letters of 6 and 9 March 1922 published in the Sanctuary's critical edition (docs. 66–67). Canon Formigão's 1923 account names individuals from Lisbon, Santarém and Vila Nova de Ourém as suspected of it — his accusation, recorded here as his, and not a judicial finding. The chapel was rebuilt and reopened on 13 January 1923.",
+      "sources": [
+        "fatima-dcf-selecao",
+        "fatima-lugares-aparicoes"
+      ]
+    },
+    {
       "year": 1922,
       "date": "1922-05-03",
       "dateVerified": true,
@@ -222,6 +319,29 @@
       "text": "By a provision of 3 May 1922, José Alves Correia da Silva, bishop of the restored Diocese of Leiria, orders the canonical process on the events of Fátima and names the commission of inquiry (which included Canon Manuel Nunes Formigão, who had interrogated the children in 1917). The commission delivered its report to the bishop in 1930.",
       "sources": [
         "ecclesia-90-anos",
+        "fatima-dcf-selecao"
+      ]
+    },
+    {
+      "year": 1922,
+      "date": "1922-10-13",
+      "dateVerified": true,
+      "dateNote": "Two starting dates are in the sources and both are kept. A single issue titled 'A Voz de Fátima' was printed on 13 June 1922 (Documentação Crítica de Fátima, doc. 65) and was not continued; monthly publication as 'Voz da Fátima' begins on 13 October 1922 (doc. 120, fl. 45v). The event is dated by the second.",
+      "place": "Leiria, Portugal",
+      "title": "'Voz da Fátima' begins monthly publication",
+      "text": "The first monthly issue of 'Voz da Fátima' appears at Leiria on 13 October 1922 with the bishop's approval, opening with the text of his provision of 3 May 1922 that named the commission of inquiry. The bulletin becomes the place where cures attributed to Our Lady of Fátima are reported: the canonical commission's 1930 report cites it, numbered issue by numbered issue, for every case it lists.",
+      "sources": [
+        "fatima-dcf-selecao"
+      ]
+    },
+    {
+      "year": 1930,
+      "date": "1930-04-13",
+      "dateVerified": true,
+      "place": "Leiria, Portugal",
+      "title": "Canonical commission's report: seventeen cures reported, not verified here",
+      "text": "Canon Manuel Nunes Formigão presents to the commission named in 1922 the report it had commissioned; it is read and discussed on 13 and 14 April 1930, approved unanimously except for its chapter on the European war, and handed to the bishop (Documentação Crítica de Fátima, docs. 120–121). Among the material the report weighs is a chapter 'As curas extraordinárias' listing seventeen cases, each naming the person, the ailment, the physician who signed a certificate, and the numbered issue of 'Voz da Fátima' between 13 May 1924 and 13 December 1929 in which the account was published. What is dated and recorded here is the reporting: that these cures were claimed, attested by named doctors and published on those dates. The report's own step from them to the conclusion that 'the miracles of Fátima constitute by themselves an evident proof of the supernaturality of the apparitions' is Formigão's argument, quoted as his; no diocesan or Roman act has ever declared any of the seventeen miraculous.",
+      "sources": [
         "fatima-dcf-selecao"
       ]
     },
@@ -250,6 +370,65 @@
       ]
     },
     {
+      "year": 1942,
+      "date": "1942-10-31",
+      "dateVerified": true,
+      "place": "Vatican City",
+      "title": "Pius XII consecrates the Church and the world to the Immaculate Heart of Mary",
+      "text": "In a radio message in Portuguese to the faithful of Portugal, sent for the jubilee solemnities in honour of the Virgin venerated at Fátima, Pius XII entrusts and consecrates to the Immaculate Heart of Mary 'not only the Holy Church … but also the whole world torn by savage discord' (Acta Apostolicae Sedis 34, 1942, pp. 313 ff.). It is an act of devotion made on a Fátima occasion; it contains no judgment on whether the 1917 apparitions were supernatural.",
+      "sources": [
+        "aas-34-1942"
+      ]
+    },
+    {
+      "year": 1946,
+      "date": "1946-05-13",
+      "dateVerified": true,
+      "place": "Cova da Iria, Fátima, Portugal",
+      "title": "The image at the Capelinha crowned by a papal legate",
+      "text": "Cardinal Benedetto Aloisi Masella, sent as Pius XII's legate by the letter 'Celeberrima sollemnia' of 28 April 1946 (Acta Apostolicae Sedis 38, p. 376), solemnly crowns the image of Our Lady of the Rosary in the Capelinha; the crown had been offered by Portuguese women on 13 October 1942. The act honours an image. It remains the strongest candidate for a Roman act on Fátima and still decides nothing about the visions.",
+      "sources": [
+        "aas-38-1946",
+        "fatima-lugares-aparicoes"
+      ]
+    },
+    {
+      "year": 1953,
+      "date": "1953-10-07",
+      "dateVerified": true,
+      "dateNote": "The translation of Francisco Marto's remains is dated 13 March 1952 in the Dicastery for the Causes of Saints' file on the cause and 17 February 1952 in the Sanctuary's 'Cronologia dos videntes'. Both are recorded; neither is preferred.",
+      "place": "Cova da Iria, Fátima, Portugal",
+      "title": "Dedication of the Basilica of Our Lady of the Rosary",
+      "text": "The basilica whose first stone had been blessed on 13 May 1928 is dedicated on 7 October 1953; Pius XII granted it the title of basilica by the brief 'Luce Superna' of 11 November 1954. The remains of the two younger seers were translated into it beforehand — Jacinta's on 1 May 1951, Francisco's in 1952.",
+      "sources": [
+        "fatima-lugares-culto",
+        "fatima-cronologia-videntes",
+        "causesanti-marto"
+      ]
+    },
+    {
+      "year": 1967,
+      "date": "1967-05-13",
+      "dateVerified": true,
+      "place": "Cova da Iria, Fátima, Portugal",
+      "title": "Paul VI's pilgrimage to Fátima",
+      "text": "Paul VI comes to the Cova da Iria on 13 May 1967 — the fiftieth anniversary of the first reported apparition and the twenty-fifth of the 1942 consecration — and celebrates Mass in the basilica. In the homily he calls himself a 'humble and trusting pilgrim' and prays for the peace of the Church and of the world. It is the first visit by a reigning pope. It is a visit, and it rules on nothing.",
+      "sources": [
+        "paulo-vi-fatima-1967"
+      ]
+    },
+    {
+      "year": 1999,
+      "date": "1999-06-28",
+      "dateVerified": true,
+      "place": "Vatican City",
+      "title": "Decree on a reported cure promulgated in the seers' cause",
+      "text": "The Congregation for the Causes of Saints promulgates the decree on the alleged miracle in the cause of Francisco and Jacinta Marto — the act that opened the way to the beatification of 13 May 2000. The case examined was a reported cure of a Portuguese woman of 'paraplegia from probable transverse myelitis, of about twenty-two years' duration, in the absence of psychiatric pathology'; the inquiry into it was held at Leiria in 1995 and declared valid on 21 November 1997, and John Paul II's apostolic letter of 13 May 2000 places the cure itself in 1987. This event is the Church act and its date. Whether a cure occurred, and what caused it, is what the act judges — not what this dataset records.",
+      "sources": [
+        "causesanti-marto"
+      ]
+    },
+    {
       "year": 2000,
       "date": "2000-05-13",
       "dateVerified": true,
@@ -270,6 +449,41 @@
       "text": "The [[cdf-ddf|Congregation for the Doctrine of the Faith]] publishes 'The Message of Fatima': the photostatic text of the third part of the 'Secret' (written 3 January 1944), Sister Lúcia's letters, Cardinal Sodano's 13 May announcement, and a theological commentary by Cardinal Joseph Ratzinger, which reads the vision as symbolic of the Church's twentieth-century persecutions and restates that a private revelation, even an approved one, does not oblige belief.",
       "sources": [
         "cdf-message-fatima"
+      ]
+    },
+    {
+      "year": 2005,
+      "date": "2005-02-13",
+      "dateVerified": true,
+      "place": "Coimbra, Portugal",
+      "title": "Death of Sister Lúcia, the last of the seers",
+      "text": "Lúcia de Jesus dos Santos dies at the Carmel of Saint Teresa in Coimbra, aged 97. She had left Fátima on 15 June 1921 for the Asilo de Vilar at Porto, begun her novitiate with the Dorothean Sisters at Tuy on 2 October 1926, made perpetual vows on 3 October 1934, entered the Carmel of Coimbra on 25 March 1948 and made solemn profession there on 31 May 1949. Her remains were translated to the Basilica of Our Lady of the Rosary at Fátima on 19 February 2006, and the process for her beatification was opened on 30 April 2008.",
+      "sources": [
+        "fatima-cronologia-videntes"
+      ]
+    },
+    {
+      "year": 2007,
+      "date": "2007-10-12",
+      "dateVerified": true,
+      "place": "Cova da Iria, Fátima, Portugal",
+      "title": "Dedication of the Basilica of the Most Holy Trinity",
+      "text": "A second and far larger church at the Cova da Iria, seating 8,633, is dedicated on 12 October 2007 by Cardinal Tarcisio Bertone as Benedict XVI's legate for the close of the ninetieth anniversary; the first stone had been laid on 6 June 2004. The Sanctuary dates the intention to build it to 1973, when the Rosary basilica was found no longer able to hold the pilgrims of an ordinary Sunday — the clearest dated measure in this chronology of how far the pilgrimage grew. The Congregation for Divine Worship granted the new church the title of basilica by decree of 19 June 2012.",
+      "sources": [
+        "fatima-lugares-culto"
+      ]
+    },
+    {
+      "year": 2017,
+      "date": "2017-03-23",
+      "dateVerified": true,
+      "dateNote": "Two dates circulate for this decree: 21 March 2017, the ordinary session of Cardinals and Bishops that judged the case, and 23 March 2017, the papal audience under which the dicastery's own archive files it. Both are recorded; the event is dated by the promulgation.",
+      "place": "Vatican City",
+      "title": "Decree on a second reported cure promulgated in the seers' cause",
+      "text": "Pope Francis authorises the Congregation for the Causes of Saints to promulgate the decree on the miracle attributed to the intercession of Blessed Francisco and Jacinta Marto, and the Holy See's bulletin publishes it under the heading of 23 March 2017 — the act that opened the way to the canonization of 13 May 2017. The case is a reported recovery of a child from 'severe cranio-encephalic trauma, with risk of death or of grave consequences' at Campo Mourão, Brazil, in 2013: the diocesan tribunal sat there from 5 to 13 August 2016, the Medical Consulta found the recovery scientifically inexplicable on 2 February 2017, the theological consultors reported on 21 February and the Cardinals and Bishops judged the case in ordinary session on 21 March. The dates and the acts are what this dataset records.",
+      "sources": [
+        "causesanti-decreti-2017",
+        "causesanti-marto"
       ]
     },
     {
@@ -364,8 +578,10 @@
       "name": "Diocese de Leiria-Fátima",
       "founded": "1918",
       "place": "Leiria, Portugal",
-      "relation": "The diocese with canonical jurisdiction over Fátima, restored in 1918 and renamed Leiria-Fátima in 1984. Its bishop opened the 1922 canonical process and issued the 1930 approval. Note: approval of an apparition at diocesan level is the ordinary canonical route — Fátima's 1930 approval was diocesan, later embraced by papal acts (visits, beatifications, canonizations) without a separate 'papal approval' decree.",
+      "relation": "The diocese with canonical jurisdiction over Fátima. Erected in 1545, suppressed on 30 September 1881, restored by Benedict XV's bull 'Quo vehementius' of 17 January 1918 and given a resident bishop only in 1920; renamed Leiria-Fátima by the bull 'Qua pietate' of 13 May 1984. Its bishop opened the 1922 canonical process and issued the 1930 approval. Note: approval of an apparition at diocesan level is the ordinary canonical route — Fátima's 1930 approval was diocesan, later embraced by papal acts (visits, consecrations, a coronation, beatifications, canonizations) without a separate 'papal approval' decree.",
       "sources": [
+        "leiria-fatima-resenha",
+        "leiria-fatima-bula-1918",
         "ecclesia-90-anos",
         "fatima-dcf-selecao"
       ]
@@ -377,6 +593,18 @@
       "relation": "The Roman dicastery for doctrine — founded in 1542 as the Roman Inquisition, renamed Congregation for the Doctrine of the Faith in 1965 and, since 2022, the Dicastery for the Doctrine of the Faith. Custodian of the sealed third part of the 'Secret' from 1957 and publisher of 'The Message of Fatima' (26 June 2000), which made the text public with Cardinal Ratzinger's theological commentary.",
       "sources": [
         "cdf-message-fatima"
+      ]
+    },
+    {
+      "name": "Congregation for the Causes of Saints",
+      "founded": "1969",
+      "place": "Vatican City",
+      "relation": "The Roman dicastery for beatifications and canonizations, split off from the Congregation of Rites by Paul VI's apostolic constitution 'Sacra Rituum Congregatio' of 8 May 1969 and a Dicastery since 5 June 2022. It is the only body that has ever ruled on a cure connected with Fátima: its decrees of 28 June 1999 and 23 March 2017 concern cures attributed to the intercession of Francisco and Jacinta Marto, and opened the way to their beatification and canonization. Those decrees judge the two children's intercession, not the 1917 apparitions, and earn no rung on the approval ladder.",
+      "url": "https://www.causesanti.va/",
+      "sources": [
+        "causesanti-profilo",
+        "causesanti-marto",
+        "causesanti-decreti-2017"
       ]
     }
   ],
@@ -440,7 +668,7 @@
       "title": "Documentação Crítica de Fátima. Seleção de documentos (1917–1930)",
       "url": "https://www.fatima.pt/pt/documentacao/f001-documentacao-critica-de-fatima-selecao-de-documentos-1917-1930",
       "publisher": "Santuário de Fátima",
-      "publisherNote": "A one-volume selection (free PDF at the linked page) from the Sanctuary's multi-volume critical edition of the primary documents: the 1917 interrogations, the full text of Avelino de Almeida's O Século article of 15 October 1917, the 3 May 1922 provision opening the canonical process, and the 13 October 1930 pastoral letter 'A Divina Providência' (doc. 133), whose operative words are quoted in this dataset from this edition.",
+      "publisherNote": "A one-volume selection (free PDF at the linked page) from the Sanctuary's multi-volume critical edition of the primary documents: the 1917 interrogations, the full text of Avelino de Almeida's O Século article of 15 October 1917, the 3 May 1922 provision opening the canonical process, the commission's report of 13 April 1930 with its chapter on reported cures (doc. 120) and the minute of its approval (doc. 121), and the pastoral letter 'A Divina Providência' of 13 October 1930 (doc. 133). The PDF was downloaded and read for this dataset: the operative words quoted here were checked against pp. 549–550, where the bishop resolves '1º declarar como dignas de crédito as visões das crianças na Cova da Iria … nos dias 13 de maio a outubro de 1917; 2º permitir oficialmente o culto de Nossa Senhora de Fátima'.",
       "type": "book"
     },
     {
@@ -514,6 +742,102 @@
       "publisher": "Observador",
       "publisherNote": "A long-form journalistic feature from an independent Portuguese outlet, covering the history and its critical readings — included so the reference list spans beyond official-Church sources.",
       "type": "news"
+    },
+    {
+      "id": "parlamento-separacao-1911",
+      "title": "Separação do Estado das Igrejas (1911)",
+      "url": "https://www.parlamento.pt/Parlamento/Paginas/Separacao-Estado-Igrejas.aspx",
+      "publisher": "Assembleia da República (Portugal)",
+      "publisherNote": "The Portuguese parliament's own note on the Law of Separation of Church and State — a civil, non-ecclesiastical official source, cited here for the proclamation of the Republic on 5 October 1910, the law's date of 20 April 1911 and its authorship by Afonso Costa. It is the state's account of its own act and is sympathetic to it; the Church's account of the same years is cited alongside it.",
+      "type": "official"
+    },
+    {
+      "id": "leiria-fatima-resenha",
+      "title": "24 – Diocese de Leiria-Fátima: resenha histórica",
+      "url": "https://www.leiria-fatima.pt/24-diocese-de-leiria-fatima-resenha-historica/",
+      "publisher": "Diocese de Leiria-Fátima",
+      "publisherNote": "A historical sketch by Luís Miguel Ferraz (12 January 2018) in the diocese's own '100 anos – Figuras & Factos' series — an official-Church source, sympathetic by nature, and the source of the diocese's own characterisation of the First Republic as a time of confiscation and persecution, recorded here as its characterisation. Cited for the erection of the see in 1545, its suppression on 30 September 1881, the 1918 restoration and the 1984 renaming to Leiria-Fátima.",
+      "type": "news"
+    },
+    {
+      "id": "leiria-fatima-bula-1918",
+      "title": "27 – A bula de restauração da diocese de Leiria em 1918",
+      "url": "https://www.leiria-fatima.pt/27-a-bula-de-restauracao-da-diocese-de-leiria-em-1918/",
+      "publisher": "Diocese de Leiria-Fátima",
+      "publisherNote": "An article by the medieval historian Saul António Gomes (6 February 2018) in the same diocesan series, working directly from the bull — the closest thing in this reference list to an academic treatment, though published by the diocese. Cited for the bull 'Quo vehementius' of 17 January 1918, for its execution in Lisbon on 4 May 1918 and for the restored see's fifty parishes.",
+      "type": "news"
+    },
+    {
+      "id": "leiria-fatima-aparicoes-restauracao",
+      "title": "19 – As aparições em Fátima e a restauração da diocese",
+      "url": "https://www.leiria-fatima.pt/19-as-aparicoes-em-fatima-e-a-restauracao-da-diocese/",
+      "publisher": "Diocese de Leiria-Fátima",
+      "publisherNote": "An article by Luís Miguel Ferraz (13 December 2017) in the same diocesan series, on how the restoration of the see and the reported apparitions ran alongside one another. Cited for the diocese still being extinct in 1917, its territory then belonging to Lisbon, and for Cardinal Pietro Gasparri's communication of 30 April 1917 that the restoration had been decided — thirteen days before 13 May 1917.",
+      "type": "news"
+    },
+    {
+      "id": "leiria-fatima-bispo-1920",
+      "title": "14 – D. José Alves Correia da Silva (1872-1957) – o primeiro bispo da diocese restaurada",
+      "url": "https://www.leiria-fatima.pt/14-d-jose-alves-correia-da-silva-1872-1957-o-primeiro-bispo-da-diocese-restaurada/",
+      "publisher": "Diocese de Leiria-Fátima",
+      "publisherNote": "A biographical article by Fr Luciano Cristino (21 November 2017), adapted from his entry in the Enciclopédia de Fátima, in the same diocesan series — official-Church and sympathetic. Cited for the bull 'Commissum humilitati nostrae' of 15 May 1920, the episcopal consecration of 25 July 1920 at Porto, the taking of possession by proxy on 4 August and the solemn entry into Leiria on 5 August 1920.",
+      "type": "news"
+    },
+    {
+      "id": "fatima-lugares-aparicoes",
+      "title": "Lugares das aparições",
+      "url": "https://www.fatima.pt/pt/pages/lugares-das-aparicoes",
+      "publisher": "Santuário de Fátima",
+      "publisherNote": "The Sanctuary's page on the places of the reported apparitions — the custodian's own account, sympathetic by nature. Cited for the building of the Capelinha das Aparições between 28 April and 15 June 1919, the first Mass there on 13 October 1921, the bomb attack of 6 March 1922 and the reopening on 13 January 1923, and for the image blessed on 13 May 1920 and crowned on 13 May 1946.",
+      "type": "official"
+    },
+    {
+      "id": "fatima-lugares-culto",
+      "title": "Lugares de culto e oração",
+      "url": "https://www.fatima.pt/pt/pages/lugares-de-culto-e-oracao",
+      "publisher": "Santuário de Fátima",
+      "publisherNote": "The Sanctuary's page on its places of worship — official and sympathetic. Cited for the first stone of the Basilica of Our Lady of the Rosary blessed on 13 May 1928 and its dedication on 7 October 1953, for the title of basilica granted by the brief 'Luce Superna' of 11 November 1954, and for the Basilica of the Most Holy Trinity (first stone 6 June 2004, dedicated 12 October 2007, 8,633 seats, title of basilica by decree of 19 June 2012).",
+      "type": "official"
+    },
+    {
+      "id": "causesanti-marto",
+      "title": "Francisco e Jacinta Marto (†1919/1920)",
+      "url": "https://www.causesanti.va/it/santi-e-beati/francisco-e-jacinta-marto.html",
+      "publisher": "Dicastero delle Cause dei Santi (causesanti.va)",
+      "publisherNote": "The Roman dicastery's own file on the cause — official and by nature sympathetic, and the authoritative record of what each act in the cause was and when. Cited for the decree on the heroic virtues (13 May 1989), the decree on the miracle for the beatification (28 June 1999) and the description of the case it examined, the steps of the second case (Campo Mourão 2016–2017) and John Paul II's apostolic letter of 13 May 2000, which dates the first reported cure to 1987.",
+      "type": "official"
+    },
+    {
+      "id": "causesanti-decreti-2017",
+      "title": "Decreti pubblicati nel 2017",
+      "url": "https://www.causesanti.va/it/archivio-del-dicastero-cause-santi/promulgazione-decreti/decreti-pubblicati-nel-2017.html",
+      "publisher": "Dicastero delle Cause dei Santi (causesanti.va)",
+      "publisherNote": "The dicastery's archive of decrees promulgated in 2017, which carries the text published in the Holy See's bulletin under the heading '23 MARZO 2017' — cited for the wording of the decree on the miracle attributed to the intercession of Blessed Francisco and Jacinta Marto and for its date.",
+      "type": "official"
+    },
+    {
+      "id": "causesanti-profilo",
+      "title": "Profilo del Dicastero",
+      "url": "https://www.causesanti.va/it/dicastero-delle-cause-dei-santi/profilo-del-dicastero.html",
+      "publisher": "Dicastero delle Cause dei Santi (causesanti.va)",
+      "publisherNote": "The dicastery's own institutional profile — official, and cited only for uncontested institutional dates: the Congregation of Rites erected by Sixtus V on 22 January 1588, its division by Paul VI's apostolic constitution 'Sacra Rituum Congregatio' of 8 May 1969 which created the Congregation for the Causes of Saints, and its becoming a Dicastery under 'Praedicate Evangelium' with effect from 5 June 2022.",
+      "type": "official"
+    },
+    {
+      "id": "aas-34-1942",
+      "title": "Acta Apostolicae Sedis 34 (1942)",
+      "url": "https://www.vatican.va/archive/aas/documents/AAS-34-1942-ocr.pdf",
+      "publisher": "Holy See (vatican.va)",
+      "publisherNote": "The official gazette of the Holy See, scanned by vatican.va. Cited for the radio message of 31 October 1942 to the faithful of Portugal — headed in the volume as sent 'die XXXI mensis Octobris a. MCMXXXXII ad Lusitaniae christifideles' for the solemnities in honour of the Blessed Virgin venerated at Fátima (pp. 313 ff.) — in which Pius XII consecrated the Church and the world to the Immaculate Heart of Mary. The volume was read directly for this dataset.",
+      "type": "official"
+    },
+    {
+      "id": "paulo-vi-fatima-1967",
+      "title": "Peregrinação do Santo Padre ao Santuário de Nossa Senhora de Fátima — Homilia do Papa Paulo VI (13 de maio de 1967)",
+      "url": "https://www.vatican.va/content/paul-vi/pt/homilies/1967/documents/hf_p-vi_hom_19670513.html",
+      "publisher": "Paul VI (vatican.va)",
+      "publisherNote": "The pope's own homily at Fátima on 13 May 1967, published by the Holy See — official and by nature sympathetic. Cited for the date and character of the first visit by a reigning pope: he describes himself as coming 'peregrino humilde e confiante' for the fiftieth anniversary of the apparitions and the twenty-fifth of the consecration of the world to the Immaculate Heart, and makes no judgment on the apparitions. The English page on vatican.va is a stub; the Portuguese and Italian carry the text.",
+      "type": "official"
     }
   ]
 }
