@@ -1,0 +1,461 @@
+{
+  "meta": {
+    "title": "Nossa Senhora de Fátima — Cronologia",
+    "subtitle": "Chronology of the reported apparitions at Fátima, Portugal (1916–2017)",
+    "description": "An open, source-referenced chronology of the reported apparitions of Our Lady of the Rosary at the Cova da Iria, Fátima, Portugal (1917), the three seers, the Church's canonical judgment of 1930, and the later beatifications, canonizations and the publication of the 'Third Secret'.",
+    "language": "en",
+    "siteUrl": "https://cronologia.github.io/fatima/",
+    "lastUpdated": "2026-08-05",
+    "dataQualityNote": "Work-in-progress dataset compiled from public sources (see references). The apparitions are REPORTED events: this site records who reported what and when, and what the Church ruled and when, citing the ruling documents — it never asserts the supernatural claim as fact in its own voice. Details attested only retrospectively (the 1916 Angel apparitions, the 'Secret') are flagged as such; dates not yet verified against a primary source carry a ? mark. Corrections against primary sources are welcome."
+  },
+  "facts": [
+    {
+      "label": "What it is",
+      "value": "A series of six Marian apparitions reported at the Cova da Iria, parish of Fátima, Portugal, between 13 May and 13 October 1917, by three shepherd children — Lúcia dos Santos and her cousins Francisco and Jacinta Marto. The figure they described later identified herself, in their account, as 'the Lady of the Rosary'.",
+      "sources": [
+        "fatima-narrativa",
+        "fatima-dcf-selecao"
+      ]
+    },
+    {
+      "label": "The seers",
+      "value": "Lúcia de Jesus dos Santos (b. 28 March 1907), Francisco Marto (b. 11 June 1908) and Jacinta Marto (b. 5 March 1910), all of Aljustrel, parish of Fátima. Francisco and Jacinta died in the influenza-pandemic years (1919, 1920); Lúcia became a religious sister and died in Coimbra on 13 February 2005.",
+      "sources": [
+        "fatima-cronologia-videntes"
+      ]
+    },
+    {
+      "label": "Church approval status",
+      "value": "Approved for belief and devotion at diocesan level: after a canonical process opened on 3 May 1922, the Bishop of Leiria, José Alves Correia da Silva, in the pastoral letter 'A Divina Providência' of 13 October 1930, declared the visions of the children at the Cova da Iria 'worthy of belief' (dignas de crédito) and officially permitted the cult of Our Lady of Fátima. In Catholic doctrine such approval concerns a private revelation: it permits devotion and judges the reports credible; it does not oblige belief and is not a dogmatic definition — a distinction restated in the [[cdf-ddf|Congregation for the Doctrine of the Faith]]'s 2000 theological commentary.",
+      "sources": [
+        "fatima-dcf-selecao",
+        "ecclesia-90-anos",
+        "cdf-message-fatima"
+      ]
+    },
+    {
+      "label": "Contemporary record",
+      "value": "Unusually for a Marian apparition case, the final reported event of 13 October 1917 was covered by the secular Lisbon press: Avelino de Almeida's report in O Século (15 October 1917) and the photographs of the crowd published in Ilustração Portuguesa (29 October 1917) are contemporary documents, whatever one concludes about the event itself.",
+      "sources": [
+        "fatima-dcf-selecao",
+        "ilustracao-portuguesa-facsimile"
+      ]
+    },
+    {
+      "label": "Sanctuary",
+      "value": "The Santuário de Fátima at the Cova da Iria is today one of the most visited Marian shrines in the world; its documentation service publishes the multi-volume critical edition of the sources, the 'Documentação Crítica de Fátima'.",
+      "sources": [
+        "fatima-dcf-selecao",
+        "wikipedia-our-lady-fatima"
+      ]
+    }
+  ],
+  "events": [
+    {
+      "year": 1916,
+      "date": "1916",
+      "dateVerified": false,
+      "place": "Loca do Cabeço and Aljustrel, Fátima, Portugal",
+      "title": "Three apparitions of an Angel reported (retrospective attestation)",
+      "text": "According to Lúcia's later memoirs, an Angel — 'the Angel of Peace', who also called himself 'the Angel of Portugal' — appeared three times to the three children: in spring at the Loca do Cabeço, in summer at the well in the yard of Lúcia's family home, and in autumn again at the Loca do Cabeço, where he gave them Communion. The Sanctuary's own narrative dates these only by season. Note: the Angel apparitions are attested retrospectively, principally in Lúcia's Second and Fourth Memoirs (1937, 1941), not in the 1917 interrogations.",
+      "sources": [
+        "fatima-narrativa",
+        "fatima-cronologia-videntes",
+        "cdf-message-fatima"
+      ]
+    },
+    {
+      "year": 1917,
+      "date": "1917-05-13",
+      "dateVerified": true,
+      "place": "Cova da Iria, Fátima, Portugal",
+      "title": "First reported apparition",
+      "text": "While pasturing sheep at the Cova da Iria, the three children reported seeing 'a Lady dressed in white, more brilliant than the sun', who said she was 'from Heaven' and asked them to return on the 13th of each month for six months.",
+      "sources": [
+        "fatima-narrativa",
+        "fatima-dcf-selecao"
+      ]
+    },
+    {
+      "year": 1917,
+      "date": "1917-06-13",
+      "dateVerified": true,
+      "place": "Cova da Iria, Fátima, Portugal",
+      "title": "Second reported apparition",
+      "text": "Before a group of about fifty people, the children reported a second apparition; in their account the Lady announced she would soon take Francisco and Jacinta to Heaven and asked for devotion to the Immaculate Heart of Mary.",
+      "sources": [
+        "fatima-narrativa"
+      ]
+    },
+    {
+      "year": 1917,
+      "date": "1917-07-13",
+      "dateVerified": true,
+      "place": "Cova da Iria, Fátima, Portugal",
+      "title": "Third reported apparition; the 'Secret'",
+      "text": "Before a crowd estimated at 4,000–5,000, the children reported a vision they later described as including hell, and a promise of a miracle in October 'so that all may believe'. The three-part 'Secret' associated with this date is attested retrospectively: its first two parts were written down in Lúcia's Third Memoir (31 August 1941), the third part on 3 January 1944 — a sourcing caveat, not a verdict.",
+      "sources": [
+        "fatima-narrativa",
+        "cdf-message-fatima"
+      ]
+    },
+    {
+      "year": 1917,
+      "date": "1917-08-19",
+      "dateVerified": true,
+      "place": "Valinhos, Fátima, Portugal",
+      "title": "August: children detained; apparition reported at Valinhos",
+      "text": "On 13 August the administrator of the county of Vila Nova de Ourém took the children into custody, so they were absent from the Cova da Iria, where some 15,000–18,000 people had gathered. The children reported the month's apparition on 19 August at Valinhos, near Aljustrel.",
+      "sources": [
+        "fatima-narrativa",
+        "ecclesia-90-anos"
+      ]
+    },
+    {
+      "year": 1917,
+      "date": "1917-09-13",
+      "dateVerified": true,
+      "place": "Cova da Iria, Fátima, Portugal",
+      "title": "Fifth reported apparition",
+      "text": "Before a crowd estimated at 20,000–30,000, the children reported that the Lady announced that in October Our Lord, Our Lady of Sorrows and Our Lady of Mount Carmel, and Saint Joseph with the Child Jesus would appear, and that a miracle would take place.",
+      "sources": [
+        "fatima-narrativa"
+      ]
+    },
+    {
+      "year": 1917,
+      "date": "1917-10-13",
+      "dateVerified": true,
+      "place": "Cova da Iria, Fátima, Portugal",
+      "title": "Sixth reported apparition; the 'Miracle of the Sun'",
+      "text": "Before a crowd the contemporary press estimated at 50,000–70,000, the children reported that the Lady named herself 'the Lady of the Rosary' and asked for a chapel. Numerous onlookers — believers and non-believers — described unusual solar phenomena: in the words of O Século's correspondent Avelino de Almeida, the sun 'danced' ('bailou', 'segundo a típica expressão dos camponeses'). The site records what the witnesses and the press reported; it does not adjudicate the event.",
+      "sources": [
+        "fatima-narrativa",
+        "fatima-dcf-selecao",
+        "ilustracao-portuguesa-facsimile"
+      ]
+    },
+    {
+      "year": 1917,
+      "date": "1917-10-15",
+      "dateVerified": true,
+      "place": "Lisbon, Portugal",
+      "title": "O Século publishes Avelino de Almeida's report",
+      "text": "The anticlerical Lisbon daily O Século publishes 'Coisas espantosas! Como o sol bailou ao meio-dia em Fátima' by its special correspondent Avelino de Almeida, an eyewitness account of the crowd and the solar phenomena; on 29 October the same paper's magazine, Ilustração Portuguesa, publishes Judah Ruah's photographs of the crowd watching the sun. These press pieces are the canonical contemporary attestation of the event — reproduced in the Sanctuary's critical documentation.",
+      "sources": [
+        "fatima-dcf-selecao",
+        "ilustracao-portuguesa-facsimile"
+      ]
+    },
+    {
+      "year": 1919,
+      "date": "1919-04-04",
+      "dateVerified": true,
+      "place": "Aljustrel, Fátima, Portugal",
+      "title": "Death of Francisco Marto",
+      "text": "Francisco Marto dies at home in Aljustrel, aged 10, in the wake of the influenza pandemic.",
+      "sources": [
+        "fatima-cronologia-videntes",
+        "jp2-beatification-2000"
+      ]
+    },
+    {
+      "year": 1920,
+      "date": "1920-02-20",
+      "dateVerified": true,
+      "place": "Lisbon, Portugal",
+      "title": "Death of Jacinta Marto",
+      "text": "Jacinta Marto dies in Lisbon, aged 9, after a long illness following the influenza pandemic.",
+      "sources": [
+        "fatima-cronologia-videntes",
+        "jp2-beatification-2000"
+      ]
+    },
+    {
+      "year": 1922,
+      "date": "1922-05-03",
+      "dateVerified": true,
+      "place": "Leiria, Portugal",
+      "title": "Canonical process opened",
+      "text": "By a provision of 3 May 1922, José Alves Correia da Silva, bishop of the restored Diocese of Leiria, orders the canonical process on the events of Fátima and names the commission of inquiry (which included Canon Manuel Nunes Formigão, who had interrogated the children in 1917). The commission delivered its report to the bishop in 1930.",
+      "sources": [
+        "ecclesia-90-anos",
+        "fatima-dcf-selecao"
+      ]
+    },
+    {
+      "year": 1930,
+      "date": "1930-10-13",
+      "dateVerified": true,
+      "place": "Leiria, Portugal",
+      "title": "Pastoral letter 'A Divina Providência': visions declared worthy of belief",
+      "text": "In the pastoral letter 'A Divina Providência', Bishop José Alves Correia da Silva declares it right 'to declare worthy of belief the visions of the children at the Cova da Iria … on the 13th of May to October 1917' and 'officially to permit the cult of Our Lady of Fátima' (Documentação Crítica de Fátima, doc. 133). This is the key diocesan approval document: a judgment of credibility permitting devotion, not a dogmatic definition.",
+      "sources": [
+        "fatima-dcf-selecao",
+        "ecclesia-90-anos"
+      ]
+    },
+    {
+      "year": 1935,
+      "date": "1935–1944",
+      "dateVerified": true,
+      "place": "Pontevedra and Tuy, Spain",
+      "title": "Lúcia's memoirs written — the source of the 'Secrets'",
+      "text": "At her superiors' and the bishop's request, Lúcia writes four memoirs (concluded 25 December 1935, 21 November 1937, 31 August 1941, 8 December 1941). Much of the now-familiar detail — the 1916 Angel apparitions, the vision of hell, the first two parts of the 'Secret' — is attested only retrospectively through them. On 3 January 1944, by order of the Bishop of Leiria, she writes down the third part of the 'Secret', sealed and later kept by the Holy Office. The retrospective character of these texts is recorded here as a sourcing caveat, not a verdict on their content.",
+      "sources": [
+        "fatima-cronologia-videntes",
+        "cdf-message-fatima"
+      ]
+    },
+    {
+      "year": 2000,
+      "date": "2000-05-13",
+      "dateVerified": true,
+      "place": "Fátima, Portugal",
+      "title": "Beatification of Francisco and Jacinta Marto",
+      "text": "John Paul II beatifies Francisco and Jacinta Marto at the Sanctuary of Fátima. At the end of the Mass, Cardinal Angelo Sodano announces that the third part of the 'Secret' will be published.",
+      "sources": [
+        "jp2-beatification-2000",
+        "cdf-message-fatima"
+      ]
+    },
+    {
+      "year": 2000,
+      "date": "2000-06-26",
+      "dateVerified": true,
+      "place": "Vatican City",
+      "title": "The 'Third Secret' published",
+      "text": "The [[cdf-ddf|Congregation for the Doctrine of the Faith]] publishes 'The Message of Fatima': the photostatic text of the third part of the 'Secret' (written 3 January 1944), Sister Lúcia's letters, Cardinal Sodano's 13 May announcement, and a theological commentary by Cardinal Joseph Ratzinger, which reads the vision as symbolic of the Church's twentieth-century persecutions and restates that a private revelation, even an approved one, does not oblige belief.",
+      "sources": [
+        "cdf-message-fatima"
+      ]
+    },
+    {
+      "year": 2017,
+      "date": "2017-05-13",
+      "dateVerified": true,
+      "place": "Fátima, Portugal",
+      "title": "Canonization of Francisco and Jacinta Marto",
+      "text": "On the centenary of the first reported apparition, Pope Francis canonizes Francisco and Jacinta Marto at the Sanctuary of Fátima.",
+      "sources": [
+        "francis-canonization-2017"
+      ]
+    }
+  ],
+  "figures": [
+    {
+      "name": "Lúcia dos Santos (Irmã Lúcia)",
+      "role": "The eldest of the three seers and the only one to survive to adulthood; as a Dorothean sister and later a Carmelite in Coimbra she wrote the memoirs (1935–1941) and the 1944 manuscript that are the principal — and retrospective — source for the Angel apparitions and the 'Secret'.",
+      "dates": "1907–2005",
+      "country": "Portugal",
+      "sources": [
+        "fatima-cronologia-videntes",
+        "cdf-message-fatima"
+      ]
+    },
+    {
+      "name": "Francisco Marto",
+      "role": "Seer, brother of Jacinta and cousin of Lúcia; in the children's account he saw but did not hear the Lady. Died in 1919; beatified in 2000 and canonized in 2017.",
+      "dates": "1908–1919",
+      "country": "Portugal",
+      "sources": [
+        "fatima-cronologia-videntes",
+        "jp2-beatification-2000",
+        "francis-canonization-2017"
+      ]
+    },
+    {
+      "name": "Jacinta Marto",
+      "role": "The youngest seer, sister of Francisco. Died in Lisbon in 1920 after a long illness; beatified in 2000 and canonized in 2017.",
+      "dates": "1910–1920",
+      "country": "Portugal",
+      "sources": [
+        "fatima-cronologia-videntes",
+        "jp2-beatification-2000",
+        "francis-canonization-2017"
+      ]
+    },
+    {
+      "name": "José Alves Correia da Silva",
+      "role": "Bishop of Leiria (1920–1957). Opened the canonical process on the Fátima events in 1922 and, in the pastoral letter 'A Divina Providência' of 13 October 1930, declared the visions worthy of belief and officially permitted the cult of Our Lady of Fátima.",
+      "dates": "1872–1957",
+      "country": "Portugal",
+      "sources": [
+        "fatima-dcf-selecao",
+        "ecclesia-90-anos"
+      ]
+    },
+    {
+      "name": "Avelino de Almeida",
+      "role": "Journalist of the Lisbon daily O Século, present at the Cova da Iria on 13 October 1917; his reports in O Século (15 October) and Ilustração Portuguesa (29 October) are the best-known contemporary press attestation of the 'Miracle of the Sun'. He recorded what the crowd saw and cried without endorsing a supernatural reading.",
+      "dates": "1873–1932",
+      "country": "Portugal",
+      "sources": [
+        "fatima-dcf-selecao",
+        "ilustracao-portuguesa-facsimile"
+      ]
+    },
+    {
+      "name": "Manuel Nunes Formigão",
+      "role": "Canon and seminary professor who interrogated the children from September 1917 and served on the canonical commission named in 1922; his interrogations are among the earliest written records of the seers' accounts.",
+      "dates": "1883–1958",
+      "country": "Portugal",
+      "sources": [
+        "fatima-dcf-selecao",
+        "ecclesia-90-anos"
+      ]
+    }
+  ],
+  "organizations": [
+    {
+      "name": "Santuário de Fátima",
+      "founded": "1919",
+      "place": "Cova da Iria, Fátima, Portugal",
+      "relation": "The shrine built at the site of the reported apparitions — the first chapel in 1919, a chaplaincy created in 1927 — today under the Diocese of Leiria-Fátima. Its documentation service publishes the critical edition of the sources ('Documentação Crítica de Fátima') used throughout this chronology. It is the official — and therefore sympathetic — custodian of the narrative; independent and critical sources are listed alongside it.",
+      "url": "https://www.fatima.pt/",
+      "sources": [
+        "fatima-dcf-selecao",
+        "fatima-narrativa"
+      ]
+    },
+    {
+      "name": "Diocese de Leiria-Fátima",
+      "founded": "1918",
+      "place": "Leiria, Portugal",
+      "relation": "The diocese with canonical jurisdiction over Fátima, restored in 1918 and renamed Leiria-Fátima in 1984. Its bishop opened the 1922 canonical process and issued the 1930 approval. Note: approval of an apparition at diocesan level is the ordinary canonical route — Fátima's 1930 approval was diocesan, later embraced by papal acts (visits, beatifications, canonizations) without a separate 'papal approval' decree.",
+      "sources": [
+        "ecclesia-90-anos",
+        "fatima-dcf-selecao"
+      ]
+    },
+    {
+      "name": "Congregation for the Doctrine of the Faith",
+      "founded": "1542",
+      "place": "Vatican City",
+      "relation": "The Roman dicastery for doctrine — founded in 1542 as the Roman Inquisition, renamed Congregation for the Doctrine of the Faith in 1965 and, since 2022, the Dicastery for the Doctrine of the Faith. Custodian of the sealed third part of the 'Secret' from 1957 and publisher of 'The Message of Fatima' (26 June 2000), which made the text public with Cardinal Ratzinger's theological commentary.",
+      "sources": [
+        "cdf-message-fatima"
+      ]
+    }
+  ],
+  "disambiguation": {
+    "note": "Fátima is contested terrain between believers, skeptics and historians. This dataset records reports and rulings, with their dates and documents — it does not assert or deny the supernatural claim.",
+    "items": [
+      {
+        "title": "Reported apparition ≠ asserted fact",
+        "text": "Every apparition entry in this chronology is a report: the children said they saw the Lady; the press said the crowd saw the sun move. The Church's 1930 ruling judged the visions 'worthy of belief' — a credibility judgment permitting devotion. None of these records, nor this site, asserts the supernatural event as established fact; Cardinal Ratzinger's 2000 commentary itself notes that assent to an approved private revelation is not obligatory for Catholics.",
+        "sources": [
+          "fatima-dcf-selecao",
+          "cdf-message-fatima"
+        ]
+      },
+      {
+        "title": "The 1917 record ≠ the memoirs",
+        "text": "What was written down in 1917 (parish and Formigão interrogations, press reports) is much sparser than the now-familiar narrative. The Angel apparitions of 1916, the vision of hell and the three-part 'Secret' are attested principally in Lúcia's memoirs of 1935–1941 and her 1944 manuscript — retrospective sources written 18–27 years after the events. Recording this gap is a sourcing caveat, not a verdict on their truthfulness.",
+        "sources": [
+          "cdf-message-fatima",
+          "fatima-cronologia-videntes",
+          "fatima-dcf-selecao"
+        ]
+      },
+      {
+        "title": "'Worthy of belief' ≠ dogma",
+        "text": "The 1930 formula 'dignas de crédito' (worthy of belief) authorizes public devotion and states that the reports show signs of credibility. It binds no one to believe: in Catholic teaching Fátima is a private revelation, distinct from the deposit of faith — a distinction the 2000 Vatican commentary restates explicitly.",
+        "sources": [
+          "fatima-dcf-selecao",
+          "cdf-message-fatima"
+        ]
+      },
+      {
+        "title": "Contemporary press attestation ≠ press endorsement",
+        "text": "O Século was an anticlerical republican paper; Avelino de Almeida reported what tens of thousands present said they saw ('the sun danced', as he put it, 'in the peasants' typical expression') and framed 'miracle' as the crowd's cry, not the paper's conclusion. Citing his report attests the event's contemporaneity and scale, not a supernatural explanation.",
+        "sources": [
+          "fatima-dcf-selecao",
+          "ilustracao-portuguesa-facsimile"
+        ]
+      }
+    ]
+  },
+  "references": [
+    {
+      "id": "fatima-narrativa",
+      "title": "Narrativa das aparições",
+      "url": "https://www.fatima.pt/pt/pages/narrativa-das-aparicoes",
+      "publisher": "Santuário de Fátima",
+      "publisherNote": "The Sanctuary's official narrative of the 1916 Angel and 1917 Marian apparitions — the custodian's own account, sympathetic by nature; used here for the canonical dates, places and crowd estimates it records.",
+      "type": "official"
+    },
+    {
+      "id": "fatima-cronologia-videntes",
+      "title": "Cronologia dos videntes",
+      "url": "https://www.fatima.pt/pt/pages/cronologia-dos-videntes",
+      "publisher": "Santuário de Fátima",
+      "publisherNote": "The Sanctuary's dated chronology of the three seers: births, deaths, Lúcia's religious life, and the completion dates of her four memoirs.",
+      "type": "official"
+    },
+    {
+      "id": "fatima-dcf-selecao",
+      "title": "Documentação Crítica de Fátima. Seleção de documentos (1917–1930)",
+      "url": "https://www.fatima.pt/pt/documentacao/f001-documentacao-critica-de-fatima-selecao-de-documentos-1917-1930",
+      "publisher": "Santuário de Fátima",
+      "publisherNote": "A one-volume selection (free PDF at the linked page) from the Sanctuary's multi-volume critical edition of the primary documents: the 1917 interrogations, the full text of Avelino de Almeida's O Século article of 15 October 1917, the 3 May 1922 provision opening the canonical process, and the 13 October 1930 pastoral letter 'A Divina Providência' (doc. 133), whose operative words are quoted in this dataset from this edition.",
+      "type": "book"
+    },
+    {
+      "id": "cdf-message-fatima",
+      "title": "The Message of Fatima",
+      "url": "https://www.vatican.va/roman_curia/congregations/cfaith/documents/rc_con_cfaith_doc_20000626_message-fatima_en.html",
+      "publisher": "Congregation for the Doctrine of the Faith (vatican.va)",
+      "publisherNote": "The 26 June 2000 publication of the third part of the 'Secret' with Sister Lúcia's manuscript in facsimile, Cardinal Sodano's 13 May 2000 announcement and Cardinal Ratzinger's theological commentary — the primary source for the Secret's textual history (Third Memoir 31 August 1941; third part written 3 January 1944) and for the Church's own doctrine on private revelation.",
+      "type": "official"
+    },
+    {
+      "id": "jp2-beatification-2000",
+      "title": "Homily at the Beatification of Francisco and Jacinta Marto (Fátima, 13 May 2000)",
+      "url": "https://www.vatican.va/content/john-paul-ii/en/homilies/2000/documents/hf_jp-ii_hom_20000513_beatification-fatima.html",
+      "publisher": "John Paul II (vatican.va)",
+      "publisherNote": "The pope's own homily at the 13 May 2000 beatification, published by the Holy See — an official and by nature sympathetic source, cited here for the act and its date.",
+      "type": "official"
+    },
+    {
+      "id": "francis-canonization-2017",
+      "title": "Homily at the Canonization of Francisco and Jacinta Marto (Fátima, 13 May 2017)",
+      "url": "https://www.vatican.va/content/francesco/en/homilies/2017/documents/papa-francesco_20170513_omelia-pellegrinaggio-fatima.html",
+      "publisher": "Pope Francis (vatican.va)",
+      "publisherNote": "The pope's own homily at the 13 May 2017 canonization, published by the Holy See — an official and by nature sympathetic source, cited here for the act and its date.",
+      "type": "official"
+    },
+    {
+      "id": "ilustracao-portuguesa-facsimile",
+      "title": "Ilustração Portuguesa n.º 610, 29 October 1917, p. 353 (facsimile)",
+      "url": "https://commons.wikimedia.org/wiki/File:Newspaper_fatima_353.jpg",
+      "publisher": "Wikimedia Commons",
+      "publisherNote": "Public-domain facsimile scan of the page of O Século's illustrated magazine carrying the crowd photographs of 13 October 1917. The magazine's own digitized run at the Lisbon Hemeroteca Digital was unreachable from this session (HTTP 403 — bot filter, inconclusive, not dead), so the Commons scan is cited as the reachable facsimile.",
+      "type": "archive"
+    },
+    {
+      "id": "ecclesia-90-anos",
+      "title": "Aparições, 90 anos de Fátima",
+      "url": "https://agencia.ecclesia.pt/portal/aparicoes-90-anos-de-fatima/",
+      "publisher": "Agência ECCLESIA",
+      "publisherNote": "A dated milestone list from the news agency of the Portuguese Bishops' Conference — an official-Church perspective; used for the 13/19 August 1917 sequence, the 3 May 1922 provision and the 1930 pastoral letter.",
+      "type": "news"
+    },
+    {
+      "id": "wikipedia-our-lady-fatima",
+      "title": "Our Lady of Fátima",
+      "url": "https://en.wikipedia.org/wiki/Our_Lady_of_F%C3%A1tima",
+      "publisher": "Wikipedia (EN)",
+      "publisherNote": "A tertiary, collaboratively edited overview, cited only for uncontested orientation (the shrine's present scale); every dated claim in this chronology rests on one of the primary or press sources above.",
+      "type": "encyclopedia"
+    },
+    {
+      "id": "observador-fatima",
+      "title": "A história e o impacto de Fátima, o milagre dos crentes",
+      "url": "https://observador.pt/especiais/a-historia-e-o-impacto-de-fatima-o-milagre-dos-crentes/",
+      "publisher": "Observador",
+      "publisherNote": "A long-form journalistic feature from an independent Portuguese outlet, covering the history and its critical readings — included so the reference list spans beyond official-Church sources.",
+      "type": "news"
+    }
+  ]
+}
