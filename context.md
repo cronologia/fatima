@@ -39,15 +39,15 @@ was not touched by this wave.
 
 | Thing | State |
 |---|---|
-| `data/chronology.json` | 33 events, 6 facts, 6 figures, 4 organizations, 4 disambiguation items, 24 references |
+| `data/chronology.json` | 33 events, 6 facts, 6 figures, 4 organizations, 4 disambiguation items, 31 references, an `approvalLadder` and a `consecrations` section |
 | Date coverage | 1881 → 2017 |
 | Unverified dates | **1** — the 1916 Angel apparitions (`dateVerified: false`) |
-| `data/i18n/es.json` | 150/150 strings, hand-authored, `humanReviewed: false` |
-| `data/i18n/pt.json` | 150/150 strings, hand-authored, `humanReviewed: false` |
+| `data/i18n/es.json` | 193/193 strings, hand-authored, `humanReviewed: false` |
+| `data/i18n/pt.json` | 193/193 strings, hand-authored, `humanReviewed: false` |
 | Optional viz (spine, map, swimlanes, lineage, charts) | **none declared** — the dataset carries no `threads`, `placesMap`, `numbersChart` etc., so none render |
 | `data/archives.json` | **not created** — `scripts/archive-refs.js` has never been run (needs network) |
 | `data/places.json` | **not vendored** — only needed if `placesMap` is ever declared |
-| Gate | `validate-data.js` ✔ · `build.js` ✔ (3 locales) · `node --test` ✔ 153/153 |
+| Gate | `validate-data.js` ✔ · `build.js` ✔ (3 locales) · `node --test` ✔ 183/183 |
 | GitHub Pages | live at https://cronologia.github.io/fatima/ |
 | Recorded date disagreements | **4** — `dateNote` on the 1918 restoration, the 1922 bulletin, the 1953 dedication and the 2017 decree |
 
@@ -133,6 +133,53 @@ nos dias 13 de maio a outubro de 1917; 2º permitir oficialmente o culto de
 Nossa Senhora de Fátima"* — are verbatim. The same read produced the 13 April
 1930 commission report (doc. 120), its chapter *As curas extraordinárias* with
 the seventeen cases, and the minute of approval (doc. 121).
+
+### The `consecrations` section (repo-local, not a template feature)
+
+Nine papal acts from 1942 to 2022, rendered below the chronology as a summary
+table plus one card per act. It exists because the owner asked for it on the
+premise that Fátima was approved because several popes each did part of a
+consecration. **The premise does not survive the dates and the section is built
+to show that rather than to argue it:** the approval is the diocesan pastoral of
+13 October 1930, and every act in the section postdates it — the first by twelve
+years.
+
+Three closed enums drive the table, validated in `consecrationActs()` (unknown
+value → build failure, exactly like the ladder's `status`):
+
+| Enum | Values | Why it exists |
+|---|---|---|
+| `kind` | `consecration` · `entrustment` · `exhortation` | Signum Magnum asks the FAITHFUL to renew their own consecration and is routinely counted as a papal one; the 2013 act calls itself an *affidamento* and never says "consecrate" |
+| `russia` | `named` · `unnamed` · `described` | The first of the two reported conditions. Only 1952 and 2022 are `named` |
+| `bishops` | `united` · `alone` · `unknown` | The second. Only 1984 and 2022 are `united` |
+
+**The renderer computes no verdict, and a test enforces that.** There is no
+"satisfied" column, no tick, no cross, no total — the two columns report facts
+about texts, and whether the conditions were met is a live dispute the page
+attributes rather than settles (Sister Lúcia's letter of 8 November 1989, the
+CDF's 2000 conclusion that further discussion is baseless, and the writers who
+continue to disagree are all recorded). `test/build-helpers.test.js` fails if a
+pass/fail glyph or the word "satisfied" ever reaches the markup.
+
+`quote` is deliberately OUTSIDE `SUBTREE_TRANSLATABLE.consecrations`: the
+excerpts are verbatim Latin, Italian and English from the acts themselves,
+carried with a `lang` attribute, and a translated sentence inside quotation
+marks attributed to Pius XII would be a fabrication. Translations belong in the
+surrounding `text`, flagged as such.
+
+Findings worth keeping, all from reading the acts rather than the literature:
+
+- **1942** names neither Fátima nor Russia. The nearest is "ai popoli separati
+  per l'errore o per la discordia".
+- **1952** (*Sacro vergente anno*, AAS 44, pp. 505–511, read from the gazette
+  PDF) names Russia and never mentions Fátima.
+- **1964** is widely reported as Paul VI renewing the consecration. It is not:
+  nn. 40 and 48 read *affidiamo* and *raccomandiamo*, the consecration recalled
+  is Pius XII's, and the literature reporting the renewal also tends to date
+  that act to 1952 when the world consecration was 1942.
+- **2022** is the only act whose own text meets both conditions. The Holy See
+  did not present it as supplying anything missing from 1984, and neither does
+  this page.
 
 ## 3. Translations
 
