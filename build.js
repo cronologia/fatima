@@ -144,6 +144,20 @@ const UI = {
       adjacent: 'Church act on a related matter — not a ruling on the apparition',
     },
     ladderDetails: 'Step by step, with the documents',
+    // The consecrations section. `consValues` mirrors the closed enums in
+    // consecrationActs(); the DATA keeps the enum, the page reads a word.
+    consHeading: 'The papal consecrations',
+    consDate: 'Date',
+    consPope: 'Pope',
+    consKind: 'Kind of act',
+    consRussia: 'Russia named',
+    consBishops: 'With the bishops',
+    consObject: 'What was consecrated',
+    consValues: {
+      kind: { consecration: 'consecration', entrustment: 'entrustment', exhortation: 'exhortation only' },
+      russia: { named: 'named', unnamed: 'not named', described: 'described, not named' },
+      bishops: { united: 'in union with the bishops', alone: 'the pope alone', unknown: 'not established' },
+    },
     // English is the authoritative text, so it never carries a translation note.
     disclaimers: null,
   },
@@ -210,6 +224,18 @@ const UI = {
       adjacent: 'Acto de la Iglesia sobre una materia relacionada — no una resolución sobre la aparición',
     },
     ladderDetails: 'Paso a paso, con los documentos',
+    consHeading: 'Las consagraciones pontificias',
+    consDate: 'Fecha',
+    consPope: 'Papa',
+    consKind: 'Tipo de acto',
+    consRussia: 'Rusia nombrada',
+    consBishops: 'Con los obispos',
+    consObject: 'Qué se consagró',
+    consValues: {
+      kind: { consecration: 'consagración', entrustment: 'entrega', exhortation: 'solo exhortación' },
+      russia: { named: 'nombrada', unnamed: 'no nombrada', described: 'descrita, no nombrada' },
+      bishops: { united: 'en unión con los obispos', alone: 'el papa solo', unknown: 'no establecido' },
+    },
     disclaimers: {
       machine: 'Traducción automática del inglés; la página en inglés es la versión de referencia.',
       authored: 'Traducción del inglés escrita por el asistente, sin revisión humana; la página en inglés es la versión de referencia.',
@@ -279,6 +305,18 @@ const UI = {
       adjacent: 'Ato da Igreja sobre matéria relacionada — não uma decisão sobre a aparição',
     },
     ladderDetails: 'Passo a passo, com os documentos',
+    consHeading: 'As consagrações pontifícias',
+    consDate: 'Data',
+    consPope: 'Papa',
+    consKind: 'Tipo de ato',
+    consRussia: 'Rússia nomeada',
+    consBishops: 'Com os bispos',
+    consObject: 'O que foi consagrado',
+    consValues: {
+      kind: { consecration: 'consagração', entrustment: 'entrega', exhortation: 'apenas exortação' },
+      russia: { named: 'nomeada', unnamed: 'não nomeada', described: 'descrita, não nomeada' },
+      bishops: { united: 'em união com os bispos', alone: 'o papa sozinho', unknown: 'não apurado' },
+    },
     disclaimers: {
       machine: 'Tradução automática do inglês; a página em inglês é a versão de referência.',
       authored: 'Tradução do inglês escrita pelo assistente, sem revisão humana; a página em inglês é a versão de referência.',
@@ -386,6 +424,15 @@ const SUBTREE_TRANSLATABLE = {
   // Everything a reader actually reads is here instead; the status renders in
   // the page's language from the UI table, keyed on the untranslated enum.
   approvalLadder: new Set(['label', 'when', 'who', 'outcome', 'noDocument', 'heading', 'note', 'caption', 'navLabel']),
+  // The consecrations section, same reasoning as the ladder above. `kind`,
+  // `russia` and `bishops` are closed enums the renderer looks up in the UI
+  // table -- translating them would break the localized build. `quote` is
+  // ABSENT too, and for the opposite reason: it is a verbatim excerpt from a
+  // Latin, Italian or English act, carried with a `lang` attribute, and
+  // putting a translated sentence inside quotation marks attributed to Pius
+  // XII would be a fabrication. Translations of the quotes belong in the
+  // surrounding `text`, where they can be marked as translations.
+  consecrations: new Set(['heading', 'navLabel', 'intro', 'note', 'criteria', 'place', 'object', 'text', 'dateNote']),
   // >>> ADOPT: subtree-allowlists  (subtrees of this repo's dataset that are not prose)
   // A repo whose dataset carries subtrees where the general rule misfires adds
   // them here. `olavo`'s bibliography is the worked example:
@@ -1473,6 +1520,126 @@ ${cells}
 }
 
 /* ---------------------------------------------------------------------------
+ * The papal consecrations — a Fátima-specific section, not a template feature.
+ *
+ * Driven by the optional top-level `consecrations` key. It renders BELOW the
+ * chronology, not above it, and deliberately not as approval-ladder rungs: a
+ * consecration is an act of devotion by a pope, and letting one appear as a
+ * rung would turn nine acts of devotion into nine steps toward a verdict that
+ * was never given. The ladder's Holy See rung stays "no ruling located" and
+ * says in its own prose that the consecrations were considered and set aside.
+ *
+ * Two closed enums do the work of the summary table, because the whole reason
+ * a reader needs this section is that the acts are NOT interchangeable:
+ *
+ *   russia   named | unnamed | described   was Russia consecrated BY NAME
+ *   bishops  united | alone | unknown      did the pope act WITH the bishops
+ *
+ * They are scored from each act's own published text, and they are the two
+ * conditions the seer's reported request is said to have carried. Whether the
+ * conditions were MET is a judgment the data attributes to whoever made it and
+ * the renderer never computes: there is no "satisfied" column, no tick, no
+ * total. A page that scored the acts itself would be taking a side in a live
+ * dispute while looking like a table of facts.
+ *
+ * `kind` is a third closed enum (consecration | entrustment | exhortation)
+ * because the difference is the section's whole point -- Signum Magnum asks
+ * the faithful to renew their own consecration and is routinely counted as a
+ * papal one, and the 2013 act calls itself an entrustment and never says
+ * "consecrate".
+ * ------------------------------------------------------------------------- */
+
+const CONSECRATION_RUSSIA = new Set(['named', 'unnamed', 'described']);
+const CONSECRATION_BISHOPS = new Set(['united', 'alone', 'unknown']);
+const CONSECRATION_KIND = new Set(['consecration', 'entrustment', 'exhortation']);
+
+/**
+ * Validate the acts, or throw. Same contract as `ladderRungs`: an unknown enum
+ * value is a build failure rather than a silent fallback, and an uncited act
+ * is a build failure too -- every one of these is a claim about a document,
+ * and a claim about a document with no document is the failure mode this whole
+ * project exists to avoid.
+ */
+function consecrationActs(cons) {
+  if (!cons || !Array.isArray(cons.acts) || cons.acts.length === 0) return null;
+  return cons.acts.map((a, i) => {
+    const where = `consecrations.acts[${i}]`;
+    if (!a || !a.date || !a.pope) throw new Error(`${where}: every act needs a date and a pope`);
+    const check = (key, set) => {
+      if (!set.has(a[key])) {
+        throw new Error(`${where} (${a.date}): unknown ${key} ${JSON.stringify(a[key])} — ` +
+          `use one of ${[...set].join(', ')}`);
+      }
+    };
+    check('kind', CONSECRATION_KIND);
+    check('russia', CONSECRATION_RUSSIA);
+    check('bishops', CONSECRATION_BISHOPS);
+    if (!Array.isArray(a.sources) || a.sources.length === 0) {
+      throw new Error(`${where} (${a.date}): cite the act — an uncited consecration is a rumour`);
+    }
+    return a;
+  });
+}
+
+/** Render the consecrations section, or '' when the dataset declares none. */
+function renderConsecrations(cons, refNumById, ui) {
+  const acts = consecrationActs(cons);
+  if (!acts) return '';
+  const t = ui || UI.en;
+  const uid = (i) => `cons-${i + 1}`;
+  const word = (group, key) => (t.consValues && t.consValues[group] && t.consValues[group][key]) || key;
+
+  // The summary table. Its job is the at-a-glance answer to "how many popes,
+  // doing which part" -- the question that sends people to this section.
+  const rows = acts.map((a, i) => `            <tr>
+              <th scope="row"><a href="#${uid(i)}">${esc(a.date)}</a></th>
+              <td>${esc(a.pope)}</td>
+              <td class="cons-kind cons-kind-${esc(a.kind)}">${esc(word('kind', a.kind))}</td>
+              <td class="cons-flag cons-russia-${esc(a.russia)}">${esc(word('russia', a.russia))}</td>
+              <td class="cons-flag cons-bishops-${esc(a.bishops)}">${esc(word('bishops', a.bishops))}</td>
+            </tr>`).join('\n');
+
+  const cards = acts.map((a, i) => {
+    const dn = a.dateNote ? `<p class="date-note">${renderText(a.dateNote)}</p>` : '';
+    const quote = a.quote
+      ? `<blockquote class="cons-quote"${a.quoteLang ? ` lang="${esc(a.quoteLang)}"` : ''}><p>${esc(a.quote)}</p></blockquote>`
+      : '';
+    return `        <article id="${uid(i)}" class="cons-act">
+          <h3 class="cons-act-title"><span class="cons-date">${esc(a.date)}</span> ${esc(a.pope)}</h3>
+          <p class="cons-place">${esc(a.place || '')}</p>
+          <p class="cons-chips"><span class="cons-chip cons-kind-${esc(a.kind)}">${esc(word('kind', a.kind))}</span><span class="cons-chip cons-russia-${esc(a.russia)}">${esc(t.consRussia)}: ${esc(word('russia', a.russia))}</span><span class="cons-chip cons-bishops-${esc(a.bishops)}">${esc(t.consBishops)}: ${esc(word('bishops', a.bishops))}</span></p>
+          <p class="cons-object"><strong>${esc(t.consObject)}:</strong> ${esc(a.object || '')}</p>
+${dn ? '          ' + dn + '\n' : ''}          <p>${renderText(a.text)}</p>
+${quote ? '          ' + quote + '\n' : ''}          <p class="cons-cites">${renderCites(a.sources, refNumById)}</p>
+        </article>`;
+  }).join('\n');
+
+  return `    <section id="consecrations" class="viz">
+      <h2>${esc(cons.heading || t.consHeading)}</h2>
+      <p class="section-intro">${esc(cons.intro || '')}</p>
+      <p class="cons-note">${esc(cons.note || '')}</p>
+      <figure class="cons-summary">
+        <div class="viz-scroll">
+        <table class="cons-table">
+          <thead>
+            <tr><th scope="col">${esc(t.consDate)}</th><th scope="col">${esc(t.consPope)}</th><th scope="col">${esc(t.consKind)}</th><th scope="col">${esc(t.consRussia)}</th><th scope="col">${esc(t.consBishops)}</th></tr>
+          </thead>
+          <tbody>
+${rows}
+          </tbody>
+        </table>
+        </div>
+        <figcaption>${esc(cons.criteria || '')}</figcaption>
+      </figure>
+      <div class="cons-acts">
+${cards}
+      </div>
+    </section>
+
+`;
+}
+
+/* ---------------------------------------------------------------------------
  * Places map — event places as sized markers on a world basemap.
  *
  * The chronology table names places; only a map shows the geography — for a
@@ -2149,6 +2316,7 @@ function renderPage(data, archives, opts = {}) {
   const numbersChartHtml = renderNumbersChart(numbersChart, refNumById);
   const chronologySpineHtml = renderChronologySpine(chronologySpine, events, ui);
   const approvalLadderHtml = renderApprovalLadder(data.approvalLadder, refNumById, ui);
+  const consecrationsHtml = renderConsecrations(data.consecrations, refNumById, ui);
   const placesMapHtml = renderPlacesMap(placesMap, events, opts.places, opts.world, ui);
   const tierMapHtml = renderTierMap(tierMap, refNumById, ui);
   const swimlanesHtml = renderSwimlanes(threads, events, refNumById, ui);
@@ -2209,7 +2377,7 @@ ${seoHead(meta, base, route, lang)}
   <nav class="site-nav">
     <div class="wrap">
       <a href="#about">${esc(ui.about)}</a>
-      <a href="#chronology">${esc(ui.chronology)}</a>${approvalLadderHtml ? `\n      <a href="#approval-ladder">${esc((data.approvalLadder && data.approvalLadder.navLabel) || ui.ladderHeading)}</a>` : ''}${chronologySpineHtml ? `\n      <a href="#chronology-spine">${esc((chronologySpine && chronologySpine.navLabel) || ui.spineNav)}</a>` : ''}${swimlanesHtml ? `\n      <a href="#threads">${esc((threads && threads.navLabel) || ui.swNav)}</a>` : ''}${placesMapHtml ? `\n      <a href="#places-map">${esc((placesMap && placesMap.navLabel) || ui.mapNav)}</a>` : ''}${tierMapHtml ? `\n      <a href="#map">${esc((tierMap && tierMap.navLabel) || ui.tierMapHeading)}</a>` : ''}${lineageHtml ? `\n      <a href="#lineage">${esc(lineage.navLabel || 'Genealogy')}</a>` : ''}${branchTimelineHtml ? `\n      <a href="#branch-timeline">${esc(branchTimeline.navLabel || 'Divisions')}</a>` : ''}${numbersChartHtml ? `\n      <a href="#numbers-chart">${esc(numbersChart.navLabel || 'Numbers')}</a>` : ''}
+      <a href="#chronology">${esc(ui.chronology)}</a>${approvalLadderHtml ? `\n      <a href="#approval-ladder">${esc((data.approvalLadder && data.approvalLadder.navLabel) || ui.ladderHeading)}</a>` : ''}${consecrationsHtml ? `\n      <a href="#consecrations">${esc((data.consecrations && data.consecrations.navLabel) || ui.consHeading)}</a>` : ''}${chronologySpineHtml ? `\n      <a href="#chronology-spine">${esc((chronologySpine && chronologySpine.navLabel) || ui.spineNav)}</a>` : ''}${swimlanesHtml ? `\n      <a href="#threads">${esc((threads && threads.navLabel) || ui.swNav)}</a>` : ''}${placesMapHtml ? `\n      <a href="#places-map">${esc((placesMap && placesMap.navLabel) || ui.mapNav)}</a>` : ''}${tierMapHtml ? `\n      <a href="#map">${esc((tierMap && tierMap.navLabel) || ui.tierMapHeading)}</a>` : ''}${lineageHtml ? `\n      <a href="#lineage">${esc(lineage.navLabel || 'Genealogy')}</a>` : ''}${branchTimelineHtml ? `\n      <a href="#branch-timeline">${esc(branchTimeline.navLabel || 'Divisions')}</a>` : ''}${numbersChartHtml ? `\n      <a href="#numbers-chart">${esc(numbersChart.navLabel || 'Numbers')}</a>` : ''}
       <a href="#figures">${esc(ui.figures)}</a>
       <a href="#organizations">${esc(ui.organizations)}</a>
       ${disambigCards ? `<a href="#disambiguation">${esc(ui.disambiguation)}</a>` : ''}
@@ -2241,7 +2409,7 @@ ${eventRows}
       </div>
     </section>
 
-${swimlanesHtml}${placesMapHtml}${tierMapHtml}${lineageHtml}${branchTimelineHtml}${numbersChartHtml}    <section id="figures">
+${consecrationsHtml}${swimlanesHtml}${placesMapHtml}${tierMapHtml}${lineageHtml}${branchTimelineHtml}${numbersChartHtml}    <section id="figures">
       <h2>${esc(ui.figuresHeading)}</h2>
       <div class="party-grid">
 ${figures.map((f) => renderFigureCard(f, refNumById)).join('\n')}
@@ -2340,6 +2508,7 @@ module.exports = {
   loadPlaces, loadWorld,
   renderPage,
   LOCALES, ROUTES, OG_LOCALE, UI, loadDict, loadDictMeta, disclaimerFor, renderApprovalLadder, ladderRungs, STATUS_GLYPH,
+  renderConsecrations, consecrationActs, CONSECRATION_KIND, CONSECRATION_RUSSIA, CONSECRATION_BISHOPS,
   renderEventRow, UNKNOWN_REF_TYPES, renderReference, siteBase, translator, localizeData,
   TRANSLATABLE_KEYS, SUBTREE_TRANSLATABLE, keysFor, collectTranslatable,
   alternates, seoHead, langSwitcher, renderRootStub, renderSitemap, renderRobots,

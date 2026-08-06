@@ -501,3 +501,120 @@ test('keysFor resolves the nearest enclosing subtree and is sticky through desce
   // A dataset key colliding with Object.prototype must not resolve to it.
   assert.equal(keysFor('constructor', null)[1], TRANSLATABLE_KEYS);
 });
+
+/* The papal consecrations — Fátima's own section.
+ *
+ * What is under test is not layout. It is the three closed enums and the
+ * citation rule, because the section's whole value is that it distinguishes
+ * acts other accounts run together: a consecration from an entrustment from an
+ * exhortation, an act that names Russia from one that does not, a collegial
+ * act from a solo one. A silent fallback on any of those would produce a table
+ * that looks authoritative and is wrong. */
+const {
+  renderConsecrations, consecrationActs,
+  CONSECRATION_KIND, CONSECRATION_RUSSIA, CONSECRATION_BISHOPS,
+} = require('../build.js');
+
+const CNUMS = new Map([['doc', 1]]);
+const cact = (o) => Object.assign({
+  date: '1984-03-25', pope: 'John Paul II', kind: 'consecration',
+  russia: 'unnamed', bishops: 'united', object: 'All peoples', text: 'Prose.',
+  sources: ['doc'],
+}, o);
+
+test('consecrations: absent or empty data renders nothing', () => {
+  assert.equal(renderConsecrations(undefined, CNUMS, UI.en), '');
+  assert.equal(renderConsecrations({}, CNUMS, UI.en), '');
+  assert.equal(renderConsecrations({ acts: [] }, CNUMS, UI.en), '');
+});
+
+test('consecrations: each of the three enums fails the build on an unknown value', () => {
+  for (const [key, bad, set] of [
+    ['kind', 'renewal', CONSECRATION_KIND],
+    ['russia', 'maybe', CONSECRATION_RUSSIA],
+    ['bishops', 'some', CONSECRATION_BISHOPS],
+  ]) {
+    assert.throws(
+      () => consecrationActs({ acts: [cact({ [key]: bad })] }),
+      new RegExp(`unknown ${key} "${bad}"`),
+      `${key} must not accept "${bad}"`);
+    // Absent is as wrong as wrong: an act with no `russia` would render blank
+    // and read as "not named", which is a claim.
+    assert.throws(() => consecrationActs({ acts: [cact({ [key]: undefined })] }), new RegExp(`unknown ${key}`));
+    assert.ok(set.size >= 3);
+  }
+});
+
+test('consecrations: an uncited act fails the build', () => {
+  assert.throws(() => consecrationActs({ acts: [cact({ sources: [] })] }), /uncited consecration is a rumour/);
+  assert.throws(() => consecrationActs({ acts: [cact({ sources: undefined })] }), /uncited consecration is a rumour/);
+});
+
+test('consecrations: a date and a pope are required', () => {
+  assert.throws(() => consecrationActs({ acts: [cact({ date: undefined })] }), /needs a date and a pope/);
+  assert.throws(() => consecrationActs({ acts: [cact({ pope: undefined })] }), /needs a date and a pope/);
+});
+
+test('consecrations: enum values render as words, in the page language', () => {
+  const cons = { heading: 'H', intro: 'I', note: 'N', criteria: 'C', acts: [cact()] };
+  const en = renderConsecrations(cons, CNUMS, UI.en);
+  assert.match(en, /not named/);
+  assert.match(en, /in union with the bishops/);
+  // The enum value itself must never reach the page as bare data.
+  assert.ok(!/>unnamed</.test(en), 'the raw enum leaked into the rendered text');
+  const pt = renderConsecrations(cons, CNUMS, UI.pt);
+  assert.match(pt, /não nomeada/);
+  assert.match(pt, /em união com os bispos/);
+});
+
+test('consecrations: a verbatim quote keeps its own language and is never localized', () => {
+  const quote = 'dedicamus ac consecramus';
+  const cons = { acts: [cact({ quote, quoteLang: 'la' })] };
+  const html = renderConsecrations(cons, CNUMS, UI.pt);
+  assert.match(html, /<blockquote class="cons-quote" lang="la">/);
+  assert.ok(html.includes(quote), 'the Latin must survive a Portuguese render unchanged');
+  // No lang attribute when the data does not say which language it is in.
+  assert.match(renderConsecrations({ acts: [cact({ quote })] }, CNUMS, UI.en), /<blockquote class="cons-quote">/);
+});
+
+test('consecrations: the page scores no act as satisfying the conditions', () => {
+  // The section reports two facts per act and draws no conclusion from them.
+  // If a future edit adds a computed verdict column, this fails — deliberately.
+  const cons = { heading: 'H', intro: 'I', note: 'N', criteria: 'C', acts: [cact(), cact({ russia: 'named', date: '2022-03-25', pope: 'Francis' })] };
+  const html = renderConsecrations(cons, CNUMS, UI.en);
+  assert.ok(!/✓|✗/.test(html), 'no pass/fail glyphs: these are facts about texts, not scores');
+  assert.ok(!/satisfied|fulfilled|complete/i.test(html), 'the renderer must not adjudicate the dispute');
+});
+
+test('consecrations: the acts are cited, and the citations resolve to references', () => {
+  const html = renderConsecrations({ acts: [cact()] }, CNUMS, UI.en);
+  assert.match(html, /class="cons-cites"/);
+  assert.match(html, /#ref-1/);
+});
+
+test('consecrations: `quote` is outside the translatable set, `text` is inside it', () => {
+  // The renderer cannot enforce this — localization happens before it. The
+  // guard is the SUBTREE_TRANSLATABLE allowlist, so assert on the walk. A
+  // translated sentence inside quotation marks attributed to Pius XII would be
+  // a fabrication, which is a different and worse thing than an untranslated
+  // page.
+  const data = {
+    meta: { title: 'T', description: 'D', language: 'en', lastUpdated: '2026-01-01' },
+    consecrations: {
+      heading: 'The papal consecrations', intro: 'Intro prose.', note: 'Note prose.',
+      criteria: 'Criteria prose.',
+      acts: [cact({ quote: 'dedicamus ac consecramus', quoteLang: 'la', place: 'Rome', text: 'Prose about the act.' })],
+    },
+  };
+  const got = new Set(collectTranslatable(data));
+  assert.ok(got.has('Prose about the act.'), 'the surrounding prose is translated');
+  assert.ok(got.has('Rome'));
+  assert.ok(got.has('Criteria prose.'));
+  assert.ok(!got.has('dedicamus ac consecramus'), 'a verbatim papal quote must never be translated');
+  assert.ok(!got.has('la'), 'quoteLang is a code, not prose');
+  assert.ok(!got.has('consecration'), 'the kind enum must not be translated');
+  assert.ok(!got.has('unnamed'), 'the russia enum must not be translated');
+  assert.ok(!got.has('united'), 'the bishops enum must not be translated');
+  assert.ok(!got.has('John Paul II'), 'a pope is a proper name');
+  assert.ok(!got.has('1984-03-25'));
+});

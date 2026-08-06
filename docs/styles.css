@@ -550,3 +550,47 @@ figure.approval-ladder { margin: 0 0 1rem; }
   .al-details, .al-details > *, .al-panels, .al-panel { display: block !important; }
   .al-panel[hidden] { display: block !important; }
 }
+
+/* The papal consecrations — a Fátima-only section (fatima#…).
+ *
+ * The summary table is the section's argument: nine acts, and the two columns
+ * that tell them apart. The colour treatment on those two columns is the SAME
+ * discipline as the approval ladder — colour confirms, never carries. Every
+ * cell also spells its value out ("not named", "the pope alone"), so the table
+ * is complete in greyscale, in print, and read aloud.
+ *
+ * Deliberately NOT green/red. "Named" and "in union with the bishops" are
+ * facts about a text, not passes and fails, and a green tick beside 2022 next
+ * to a red cross beside 1984 would score a dispute the page is careful not to
+ * score. Both use one hue at two weights: present, and absent. */
+figure.cons-summary { margin: 0 0 1.4rem; }
+table.cons-table { border-collapse: collapse; width: 100%; font-size: .92rem; }
+table.cons-table th, table.cons-table td { text-align: left; padding: .4rem .7rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+table.cons-table thead th { font-size: .78rem; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); border-bottom-width: 2px; }
+table.cons-table tbody th { font-weight: 600; white-space: nowrap; }
+.cons-flag { white-space: nowrap; }
+.cons-russia-named, .cons-bishops-united { color: #2d5f8a; font-weight: 600; }
+.cons-russia-unnamed, .cons-russia-described, .cons-bishops-alone, .cons-bishops-unknown { color: var(--muted); }
+.cons-kind-exhortation { font-style: italic; color: var(--muted); }
+
+.cons-acts { display: grid; gap: 1.1rem; }
+article.cons-act { border-left: 3px solid var(--line); padding: .1rem 0 .1rem 1rem; }
+.cons-act-title { margin: 0 0 .15rem; font-size: 1.02rem; }
+.cons-act-title .cons-date { color: var(--muted); font-variant-numeric: tabular-nums; font-weight: 500; }
+.cons-place { margin: 0 0 .5rem; font-size: .88rem; color: var(--muted); }
+.cons-chips { margin: 0 0 .5rem; display: flex; flex-wrap: wrap; gap: .35rem; }
+.cons-chip { display: inline-block; font-size: .76rem; padding: .12rem .5rem; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); }
+.cons-chip.cons-russia-named, .cons-chip.cons-bishops-united { border-color: #2d5f8a; color: #2d5f8a; }
+.cons-object { margin: 0 0 .5rem; font-size: .92rem; }
+/* A verbatim excerpt from the act, in the act's own language — never
+ * translated, so it is set apart rather than folded into the prose. */
+blockquote.cons-quote { margin: .6rem 0; padding: .1rem 0 .1rem .9rem; border-left: 2px solid var(--line); font-size: .9rem; color: var(--muted); }
+blockquote.cons-quote p { margin: 0; }
+.cons-cites { margin: .4rem 0 0; font-size: .85rem; }
+.cons-note { font-size: .92rem; }
+
+@media print {
+  article.cons-act { break-inside: avoid; page-break-inside: avoid; }
+  table.cons-table { font-size: .78rem; }
+  .cons-russia-named, .cons-bishops-united, .cons-chip.cons-russia-named, .cons-chip.cons-bishops-united { color: #000; border-color: #000; }
+}
