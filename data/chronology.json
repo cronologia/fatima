@@ -851,7 +851,7 @@
       "title": "Radiomessaggio di Sua Santità Pio XII: «Preghiera per la consacrazione della Chiesa e del genere umano al Cuore Immacolato di Maria», 31 October 1942",
       "url": "https://www.vatican.va/content/pius-xii/it/speeches/1942/documents/hf_p-xii_spe_19421031_immaculata.html",
       "publisher": "The Holy See / vatican.va",
-      "publisherNote": "Primary source, read in full for this dataset. The broadcast was addressed to Portugal for the jubilee of the apparitions; vatican.va carries the Italian text. The prayer names neither Fátima nor Russia — the nearest it comes is \"ai popoli separati per l'errore o per la discordia\" — and that absence is recorded here because it is the point at issue in the later literature.",
+      "publisherNote": "Primary source, read in full. The broadcast was addressed to Portugal for the jubilee of the apparitions. Read this URL with care: vatican.va serves two different documents from it depending on language. The Portuguese is the radio message itself, headed “Sábado, 31 de Outubro de 1942”; the Italian is instead the short first-person prayer, the same text the gazette printed at AAS 34 (1942) 345–346 and that vatican.va's prayers section dates 8 December. Both language versions are footed to the same page range of Discorsi e Radiomessaggi IV, 453–454, which cannot be right for both dates. The consecration itself names neither Fátima nor Russia — the nearest it comes is “ai popoli separati per l'errore o per la discordia” — and that absence is recorded here because it is the point at issue in the later literature.",
       "type": "official"
     },
     {
@@ -909,6 +909,46 @@
       "publisher": "Dicastery for the Doctrine of the Faith, Holy See",
       "publisherNote": "The Church's current procedure for judging reported apparitions, in force since 19 May 2024; its art. 27 entirely replaces the norms of 25 February 1978. Read in full for this dataset. Cited here for the rule it states rather than for anything it decides about this case: it is not applied retroactively, and no case in this chronology was judged under it.",
       "type": "official"
+    },
+    {
+      "id": "pxii-1942-preghiera-8dic",
+      "title": "Pio XII, «Preghiera per la consacrazione della Chiesa e del genere umano al Cuore Immacolato di Maria» (8 dicembre 1942)",
+      "url": "https://www.vatican.va/content/pius-xii/it/prayers/documents/hf_p-xii_19421208_prayer-cuore-maria.html",
+      "publisher": "The Holy See / vatican.va",
+      "publisherNote": "Primary source, read in full. This is the one vatican.va document bearing the date 8 December 1942 — filed under prayers, not among the 1942 speeches, which is why an index of speeches does not surface it. Its text is first person (“ci affidiamo e ci consacriamo”), unlike the 31 October radio message, and Acta Apostolicae Sedis had already printed the same text at 34 (1942) 345–346. Italian only; the pt/en/es paths 404.",
+      "type": "official"
+    },
+    {
+      "id": "jpii-1983-angelus-16ott",
+      "title": "Giovanni Paolo II, «Invocazione a Maria durante l'Angelus», 16 ottobre 1983",
+      "url": "https://www.vatican.va/content/john-paul-ii/it/angelus/1983/documents/hf_jp-ii_ang_19831016.html",
+      "publisher": "The Holy See / vatican.va",
+      "publisherNote": "Primary source, read in full. The act is in the Angelus index, not the homilies index — the canonization homily of the same morning contains no Marian act at all, which is why earlier searches of the homilies came back empty. The Portuguese version of this page is subtitled “Acto de Consagração a Nossa Senhora (Fátima, 13 de maio de 1982)”, so the Holy See's own site identifies the words as the 1982 act; the Spanish is subtitled “Consagración del mundo al Corazón Inmaculado de María” and the Italian carries no subtitle. English and French are stubs.",
+      "type": "official"
+    },
+    {
+      "id": "jpii-1991-affidamento-fatima",
+      "title": "Giovanni Paolo II, «Atto di Affidamento alla Vergine di Fatima», Santuario di Fatima, 13 maggio 1991",
+      "url": "https://www.vatican.va/content/john-paul-ii/it/speeches/1991/may/documents/hf_jp-ii_spe_19910513_atto-affidamento-fatima.html",
+      "publisher": "The Holy See / vatican.va",
+      "publisherNote": "Primary source, read in full in both languages it exists in. The Italian reads “rinnovo a Te l'affidamento filiale del genere umano … A Te con fiducia tutti ci affidiamo”; the Portuguese, at the same URL slug, reads “Vos renovo a consagração filial do género humano … A Vós, com confiança, todos nos consagramos”. Entrustment in one language and consecration in the other, for one act delivered at Fátima. English, Spanish and French are stubs.",
+      "type": "official"
+    },
+    {
+      "id": "aas-75-1983",
+      "title": "Acta Apostolicae Sedis 75 (1983), parts I and II",
+      "url": "https://www.vatican.va/archive/aas/documents/AAS-75-1983-I-ocr.pdf",
+      "publisher": "Holy See (vatican.va)",
+      "publisherNote": "Cited as a completeness control, not for a text. Both parts were read: the volume prints no Angelus addresses at all, so the absence of the 16 October 1983 act from it is a fact about what AAS publishes rather than evidence that the act does not exist. The volume does carry the consistorial decree fixing Leopold Mandić's canonization for that day, which fixes the occasion.",
+      "type": "official"
+    },
+    {
+      "id": "aas-83-1991",
+      "title": "Acta Apostolicae Sedis 83 (1991)",
+      "url": "https://www.vatican.va/archive/aas/documents/AAS-83-1991-ocr.pdf",
+      "publisher": "Holy See (vatican.va)",
+      "publisherNote": "Cited as a completeness control, not for a text. Read in full: the May 1991 journey to Portugal is absent from the volume entirely — no occurrence of Fátima, Leiria or Cova da Iria — so vatican.va, not the gazette, is the citable host for the act of 13 May 1991.",
+      "type": "official"
     }
   ],
   "consecrations": {
@@ -927,12 +967,13 @@
         "object": "The Church and the whole human race",
         "russia": "unnamed",
         "bishops": "alone",
-        "text": "Broadcast in Portuguese to the Portuguese nation for the jubilee of the apparitions, and the first papal consecration in this series. What it consecrates is the Church and the human race; the text on vatican.va names neither Fátima nor Russia. The nearest it comes to the second is a petition for \"the peoples separated by error or by discord\" — among whom, it says, there was no house without the venerable icon in a place of honour, \"today perhaps hidden away and put by for better days\". Readers have taken that as Russia in all but the word ever since, and the dataset records the wording rather than the reading. Pius XII repeated the act in Saint Peter's later that year; no vatican.va document for that repetition was reached here.",
+        "text": "Broadcast in Portuguese to the Portuguese nation for the jubilee of the apparitions, and the first papal consecration in this series. What it consecrates is the Church and the human race; the text on vatican.va names neither Fátima nor Russia. The nearest it comes to the second is a petition for \"the peoples separated by error or by discord\" — among whom, it says, there was no house without the venerable icon in a place of honour, \"today perhaps hidden away and put by for better days\". Readers have taken that as Russia in all but the word ever since, and the dataset records the wording rather than the reading. Pius XII is widely reported to have repeated the act in Saint Peter's on 8 December 1942. vatican.va does carry a text under that date, but in its prayers section rather than among the 1942 speeches, and it is the short first-person prayer — “ci affidiamo e ci consacriamo” — that Acta Apostolicae Sedis had already printed at 34 (1942) 345–346, in the fascicle of 23 November, with an indulgence noted 17 November, while the volume's own index dates it 31 October. Three official datings attach to one text, and the chronological index of the pope's acts in AAS 34 lists nothing whatever for 8 December: its only December item is the allocution of the 17th. So the repetition is recorded here as reported and undocumented — no act text for that day has been found, and the two texts should not be run together, the radio message being third person and the prayer first.",
         "quote": "Ai popoli separati per l'errore o per la discordia, e segnatamente a coloro che professano per Voi singolare devozione, e presso i quali non c'era casa ove non si tenesse in onore la vostra veneranda icone (oggi forse occultata e riposta per giorni migliori), date la pace e riconduceteli all'unico ovile di Cristo, sotto l'unico e vero Pastore.",
         "quoteLang": "it",
         "sources": [
           "pxii-1942-radio",
-          "aas-34-1942"
+          "aas-34-1942",
+          "pxii-1942-preghiera-8dic"
         ]
       },
       {
@@ -1013,6 +1054,24 @@
         ]
       },
       {
+        "date": "1983-10-16",
+        "dateVerified": true,
+        "pope": "John Paul II",
+        "place": "Vatican City — Saint Peter's Square, at the Angelus after the canonization Mass of Leopold Mandić",
+        "kind": "entrustment",
+        "object": "The world and all peoples, in the words of the Fátima act of 1982",
+        "russia": "unnamed",
+        "bishops": "alone",
+        "text": "A renewal of the act of 13 May 1982, prayed in that act's own words. Two things establish that from the primary side rather than by inference: the Holy See's own Portuguese version of this page is subtitled “Acto de Consagração a Nossa Senhora (Fátima, 13 de maio de 1982)”, and the prayer bodies of the two acts are identical apart from punctuation, one scriptural reference and the phrase “nella vita sociale”, the 1983 text dropping only the 1982 opening about standing in the place she chose and its closing petitions about the South Atlantic. Russia is not named: the act uses the circumlocution that makes 1984 disputed — “quegli uomini e quelle Nazioni, che di questo affidamento e di questa consacrazione hanno particolarmente bisogno”. The Synod fathers were in Rome and the text says “insieme con tutta la Chiesa”, but no convocation of the world's episcopate was issued for it, so it is scored as the pope acting alone. Two corrections come with it. EWTN's list places the act at the closing Mass of the Synod on Penance and Reconciliation; the Synod closed on 29 October, whose homily contains no Marian act, and the act belongs to the Angelus of the 16th while the Synod was still sitting. And the Congregation for the Doctrine of the Faith's 2000 narrative passes from 1982 to 1984 without this act — a selection by that narrative, not an absence, since the text is on vatican.va. Its absence from Acta Apostolicae Sedis is likewise not evidence against it: that volume prints no Angelus addresses at all.",
+        "quote": "In modo speciale ti affidiamo e consacriamo quegli uomini e quelle Nazioni, che di questo affidamento e di questa consacrazione hanno particolarmente bisogno. […] Affidandoti, o Madre, il mondo, tutti gli uomini e tutti i popoli, ti affidiamo anche la stessa consacrazione per il mondo, mettendola nel tuo Cuore materno. Oh Cuore Immacolato!",
+        "quoteLang": "it",
+        "sources": [
+          "jpii-1983-angelus-16ott",
+          "aas-75-1983",
+          "cdf-message-fatima"
+        ]
+      },
+      {
         "date": "1984-03-25",
         "dateVerified": true,
         "pope": "John Paul II",
@@ -1025,6 +1084,24 @@
         "quote": "…we entrust and consecrate to you this very consecration of the world, placing it in your motherly Heart.",
         "quoteLang": "en",
         "sources": [
+          "cdf-message-fatima"
+        ]
+      },
+      {
+        "date": "1991-05-13",
+        "dateVerified": true,
+        "pope": "John Paul II",
+        "place": "Fátima, Portugal — the Sanctuary, on the tenth anniversary of the attempt on his life",
+        "kind": "entrustment",
+        "object": "The human race",
+        "russia": "unnamed",
+        "bishops": "alone",
+        "text": "An act that describes itself as a renewal — “anche oggi rinnovo a Te l'affidamento filiale del genere umano”. It exists in two languages on vatican.va and they do not agree on what it is: the Italian says affidamento and “ci affidiamo”, the Portuguese, at the same URL, says “Vos renovo a consagração filial” and “todos nos consagramos”. The act was delivered at Fátima, which gives the Portuguese a claim to be the text as spoken; the dataset records the divergence and does not resolve it, and the Portuguese page is in any case inconsistent with itself, titled “Acto de Confiança” over a body that says consagração. The Immaculate Heart is not named here, unlike every other act in this table. Russia is not named either; the nearest the text comes is gratitude for “i mutamenti insperati che hanno ridato fiducia a popoli troppo a lungo oppressi” and a warning against replacing Marxism with another atheism. Collegiality is asserted by the act itself — “in collegiale unità con i Pastori” — but no convocation letter was located, so the column is scored from the documents rather than from the claim. The visit was also a thanksgiving, and the text says so; that does not make it less of an act. Neither the Congregation for the Doctrine of the Faith's 2000 narrative nor EWTN's list counts 1991, which is why it was missing here.",
+        "quote": "In collegiale unità con i Pastori, in comunione con l'intero Popolo di Dio, sparso in ogni angolo della terra, anche oggi rinnovo a Te l'affidamento filiale del genere umano. A Te con fiducia tutti ci affidiamo.",
+        "quoteLang": "it",
+        "sources": [
+          "jpii-1991-affidamento-fatima",
+          "aas-83-1991",
           "cdf-message-fatima"
         ]
       },
