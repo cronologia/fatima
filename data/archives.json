@@ -1,0 +1,216 @@
+{
+  "generatedBy": "scripts/archive-refs.js",
+  "updatedAt": "2026-08-10",
+  "snapshots": {
+    "https://commons.wikimedia.org/wiki/File:Newspaper_fatima_353.jpg": {
+      "refId": "ilustracao-portuguesa-facsimile",
+      "archiveUrl": "https://web.archive.org/web/20260711021254/https://commons.wikimedia.org/wiki/File:Newspaper_fatima_353.jpg",
+      "timestamp": "20260711021254",
+      "checkedAt": "2026-08-10"
+    },
+    "https://en.wikipedia.org/wiki/Our_Lady_of_F%C3%A1tima": {
+      "refId": "wikipedia-our-lady-fatima",
+      "archiveUrl": "https://web.archive.org/web/20260727230614/https://en.wikipedia.org/wiki/Our_Lady_of_F%C3%A1tima",
+      "timestamp": "20260727230614",
+      "checkedAt": "2026-08-10"
+    },
+    "https://observador.pt/especiais/a-historia-e-o-impacto-de-fatima-o-milagre-dos-crentes/": {
+      "refId": "observador-fatima",
+      "archiveUrl": "https://web.archive.org/web/20240629220041/https://observador.pt/especiais/a-historia-e-o-impacto-de-fatima-o-milagre-dos-crentes/",
+      "timestamp": "20240629220041",
+      "checkedAt": "2026-08-10"
+    },
+    "https://www.causesanti.va/it/archivio-del-dicastero-cause-santi/promulgazione-decreti/decreti-pubblicati-nel-2017.html": {
+      "refId": "causesanti-decreti-2017",
+      "archiveUrl": "https://web.archive.org/web/20260521051449/https://www.causesanti.va/it/archivio-del-dicastero-cause-santi/promulgazione-decreti/decreti-pubblicati-nel-2017.html",
+      "timestamp": "20260521051449",
+      "checkedAt": "2026-08-10"
+    },
+    "https://www.causesanti.va/it/dicastero-delle-cause-dei-santi/profilo-del-dicastero.html": {
+      "refId": "causesanti-profilo",
+      "archiveUrl": "https://web.archive.org/web/20260704075732/https://www.causesanti.va/it/dicastero-delle-cause-dei-santi/profilo-del-dicastero.html",
+      "timestamp": "20260704075732",
+      "checkedAt": "2026-08-10"
+    },
+    "https://www.causesanti.va/it/santi-e-beati/francisco-e-jacinta-marto.html": {
+      "refId": "causesanti-marto",
+      "archiveUrl": "https://web.archive.org/web/20260311105813/https://www.causesanti.va/it/santi-e-beati/francisco-e-jacinta-marto.html",
+      "timestamp": "20260311105813",
+      "checkedAt": "2026-08-10"
+    },
+    "https://www.fatima.pt/pt/documentacao/f001-documentacao-critica-de-fatima-selecao-de-documentos-1917-1930": {
+      "refId": "fatima-dcf-selecao",
+      "archiveUrl": "https://web.archive.org/web/20260121072327/https://www.fatima.pt/pt/documentacao/f001-documentacao-critica-de-fatima-selecao-de-documentos-1917-1930",
+      "timestamp": "20260121072327",
+      "checkedAt": "2026-08-10"
+    },
+    "https://www.fatima.pt/pt/pages/cronologia-dos-videntes": {
+      "refId": "fatima-cronologia-videntes",
+      "archiveUrl": "https://web.archive.org/web/20260313122153/https://www.fatima.pt/pt/pages/cronologia-dos-videntes",
+      "timestamp": "20260313122153",
+      "checkedAt": "2026-08-10"
+    },
+    "https://www.fatima.pt/pt/pages/lugares-das-aparicoes": {
+      "refId": "fatima-lugares-aparicoes",
+      "archiveUrl": "https://web.archive.org/web/20260810080844/https://www.fatima.pt/pt/pages/lugares-das-aparicoes",
+      "timestamp": "20260810080844",
+      "checkedAt": "2026-08-10"
+    },
+    "https://www.fatima.pt/pt/pages/lugares-de-culto-e-oracao": {
+      "refId": "fatima-lugares-culto",
+      "archiveUrl": "https://web.archive.org/web/20260121233233/https://www.fatima.pt/pt/pages/lugares-de-culto-e-oracao",
+      "timestamp": "20260121233233",
+      "checkedAt": "2026-08-10"
+    },
+    "https://www.fatima.pt/pt/pages/narrativa-das-aparicoes": {
+      "refId": "fatima-narrativa",
+      "archiveUrl": "https://web.archive.org/web/20260118024925/https://www.fatima.pt/pt/pages/narrativa-das-aparicoes",
+      "timestamp": "20260118024925",
+      "checkedAt": "2026-08-10"
+    },
+    "https://www.leiria-fatima.pt/14-d-jose-alves-correia-da-silva-1872-1957-o-primeiro-bispo-da-diocese-restaurada/": {
+      "refId": "leiria-fatima-bispo-1920",
+      "archiveUrl": "https://web.archive.org/web/20260609182943/https://www.leiria-fatima.pt/14-d-jose-alves-correia-da-silva-1872-1957-o-primeiro-bispo-da-diocese-restaurada/",
+      "timestamp": "20260609182943",
+      "checkedAt": "2026-08-10"
+    },
+    "https://www.leiria-fatima.pt/19-as-aparicoes-em-fatima-e-a-restauracao-da-diocese/": {
+      "refId": "leiria-fatima-aparicoes-restauracao",
+      "archiveUrl": "https://web.archive.org/web/20260513123225/https://www.leiria-fatima.pt/19-as-aparicoes-em-fatima-e-a-restauracao-da-diocese/",
+      "timestamp": "20260513123225",
+      "checkedAt": "2026-08-10"
+    },
+    "https://www.leiria-fatima.pt/21-p-manuel-marques-ferreira-1880-1945-o-paroco-de-fatima/": {
+      "refId": "leiria-fatima-paroco",
+      "archiveUrl": "https://web.archive.org/web/20260217184247/https://www.leiria-fatima.pt/21-p-manuel-marques-ferreira-1880-1945-o-paroco-de-fatima/",
+      "timestamp": "20260217184247",
+      "checkedAt": "2026-08-10"
+    },
+    "https://www.leiria-fatima.pt/24-diocese-de-leiria-fatima-resenha-historica/": {
+      "refId": "leiria-fatima-resenha",
+      "archiveUrl": "https://web.archive.org/web/20260410233433/https://www.leiria-fatima.pt/24-diocese-de-leiria-fatima-resenha-historica/",
+      "timestamp": "20260410233433",
+      "checkedAt": "2026-08-10"
+    },
+    "https://www.leiria-fatima.pt/27-a-bula-de-restauracao-da-diocese-de-leiria-em-1918/": {
+      "refId": "leiria-fatima-bula-1918",
+      "archiveUrl": "https://web.archive.org/web/20260512092411/https://www.leiria-fatima.pt/27-a-bula-de-restauracao-da-diocese-de-leiria-em-1918/",
+      "timestamp": "20260512092411",
+      "checkedAt": "2026-08-10"
+    },
+    "https://www.parlamento.pt/Parlamento/Paginas/Separacao-Estado-Igrejas.aspx": {
+      "refId": "parlamento-separacao-1911",
+      "archiveUrl": "https://web.archive.org/web/20260609180758/https://www.parlamento.pt/Parlamento/Paginas/Separacao-Estado-Igrejas.aspx",
+      "timestamp": "20260609180758",
+      "checkedAt": "2026-08-10"
+    },
+    "https://www.vatican.va/archive/aas/documents/AAS-34-1942-ocr.pdf": {
+      "refId": "aas-34-1942",
+      "archiveUrl": "https://web.archive.org/web/20260702033108/https://www.vatican.va/archive/aas/documents/AAS-34-1942-ocr.pdf",
+      "timestamp": "20260702033108",
+      "checkedAt": "2026-08-10"
+    },
+    "https://www.vatican.va/archive/aas/documents/AAS-38-1946-ocr.pdf": {
+      "refId": "aas-38-1946",
+      "archiveUrl": "https://web.archive.org/web/20260524035602/https://www.vatican.va/archive/aas/documents/AAS-38-1946-ocr.pdf",
+      "timestamp": "20260524035602",
+      "checkedAt": "2026-08-10"
+    },
+    "https://www.vatican.va/archive/aas/documents/AAS-44-1952-ocr.pdf": {
+      "refId": "aas-44-1952",
+      "archiveUrl": "https://web.archive.org/web/20260618103204/https://www.vatican.va/archive/aas/documents/AAS-44-1952-ocr.pdf",
+      "timestamp": "20260618103204",
+      "checkedAt": "2026-08-10"
+    },
+    "https://www.vatican.va/archive/aas/documents/AAS-75-1983-I-ocr.pdf": {
+      "refId": "aas-75-1983",
+      "archiveUrl": "https://web.archive.org/web/20260721044054/https://www.vatican.va/archive/aas/documents/AAS-75-1983-I-ocr.pdf",
+      "timestamp": "20260721044054",
+      "checkedAt": "2026-08-10"
+    },
+    "https://www.vatican.va/archive/aas/documents/AAS-83-1991-ocr.pdf": {
+      "refId": "aas-83-1991",
+      "archiveUrl": "https://web.archive.org/web/20260727151758/https://www.vatican.va/archive/aas/documents/AAS-83-1991-ocr.pdf",
+      "timestamp": "20260727151758",
+      "checkedAt": "2026-08-10"
+    },
+    "https://www.vatican.va/content/francesco/en/homilies/2017/documents/papa-francesco_20170513_omelia-pellegrinaggio-fatima.html": {
+      "refId": "francis-canonization-2017",
+      "archiveUrl": "https://web.archive.org/web/20260204114311/https://www.vatican.va/content/francesco/en/homilies/2017/documents/papa-francesco_20170513_omelia-pellegrinaggio-fatima.html",
+      "timestamp": "20260204114311",
+      "checkedAt": "2026-08-10"
+    },
+    "https://www.vatican.va/content/francesco/en/letters/2022/documents/20220321-lettera-consacrazione-cuoredimaria.html": {
+      "refId": "francis-2022-lettera-vescovi",
+      "archiveUrl": "https://web.archive.org/web/20260609092108/https://www.vatican.va/content/francesco/en/letters/2022/documents/20220321-lettera-consacrazione-cuoredimaria.html",
+      "timestamp": "20260609092108",
+      "checkedAt": "2026-08-10"
+    },
+    "https://www.vatican.va/content/francesco/en/prayers/documents/20220325-atto-consacrazione-cuoredimaria.html": {
+      "refId": "francis-2022-consacrazione",
+      "archiveUrl": "https://web.archive.org/web/20260724064322/https://www.vatican.va/content/francesco/en/prayers/documents/20220325-atto-consacrazione-cuoredimaria.html",
+      "timestamp": "20260724064322",
+      "checkedAt": "2026-08-10"
+    },
+    "https://www.vatican.va/content/john-paul-ii/en/homilies/2000/documents/hf_jp-ii_hom_20000513_beatification-fatima.html": {
+      "refId": "jp2-beatification-2000",
+      "archiveUrl": "https://web.archive.org/web/20260517001104/https://www.vatican.va/content/john-paul-ii/en/homilies/2000/documents/hf_jp-ii_hom_20000513_beatification-fatima.html",
+      "timestamp": "20260517001104",
+      "checkedAt": "2026-08-10"
+    },
+    "https://www.vatican.va/content/john-paul-ii/it/angelus/1983/documents/hf_jp-ii_ang_19831016.html": {
+      "refId": "jpii-1983-angelus-16ott",
+      "archiveUrl": "https://web.archive.org/web/20250811095915/https://www.vatican.va/content/john-paul-ii/it/angelus/1983/documents/hf_jp-ii_ang_19831016.html",
+      "timestamp": "20250811095915",
+      "checkedAt": "2026-08-10"
+    },
+    "https://www.vatican.va/content/john-paul-ii/it/speeches/1991/may/documents/hf_jp-ii_spe_19910513_atto-affidamento-fatima.html": {
+      "refId": "jpii-1991-affidamento-fatima",
+      "archiveUrl": "https://web.archive.org/web/20260514162222/https://www.vatican.va/content/john-paul-ii/it/speeches/1991/may/documents/hf_jp-ii_spe_19910513_atto-affidamento-fatima.html",
+      "timestamp": "20260514162222",
+      "checkedAt": "2026-08-10"
+    },
+    "https://www.vatican.va/content/paul-vi/en/apost_exhortations/documents/hf_p-vi_exh_19670513_signum-magnum.html": {
+      "refId": "pvi-signum-magnum",
+      "archiveUrl": "https://web.archive.org/web/20260602141018/https://www.vatican.va/content/paul-vi/en/apost_exhortations/documents/hf_p-vi_exh_19670513_signum-magnum.html",
+      "timestamp": "20260602141018",
+      "checkedAt": "2026-08-10"
+    },
+    "https://www.vatican.va/content/paul-vi/it/speeches/1964/documents/hf_p-vi_spe_19641121_conclusions-iii-sessions.html": {
+      "refId": "pvi-1964-iii-sessione",
+      "archiveUrl": "https://web.archive.org/web/20260314083200/https://www.vatican.va/content/paul-vi/it/speeches/1964/documents/hf_p-vi_spe_19641121_conclusions-iii-sessions.html",
+      "timestamp": "20260314083200",
+      "checkedAt": "2026-08-10"
+    },
+    "https://www.vatican.va/content/paul-vi/pt/homilies/1967/documents/hf_p-vi_hom_19670513.html": {
+      "refId": "paulo-vi-fatima-1967",
+      "archiveUrl": "https://web.archive.org/web/20260515074353/https://www.vatican.va/content/paul-vi/pt/homilies/1967/documents/hf_p-vi_hom_19670513.html",
+      "timestamp": "20260515074353",
+      "checkedAt": "2026-08-10"
+    },
+    "https://www.vatican.va/content/pius-xii/it/prayers/documents/hf_p-xii_19421208_prayer-cuore-maria.html": {
+      "refId": "pxii-1942-preghiera-8dic",
+      "archiveUrl": "https://web.archive.org/web/20260517002813/https://www.vatican.va/content/pius-xii/it/prayers/documents/hf_p-xii_19421208_prayer-cuore-maria.html",
+      "timestamp": "20260517002813",
+      "checkedAt": "2026-08-10"
+    },
+    "https://www.vatican.va/content/pius-xii/it/speeches/1942/documents/hf_p-xii_spe_19421031_immaculata.html": {
+      "refId": "pxii-1942-radio",
+      "archiveUrl": "https://web.archive.org/web/20260508144743/https://www.vatican.va/content/pius-xii/it/speeches/1942/documents/hf_p-xii_spe_19421031_immaculata.html",
+      "timestamp": "20260508144743",
+      "checkedAt": "2026-08-10"
+    },
+    "https://www.vatican.va/roman_curia/congregations/cfaith/documents/rc_con_cfaith_doc_20000626_message-fatima_en.html": {
+      "refId": "cdf-message-fatima",
+      "archiveUrl": "https://web.archive.org/web/20260805143926/https://www.vatican.va/roman_curia/congregations/cfaith/documents/rc_con_cfaith_doc_20000626_message-fatima_en.html",
+      "timestamp": "20260805143926",
+      "checkedAt": "2026-08-10"
+    },
+    "https://www.vatican.va/roman_curia/congregations/cfaith/documents/rc_ddf_doc_20240517_norme-fenomeni-soprannaturali_en.html": {
+      "refId": "ddf-norms-2024",
+      "archiveUrl": "https://web.archive.org/web/20260724130748/https://www.vatican.va/roman_curia/congregations/cfaith/documents/rc_ddf_doc_20240517_norme-fenomeni-soprannaturali_en.html",
+      "timestamp": "20260724130748",
+      "checkedAt": "2026-08-10"
+    }
+  }
+}
