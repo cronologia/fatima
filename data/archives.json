@@ -1,7 +1,13 @@
 {
   "generatedBy": "scripts/archive-refs.js",
-  "updatedAt": "2026-08-17",
+  "updatedAt": "2026-08-24",
   "snapshots": {
+    "https://agencia.ecclesia.pt/portal/aparicoes-90-anos-de-fatima/": {
+      "refId": "ecclesia-90-anos",
+      "archiveUrl": "https://web.archive.org/web/20260810080646/https://agencia.ecclesia.pt/portal/aparicoes-90-anos-de-fatima/",
+      "timestamp": "20260810080646",
+      "checkedAt": "2026-08-24"
+    },
     "https://commons.wikimedia.org/wiki/File:Newspaper_fatima_353.jpg": {
       "refId": "ilustracao-portuguesa-facsimile",
       "archiveUrl": "https://web.archive.org/web/20260711021254/https://commons.wikimedia.org/wiki/File:Newspaper_fatima_353.jpg",
@@ -151,6 +157,12 @@
       "archiveUrl": "https://web.archive.org/web/20260724064322/https://www.vatican.va/content/francesco/en/prayers/documents/20220325-atto-consacrazione-cuoredimaria.html",
       "timestamp": "20260724064322",
       "checkedAt": "2026-08-10"
+    },
+    "https://www.vatican.va/content/francesco/en/prayers/documents/papa-francesco_preghiere_20131013_affidamento-vergine-fatima.html": {
+      "refId": "francis-2013-affidamento",
+      "archiveUrl": "https://web.archive.org/web/20250422223943/https://www.vatican.va/content/francesco/en/prayers/documents/papa-francesco_preghiere_20131013_affidamento-vergine-fatima.html",
+      "timestamp": "20250422223943",
+      "checkedAt": "2026-08-24"
     },
     "https://www.vatican.va/content/john-paul-ii/en/homilies/2000/documents/hf_jp-ii_hom_20000513_beatification-fatima.html": {
       "refId": "jp2-beatification-2000",
