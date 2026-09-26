@@ -28,8 +28,16 @@ const OUT_DIR = path.join(ROOT, 'docs');
 
 /* ---------------------------------------------------------------------------
  * Multi-language (i18n) + SEO. English is authoritative and hand-written; es/pt
- * are machine-translated from committed caches (data/i18n/<lang>.json, generated
- * by scripts/translate.js — never hand-edit) and carry a visible disclaimer.
+ * are served from committed caches (data/i18n/<lang>.json) and carry a visible
+ * disclaimer saying HOW they were produced.
+ *
+ * Those caches are usually AUTHORED, not machine-translated — see the header of
+ * scripts/translate.js, where authoring is the primary path and the backend is
+ * a convenience. So the disclaimer is derived from each cache's own `_meta`
+ * rather than hardcoded: a page that announces "machine translation" over
+ * hand-authored prose is a false provenance claim, and provenance is the thing
+ * these datasets exist to keep straight. `_meta.generatedBy` and
+ * `_meta.humanReviewed` decide which of the three sentences a locale gets.
  *
  * The language is a path segment AFTER the project (/<repo>/{en,es,pt}/…) because
  * GitHub Pages serves each repo under https://<org>.github.io/<repo>/. Content is
@@ -58,6 +66,19 @@ const TRANSLATABLE_KEYS = new Set([
   // Lane bases are prose and RENDER on the page (renderSwimlanes publishes each
   // lane's grounding), so they are translated like any other visible prose.
   'basis', 'intro',
+  // The lineage figure's typed-edge legend labels (`lineage.edgeLegend.direct`
+  // and `.indirect`) render under the tree as prose. Found untranslated in
+  // rcc, fixed there, upstreamed here.
+  'direct', 'indirect',
+  // `organizations[].founded` reads as a date and is written as a sentence
+  // ("1817, Ghent (Belgium); in Brazil from the 19th–20th century"). It RENDERS
+  // — the card prints "Fundada em <founded>" — so leaving it out put English
+  // clauses on both localized pages, invisible to every check because nothing
+  // demanded a translation for a key nobody had declared prose. A dataset
+  // whose `founded` really is a bare year costs one dictionary entry per
+  // organization; an English sentence on a Portuguese page costs a reader.
+  // Found and fixed in cimbres; upstreamed here.
+  'founded',
   // `dateNote` is prose ABOUT the dating — which sources disagree, what a date
   // still rests on. It was carried in every dataset in the family and rendered
   // NOWHERE, so roughly eighty caveats were written, and invisible to every
@@ -80,6 +101,40 @@ const UI = {
     spineHeading: 'Events over time', spineNav: 'Over time',
     spineIntro: 'How the record is distributed across time. Bar height is the number of recorded events in that decade; the hatched part of a bar is events whose date is not yet verified against a primary source. Select a decade to jump to it in the chronology below.',
     spineBreakLabel: (n, from_, to) => `${n} decades with no recorded events (${from_}–${to})`,
+    // Suffix for years before the common era: a negative `year` is that many
+    // years BCE (-4 is 4 BCE; there is no year 0). See yearLabel().
+    bce: 'BCE',
+    rvFilterLabel: 'Filter the chronology', rvFirm: 'Firm dates only', rvFind: 'Find',
+    rvReading: 'Reading', rvAll: (n) => `all ${n} events`, rvSome: (n, total) => `${n} of ${total} events shown`,
+    rvEmpty: 'No events match. Clear the search or turn a storyline back on.',
+    rvRibbonLabel: (n, lanes) => `Overview of all ${n} events${lanes ? ` in ${lanes} storylines` : ''}; long gaps in the record are drawn as breaks`,
+    // The numbers chart's own labels (upstreamed from rcc, which localized them).
+    ncAxisNote: (max, unit) => `axis: 0–${max} ${unit}`,
+    ncCaptionMeta: (src, unit) => ` — reported by ${src}, in ${unit}`,
+    // The consecrations section. `consValues` mirrors the closed enums in
+    // consecrationActs(); the DATA keeps the enum, the page reads a word.
+    consHeading: 'The papal consecrations',
+    consDate: 'Date',
+    consPope: 'Pope',
+    consKind: 'Kind of act',
+    consRussia: 'Russia named',
+    consBishops: 'With the bishops',
+    consObject: 'What was consecrated',
+    consValues: {
+      kind: { consecration: 'consecration', entrustment: 'entrustment', exhortation: 'exhortation only' },
+      russia: { named: 'named', unnamed: 'not named', described: 'described, not named' },
+      bishops: { united: 'in union with the bishops', alone: 'the pope alone', unknown: 'not established' },
+    },
+    catNav: 'Catalogue', catHeading: 'Catalogue',
+    catListHeading: 'Where each object is kept',
+    catWhere: 'Kept at', catObject: 'The object', catVisibility: 'When it can be seen',
+    catAttested: 'First attested', catDating: 'Scientific dating', catChurch: 'Acts of Church authorities',
+    catOsm: 'exact location on OpenStreetMap',
+    catNoImage: 'No freely licensed image of this object was located.',
+    catImageLabel: 'Image',
+    catPinLabel: (where, names) => `${where}: ${names}`,
+    catMapCaption: (n, pins) => `${n} object${n === 1 ? '' : 's'} at ${pins} marked location${pins === 1 ? '' : 's'}; numbers match the entries below. Objects kept close together share a marker.`,
+    catNonGeoNote: (n) => `${n} object${n === 1 ? ' has' : 's have'} no fixed location and ${n === 1 ? 'is' : 'are'} not mapped.`,
     spineColLabel: (dec, n, u) => `${dec}: ${n} event${n === 1 ? '' : 's'}${u ? `, ${u} with an unverified date` : ''}`,
     spineCaption: (n, span, u) => `${n} events, ${span}${u ? ` · ${u} with a date not yet verified against a primary source` : ''}. Gaps are shown as explicit breaks, never compressed away.`,
     mapHeading: 'Events on the map', mapNav: 'Map',
@@ -144,20 +199,6 @@ const UI = {
       adjacent: 'Church act on a related matter — not a ruling on the apparition',
     },
     ladderDetails: 'Step by step, with the documents',
-    // The consecrations section. `consValues` mirrors the closed enums in
-    // consecrationActs(); the DATA keeps the enum, the page reads a word.
-    consHeading: 'The papal consecrations',
-    consDate: 'Date',
-    consPope: 'Pope',
-    consKind: 'Kind of act',
-    consRussia: 'Russia named',
-    consBishops: 'With the bishops',
-    consObject: 'What was consecrated',
-    consValues: {
-      kind: { consecration: 'consecration', entrustment: 'entrustment', exhortation: 'exhortation only' },
-      russia: { named: 'named', unnamed: 'not named', described: 'described, not named' },
-      bishops: { united: 'in union with the bishops', alone: 'the pope alone', unknown: 'not established' },
-    },
     // English is the authoritative text, so it never carries a translation note.
     disclaimers: null,
   },
@@ -173,6 +214,37 @@ const UI = {
     spineHeading: 'Acontecimientos a lo largo del tiempo', spineNav: 'En el tiempo',
     spineIntro: 'Cómo se distribuye el registro en el tiempo. La altura de cada barra es el número de acontecimientos registrados en esa década; la parte rayada corresponde a acontecimientos cuya fecha aún no se ha verificado con una fuente primaria. Seleccione una década para ir a ella en la cronología.',
     spineBreakLabel: (n, from_, to) => `${n} décadas sin acontecimientos registrados (${from_}–${to})`,
+    // Suffix for years before the common era: a negative `year` is that many
+    // years BCE (-4 is 4 BCE; there is no year 0). See yearLabel().
+    bce: 'a. C.',
+    rvFilterLabel: 'Filtrar la cronología', rvFirm: 'Solo fechas firmes', rvFind: 'Buscar',
+    rvReading: 'Leyendo', rvAll: (n) => `los ${n} acontecimientos`, rvSome: (n, total) => `${n} de ${total} acontecimientos mostrados`,
+    rvEmpty: 'Ningún acontecimiento coincide. Borre la búsqueda o vuelva a activar un relato.',
+    rvRibbonLabel: (n, lanes) => `Vista general de los ${n} acontecimientos${lanes ? ` en ${lanes} relatos` : ''}; los grandes vacíos del registro se dibujan como cortes`,
+    ncAxisNote: (max, unit) => `eje: 0–${max} ${unit}`,
+    ncCaptionMeta: (src, unit) => ` — reportado por ${src}, en ${unit}`,
+    consHeading: 'Las consagraciones pontificias',
+    consDate: 'Fecha',
+    consPope: 'Papa',
+    consKind: 'Tipo de acto',
+    consRussia: 'Rusia nombrada',
+    consBishops: 'Con los obispos',
+    consObject: 'Qué se consagró',
+    consValues: {
+      kind: { consecration: 'consagración', entrustment: 'entrega', exhortation: 'solo exhortación' },
+      russia: { named: 'nombrada', unnamed: 'no nombrada', described: 'descrita, no nombrada' },
+      bishops: { united: 'en unión con los obispos', alone: 'el papa solo', unknown: 'no establecido' },
+    },
+    catNav: 'Catálogo', catHeading: 'Catálogo',
+    catListHeading: 'Dónde se conserva cada objeto',
+    catWhere: 'Se conserva en', catObject: 'El objeto', catVisibility: 'Cuándo puede verse',
+    catAttested: 'Primera mención', catDating: 'Datación científica', catChurch: 'Actos de las autoridades de la Iglesia',
+    catOsm: 'ubicación exacta en OpenStreetMap',
+    catNoImage: 'No se localizó ninguna imagen de este objeto con licencia libre.',
+    catImageLabel: 'Imagen',
+    catPinLabel: (where, names) => `${where}: ${names}`,
+    catMapCaption: (n, pins) => `${n} objeto${n === 1 ? '' : 's'} en ${pins} ubicación${pins === 1 ? '' : 'es'} marcada${pins === 1 ? '' : 's'}; los números corresponden a las entradas de abajo. Los objetos conservados muy cerca comparten un marcador.`,
+    catNonGeoNote: (n) => `${n} objeto${n === 1 ? ' no tiene' : 's no tienen'} una ubicación fija y no ${n === 1 ? 'se muestra' : 'se muestran'} en el mapa.`,
     spineColLabel: (dec, n, u) => `${dec}: ${n} acontecimiento${n === 1 ? '' : 's'}${u ? `, ${u} con fecha no verificada` : ''}`,
     spineCaption: (n, span, u) => `${n} acontecimientos, ${span}${u ? ` · ${u} con fecha aún no verificada con una fuente primaria` : ''}. Los vacíos se muestran como cortes explícitos, nunca comprimidos.`,
     mapHeading: 'Acontecimientos en el mapa', mapNav: 'Mapa',
@@ -224,18 +296,6 @@ const UI = {
       adjacent: 'Acto de la Iglesia sobre una materia relacionada — no una resolución sobre la aparición',
     },
     ladderDetails: 'Paso a paso, con los documentos',
-    consHeading: 'Las consagraciones pontificias',
-    consDate: 'Fecha',
-    consPope: 'Papa',
-    consKind: 'Tipo de acto',
-    consRussia: 'Rusia nombrada',
-    consBishops: 'Con los obispos',
-    consObject: 'Qué se consagró',
-    consValues: {
-      kind: { consecration: 'consagración', entrustment: 'entrega', exhortation: 'solo exhortación' },
-      russia: { named: 'nombrada', unnamed: 'no nombrada', described: 'descrita, no nombrada' },
-      bishops: { united: 'en unión con los obispos', alone: 'el papa solo', unknown: 'no establecido' },
-    },
     disclaimers: {
       machine: 'Traducción automática del inglés; la página en inglés es la versión de referencia.',
       authored: 'Traducción del inglés escrita por el asistente, sin revisión humana; la página en inglés es la versión de referencia.',
@@ -254,6 +314,37 @@ const UI = {
     spineHeading: 'Acontecimentos ao longo do tempo', spineNav: 'No tempo',
     spineIntro: 'Como o registo se distribui no tempo. A altura de cada barra é o número de acontecimentos registados nessa década; a parte tracejada corresponde a acontecimentos cuja data ainda não foi verificada com uma fonte primária. Selecione uma década para saltar para ela na cronologia.',
     spineBreakLabel: (n, from_, to) => `${n} décadas sem acontecimentos registados (${from_}–${to})`,
+    // Suffix for years before the common era: a negative `year` is that many
+    // years BCE (-4 is 4 BCE; there is no year 0). See yearLabel().
+    bce: 'a.C.',
+    rvFilterLabel: 'Filtrar a cronologia', rvFirm: 'Apenas datas firmes', rvFind: 'Buscar',
+    rvReading: 'Lendo', rvAll: (n) => `todos os ${n} acontecimentos`, rvSome: (n, total) => `${n} de ${total} acontecimentos exibidos`,
+    rvEmpty: 'Nenhum acontecimento corresponde. Limpe a busca ou reative uma narrativa.',
+    rvRibbonLabel: (n, lanes) => `Visão geral dos ${n} acontecimentos${lanes ? ` em ${lanes} narrativas` : ''}; as grandes lacunas do registro aparecem como cortes`,
+    ncAxisNote: (max, unit) => `eixo: 0–${max} ${unit}`,
+    ncCaptionMeta: (src, unit) => ` — reportado por ${src}, em ${unit}`,
+    consHeading: 'As consagrações pontifícias',
+    consDate: 'Data',
+    consPope: 'Papa',
+    consKind: 'Tipo de ato',
+    consRussia: 'Rússia nomeada',
+    consBishops: 'Com os bispos',
+    consObject: 'O que foi consagrado',
+    consValues: {
+      kind: { consecration: 'consagração', entrustment: 'entrega', exhortation: 'apenas exortação' },
+      russia: { named: 'nomeada', unnamed: 'não nomeada', described: 'descrita, não nomeada' },
+      bishops: { united: 'em união com os bispos', alone: 'o papa sozinho', unknown: 'não apurado' },
+    },
+    catNav: 'Catálogo', catHeading: 'Catálogo',
+    catListHeading: 'Onde cada objeto é conservado',
+    catWhere: 'Conservado em', catObject: 'O objeto', catVisibility: 'Quando pode ser visto',
+    catAttested: 'Primeira menção', catDating: 'Datação científica', catChurch: 'Atos das autoridades da Igreja',
+    catOsm: 'localização exata no OpenStreetMap',
+    catNoImage: 'Não foi localizada nenhuma imagem deste objeto com licença livre.',
+    catImageLabel: 'Imagem',
+    catPinLabel: (where, names) => `${where}: ${names}`,
+    catMapCaption: (n, pins) => `${n} objeto${n === 1 ? '' : 's'} em ${pins} localiza${pins === 1 ? 'ção marcada' : 'ções marcadas'}; os números correspondem às entradas abaixo. Objetos conservados muito próximos compartilham um marcador.`,
+    catNonGeoNote: (n) => `${n} objeto${n === 1 ? ' não tem' : 's não têm'} localização fixa e não ${n === 1 ? 'aparece' : 'aparecem'} no mapa.`,
     spineColLabel: (dec, n, u) => `${dec}: ${n} acontecimento${n === 1 ? '' : 's'}${u ? `, ${u} com data não verificada` : ''}`,
     spineCaption: (n, span, u) => `${n} acontecimentos, ${span}${u ? ` · ${u} com data ainda não verificada com uma fonte primária` : ''}. As lacunas são mostradas como cortes explícitos, nunca comprimidas.`,
     mapHeading: 'Acontecimentos no mapa', mapNav: 'Mapa',
@@ -305,18 +396,6 @@ const UI = {
       adjacent: 'Ato da Igreja sobre matéria relacionada — não uma decisão sobre a aparição',
     },
     ladderDetails: 'Passo a passo, com os documentos',
-    consHeading: 'As consagrações pontifícias',
-    consDate: 'Data',
-    consPope: 'Papa',
-    consKind: 'Tipo de ato',
-    consRussia: 'Rússia nomeada',
-    consBishops: 'Com os bispos',
-    consObject: 'O que foi consagrado',
-    consValues: {
-      kind: { consecration: 'consagração', entrustment: 'entrega', exhortation: 'apenas exortação' },
-      russia: { named: 'nomeada', unnamed: 'não nomeada', described: 'descrita, não nomeada' },
-      bishops: { united: 'em união com os bispos', alone: 'o papa sozinho', unknown: 'não apurado' },
-    },
     disclaimers: {
       machine: 'Tradução automática do inglês; a página em inglês é a versão de referência.',
       authored: 'Tradução do inglês escrita pelo assistente, sem revisão humana; a página em inglês é a versão de referência.',
@@ -358,7 +437,7 @@ function loadDictMeta(lang) {
  *
  * `authored` is the default on purpose. An unset or unrecognized `generatedBy`
  * means nobody recorded a machine doing it, and claiming machine translation
- * over hand-authored prose is the wrong way to be wrong: it invites a reader to
+ * over hand-written prose is the wrong way to be wrong: it invites a reader to
  * discount prose a person stands behind. The reverse error (calling machine
  * output "authored") is prevented by translate.js, which stamps `generatedBy`
  * whenever it fills a cache from a backend.
@@ -433,6 +512,13 @@ const SUBTREE_TRANSLATABLE = {
   // XII would be a fabrication. Translations of the quotes belong in the
   // surrounding `text`, where they can be marked as translations.
   consecrations: new Set(['heading', 'navLabel', 'intro', 'note', 'criteria', 'place', 'object', 'text', 'dateNote']),
+  // The object catalogue (renderCatalogue). `site` is deliberately ABSENT: it
+  // is the gazetteer key the pin resolves on, like an event's canonical place,
+  // and a translated site resolves to nothing. So are the image's `file`,
+  // `credit`, `license`, `licenseUrl` and `sourceUrl`: attribution is
+  // bibliography and must read exactly as the licence requires. What a reader
+  // reads as prose is here.
+  catalogue: new Set(['heading', 'navLabel', 'intro', 'note', 'name', 'where', 'object', 'visibility', 'attested', 'dating', 'church', 'alt', 'caption']),
   // >>> ADOPT: subtree-allowlists  (subtrees of this repo's dataset that are not prose)
   // A repo whose dataset carries subtrees where the general rule misfires adds
   // them here. `olavo`'s bibliography is the worked example:
@@ -471,7 +557,7 @@ function keysFor(key, subtree) {
  * Hand-mirroring drifted in BOTH directions at once and each direction lied:
  * translate.js skipped the whole `references` array, so it under-counted by
  * every `publisherNote` the pages actually render; and it applied the general
- * key set to `approvalLadder`, so it counted `status` -- a closed enum -- and
+ * key set to `approvalLadder`, so it counted `status` — a closed enum — and
  * would have instructed a backend to translate `not-found` into `no
  * encontrado`, which fails the localized build outright. A coverage number is
  * worth having only if it measures the set the renderer uses, so both now come
@@ -772,8 +858,31 @@ function renderVizChips(vizChips) {
 }
 
 /** Group events by decade for the chronology's section headers. */
-function decadeOf(year) {
-  return `${Math.floor(year / 10) * 10}s`;
+/**
+ * Display label for an event year. Datasets reaching back before the common
+ * era store BCE years as negative numbers (-4 is 4 BCE) and never use year 0,
+ * so the chronological sort stays numeric. Years >= 1 render exactly as
+ * before, keeping every existing site byte-identical.
+ */
+function yearLabel(year, ui) {
+  if (!(year <= 0)) return String(year);
+  return `${-year} ${(ui || UI.en).bce}`;
+}
+
+/** Display label for a decade bucket (the floor of year/10, times 10). */
+function decadeLabel(decade, ui) {
+  if (decade >= 0) return `${decade}s`;
+  // A negative bucket holds BCE years: bucket -10 is the years -10..-1.
+  return `${-decade}–${-(decade + 9)} ${(ui || UI.en).bce}`;
+}
+
+/** A layout's year span, localized (identical to layout.span for CE years). */
+function spanLabel(layout, ui) {
+  return `${yearLabel(layout.spanFrom, ui)}–${yearLabel(layout.spanTo, ui)}`;
+}
+
+function decadeOf(year, ui) {
+  return decadeLabel(Math.floor(year / 10) * 10, ui);
 }
 
 /* ---------------------------------------------------------------------------
@@ -1079,8 +1188,9 @@ function layoutNumbersChart(nc) {
 }
 
 /** Render the contested-numbers chart (per-series axes + cited caption), or ''. */
-function renderNumbersChart(nc, refNumById) {
+function renderNumbersChart(nc, refNumById, ui) {
   const layout = layoutNumbersChart(nc);
+  const u = ui || UI.en;
   if (!layout) return '';
 
   const fmtTick = (t) => (Number.isInteger(t) ? String(t) : String(Math.round(t * 10) / 10));
@@ -1102,7 +1212,7 @@ function renderNumbersChart(nc, refNumById) {
               <span class="nc-series-label">${esc(s.label)}</span>
               <span class="nc-source-badge">${esc(s.sourceLabel)}</span>
             </div>
-            <div class="nc-axis-note">axis: 0–${esc(fmtTick(s.axisMax))} ${esc(s.unit)}</div>
+            <div class="nc-axis-note">${u.ncAxisNote(esc(fmtTick(s.axisMax)), esc(s.unit))}</div>
 ${rows}
             <div class="nc-axis"><span class="nc-year"></span><span class="nc-ticks">${ticks}</span><span class="nc-value"></span></div>
           </div>`;
@@ -1110,7 +1220,7 @@ ${rows}
     .join('\n');
 
   const captionItems = layout.series
-    .map((s) => `            <li><strong>${esc(s.label)}</strong> — reported by ${esc(s.sourceLabel)}, in ${esc(s.unit)}${renderCites(s.sources, refNumById)}</li>`)
+    .map((s) => `            <li><strong>${esc(s.label)}</strong>${u.ncCaptionMeta(esc(s.sourceLabel), esc(s.unit))}${renderCites(s.sources, refNumById)}</li>`)
     .join('\n');
 
   const heading = nc.heading || 'Numbers';
@@ -1258,6 +1368,8 @@ function layoutChronologySpine(spine, events) {
     totalEvents: withYear.length,
     unverified: withYear.filter((e) => e.dateVerified === false).length,
     span: `${Math.min(...years)}–${Math.max(...years)}`,
+    spanFrom: Math.min(...years),
+    spanTo: Math.max(...years),
     breaks: cells.filter((c) => c.type === 'break').length,
   };
 }
@@ -1486,10 +1598,10 @@ function renderChronologySpine(spine, events, ui) {
   const cells = layout.cells
     .map((c) => {
       if (c.type === 'break') {
-        const label = t.spineBreakLabel(c.count, c.from, c.to);
+        const label = t.spineBreakLabel(c.count, yearLabel(c.from, t), yearLabel(c.to, t));
         return `          <li class="cs-break"><span class="cs-break-mark" aria-hidden="true">⸺</span><span class="cs-break-label">${esc(label)}</span></li>`;
       }
-      const dLabel = `${c.decade}s`;
+      const dLabel = decadeLabel(c.decade, t);
       const label = t.spineColLabel(dLabel, c.total, c.unverified);
       if (c.total === 0) {
         return `          <li class="cs-col cs-empty"><span class="cs-count"></span><span class="cs-track"></span><span class="cs-label">${esc(dLabel)}</span></li>`;
@@ -1512,128 +1624,8 @@ function renderChronologySpine(spine, events, ui) {
 ${cells}
         </ol>
         </div>
-        <figcaption>${esc(t.spineCaption(layout.totalEvents, layout.span, layout.unverified))}</figcaption>
+        <figcaption>${esc(t.spineCaption(layout.totalEvents, spanLabel(layout, t), layout.unverified))}</figcaption>
       </figure>
-    </section>
-
-`;
-}
-
-/* ---------------------------------------------------------------------------
- * The papal consecrations — a Fátima-specific section, not a template feature.
- *
- * Driven by the optional top-level `consecrations` key. It renders BELOW the
- * chronology, not above it, and deliberately not as approval-ladder rungs: a
- * consecration is an act of devotion by a pope, and letting one appear as a
- * rung would turn nine acts of devotion into nine steps toward a verdict that
- * was never given. The ladder's Holy See rung stays "no ruling located" and
- * says in its own prose that the consecrations were considered and set aside.
- *
- * Two closed enums do the work of the summary table, because the whole reason
- * a reader needs this section is that the acts are NOT interchangeable:
- *
- *   russia   named | unnamed | described   was Russia consecrated BY NAME
- *   bishops  united | alone | unknown      did the pope act WITH the bishops
- *
- * They are scored from each act's own published text, and they are the two
- * conditions the seer's reported request is said to have carried. Whether the
- * conditions were MET is a judgment the data attributes to whoever made it and
- * the renderer never computes: there is no "satisfied" column, no tick, no
- * total. A page that scored the acts itself would be taking a side in a live
- * dispute while looking like a table of facts.
- *
- * `kind` is a third closed enum (consecration | entrustment | exhortation)
- * because the difference is the section's whole point -- Signum Magnum asks
- * the faithful to renew their own consecration and is routinely counted as a
- * papal one, and the 2013 act calls itself an entrustment and never says
- * "consecrate".
- * ------------------------------------------------------------------------- */
-
-const CONSECRATION_RUSSIA = new Set(['named', 'unnamed', 'described']);
-const CONSECRATION_BISHOPS = new Set(['united', 'alone', 'unknown']);
-const CONSECRATION_KIND = new Set(['consecration', 'entrustment', 'exhortation']);
-
-/**
- * Validate the acts, or throw. Same contract as `ladderRungs`: an unknown enum
- * value is a build failure rather than a silent fallback, and an uncited act
- * is a build failure too -- every one of these is a claim about a document,
- * and a claim about a document with no document is the failure mode this whole
- * project exists to avoid.
- */
-function consecrationActs(cons) {
-  if (!cons || !Array.isArray(cons.acts) || cons.acts.length === 0) return null;
-  return cons.acts.map((a, i) => {
-    const where = `consecrations.acts[${i}]`;
-    if (!a || !a.date || !a.pope) throw new Error(`${where}: every act needs a date and a pope`);
-    const check = (key, set) => {
-      if (!set.has(a[key])) {
-        throw new Error(`${where} (${a.date}): unknown ${key} ${JSON.stringify(a[key])} — ` +
-          `use one of ${[...set].join(', ')}`);
-      }
-    };
-    check('kind', CONSECRATION_KIND);
-    check('russia', CONSECRATION_RUSSIA);
-    check('bishops', CONSECRATION_BISHOPS);
-    if (!Array.isArray(a.sources) || a.sources.length === 0) {
-      throw new Error(`${where} (${a.date}): cite the act — an uncited consecration is a rumour`);
-    }
-    return a;
-  });
-}
-
-/** Render the consecrations section, or '' when the dataset declares none. */
-function renderConsecrations(cons, refNumById, ui) {
-  const acts = consecrationActs(cons);
-  if (!acts) return '';
-  const t = ui || UI.en;
-  const uid = (i) => `cons-${i + 1}`;
-  const word = (group, key) => (t.consValues && t.consValues[group] && t.consValues[group][key]) || key;
-
-  // The summary table. Its job is the at-a-glance answer to "how many popes,
-  // doing which part" -- the question that sends people to this section.
-  const rows = acts.map((a, i) => `            <tr>
-              <th scope="row"><a href="#${uid(i)}">${esc(a.date)}</a></th>
-              <td>${esc(a.pope)}</td>
-              <td class="cons-kind cons-kind-${esc(a.kind)}">${esc(word('kind', a.kind))}</td>
-              <td class="cons-flag cons-russia-${esc(a.russia)}">${esc(word('russia', a.russia))}</td>
-              <td class="cons-flag cons-bishops-${esc(a.bishops)}">${esc(word('bishops', a.bishops))}</td>
-            </tr>`).join('\n');
-
-  const cards = acts.map((a, i) => {
-    const dn = a.dateNote ? `<p class="date-note">${renderText(a.dateNote)}</p>` : '';
-    const quote = a.quote
-      ? `<blockquote class="cons-quote"${a.quoteLang ? ` lang="${esc(a.quoteLang)}"` : ''}><p>${esc(a.quote)}</p></blockquote>`
-      : '';
-    return `        <article id="${uid(i)}" class="cons-act">
-          <h3 class="cons-act-title"><span class="cons-date">${esc(a.date)}</span> ${esc(a.pope)}</h3>
-          <p class="cons-place">${esc(a.place || '')}</p>
-          <p class="cons-chips"><span class="cons-chip cons-kind-${esc(a.kind)}">${esc(word('kind', a.kind))}</span><span class="cons-chip cons-russia-${esc(a.russia)}">${esc(t.consRussia)}: ${esc(word('russia', a.russia))}</span><span class="cons-chip cons-bishops-${esc(a.bishops)}">${esc(t.consBishops)}: ${esc(word('bishops', a.bishops))}</span></p>
-          <p class="cons-object"><strong>${esc(t.consObject)}:</strong> ${esc(a.object || '')}</p>
-${dn ? '          ' + dn + '\n' : ''}          <p>${renderText(a.text)}</p>
-${quote ? '          ' + quote + '\n' : ''}          <p class="cons-cites">${renderCites(a.sources, refNumById)}</p>
-        </article>`;
-  }).join('\n');
-
-  return `    <section id="consecrations" class="viz">
-      <h2>${esc(cons.heading || t.consHeading)}</h2>
-      <p class="section-intro">${esc(cons.intro || '')}</p>
-      <p class="cons-note">${esc(cons.note || '')}</p>
-      <figure class="cons-summary">
-        <div class="viz-scroll">
-        <table class="cons-table">
-          <thead>
-            <tr><th scope="col">${esc(t.consDate)}</th><th scope="col">${esc(t.consPope)}</th><th scope="col">${esc(t.consKind)}</th><th scope="col">${esc(t.consRussia)}</th><th scope="col">${esc(t.consBishops)}</th></tr>
-          </thead>
-          <tbody>
-${rows}
-          </tbody>
-        </table>
-        </div>
-        <figcaption>${esc(cons.criteria || '')}</figcaption>
-      </figure>
-      <div class="cons-acts">
-${cards}
-      </div>
     </section>
 
 `;
@@ -1759,6 +1751,8 @@ function layoutSwimlanes(threads, events) {
     columns,
     maxCell,
     span: `${Math.min(...years)}–${Math.max(...years)}`,
+    spanFrom: Math.min(...years),
+    spanTo: Math.max(...years),
     taggedEvents: tagged.length,
     // Events with a year but no lane: reported, never silently absent.
     untagged: withYear.length - tagged.length,
@@ -1776,8 +1770,8 @@ function renderSwimlanes(threads, events, refNumById, ui) {
 
   const headCells = layout.columns
     .map((col) => (col.type === 'break'
-      ? `<th scope="col" class="sw-break" title="${esc(t.spineBreakLabel(col.count, col.from, col.to))}"><span aria-hidden="true">⸺</span><span class="visually-hidden">${esc(t.spineBreakLabel(col.count, col.from, col.to))}</span></th>`
-      : `<th scope="col">${esc(`${col.decade}s`)}</th>`))
+      ? `<th scope="col" class="sw-break" title="${esc(t.spineBreakLabel(col.count, yearLabel(col.from, t), yearLabel(col.to, t)))}"><span aria-hidden="true">⸺</span><span class="visually-hidden">${esc(t.spineBreakLabel(col.count, yearLabel(col.from, t), yearLabel(col.to, t)))}</span></th>`
+      : `<th scope="col">${esc(decadeLabel(col.decade, t))}</th>`))
     .join('');
 
   const rows = layout.lanes
@@ -1808,7 +1802,7 @@ ${cells ? `            ${cells}\n` : ''}            <td class="sw-total">${lane.
 
   const heading = threads.heading || t.swHeading;
   const intro = threads.intro || t.swIntro;
-  const captionParts = [t.swCaption(layout.taggedEvents, layout.lanes.length, layout.span, layout.laneAssignments)]
+  const captionParts = [t.swCaption(layout.taggedEvents, layout.lanes.length, spanLabel(layout, t), layout.laneAssignments)]
     .concat(layout.untagged ? [t.swUntaggedNote(layout.untagged)] : []);
 
   return `    <section id="threads" class="viz">
@@ -1977,6 +1971,8 @@ function layoutPlacesMap(pm, events, places) {
     unresolvedStrings: [...unresolvedStrings].sort(),
     firstYears,
     span: `${firstYears[0]}–${firstYears[firstYears.length - 1]}`,
+    spanFrom: firstYears[0],
+    spanTo: firstYears[firstYears.length - 1],
     hasApprox: pins.some((p) => p.approx),
     hasUnverified: pins.some((p) => p.firstUnverified),
   };
@@ -1996,7 +1992,7 @@ function renderPlacesMap(pm, events, places, world, ui) {
   const pinMarkup = layout.pins
     .map((p) => {
       const cls = `pm-pin${p.approx ? ' pm-approx' : ''}${p.firstUnverified ? ' pm-unverified' : ''}`;
-      const label = t.mapPinLabel(p.name, p.count, p.firstYear, p.firstUnverified);
+      const label = t.mapPinLabel(p.name, p.count, yearLabel(p.firstYear, t), p.firstUnverified);
       return `            <a class="${cls}" href="#decade-${Math.floor(p.firstYear / 10) * 10}" data-year="${p.firstYear}" aria-label="${esc(label)}"><circle cx="${p.x}" cy="${p.y}" r="${p.r}"/><title>${esc(label)}</title></a>`;
     })
     .join('\n');
@@ -2005,14 +2001,14 @@ function renderPlacesMap(pm, events, places, world, ui) {
     .map((p) => {
       const flag = p.firstUnverified ? ` <span class="flag" title="${esc(t.flagTitle)}">?</span>` : '';
       const approx = p.approx ? ` <span class="pm-approx-badge">${esc(t.mapApproxBadge)}</span>` : '';
-      return `          <li>${esc(t.mapPinLabel(p.name, p.count, p.firstYear, false))}${flag}${approx}${p.note ? ` <span class="muted">— ${esc(p.note)}</span>` : ''}</li>`;
+      return `          <li>${esc(t.mapPinLabel(p.name, p.count, yearLabel(p.firstYear, t), false))}${flag}${approx}${p.note ? ` <span class="muted">— ${esc(p.note)}</span>` : ''}</li>`;
     })
     .join('\n');
 
   const legendParts = [t.mapLegendSize]
     .concat(layout.hasApprox ? [t.mapLegendApprox] : [])
     .concat(layout.hasUnverified ? [t.mapLegendUnverified] : []);
-  const captionNotes = [t.mapCaption(layout.mappedEvents, layout.pins.length, layout.span)]
+  const captionNotes = [t.mapCaption(layout.mappedEvents, layout.pins.length, spanLabel(layout, t))]
     .concat(layout.nonGeoEvents ? [t.mapNonGeoNote(layout.nonGeoEvents)] : [])
     .concat(layout.unresolvedEvents ? [t.mapUnresolvedNote(layout.unresolvedEvents)] : []);
 
@@ -2025,9 +2021,15 @@ function renderPlacesMap(pm, events, places, world, ui) {
           <button type="button" class="pm-play" data-play="${esc(t.mapPlay)}" data-pause="${esc(t.mapPause)}">${esc(t.mapPlay)}</button>
           <label><span class="visually-hidden">${esc(t.mapSliderLabel)}</span>
           <input type="range" class="pm-slider" min="${minYear}" max="${maxYear}" value="${maxYear}" step="1"></label>
-          <output class="pm-year">${maxYear}</output>
+          <output class="pm-year">${esc(yearLabel(maxYear, t))}</output>
         </div>\n`
     : '';
+  // Only a map reaching back before the common era formats the slider's year:
+  // a negative value is that many years BCE (yearLabel). Maps that start in
+  // the common era keep the plain number, so their output is unchanged.
+  const yearExpr = minYear <= 0
+    ? `(y > 0 ? String(y) : (y < 0 ? -y : 1) + ' ' + ${JSON.stringify(t.bce)})`
+    : 'y';
   const script = layout.firstYears.length > 1
     ? `      <script>(function () {
         var s = document.currentScript.closest('section');
@@ -2047,8 +2049,8 @@ function renderPlacesMap(pm, events, places, world, ui) {
             p.classList.toggle('pm-future', !vis);
             if (vis) shown += 1;
           });
-          out.textContent = y;
-          live.textContent = liveTpl.replace('{Y}', y).replace('{S}', shown).replace('{T}', total);
+          out.textContent = ${yearExpr};
+          live.textContent = liveTpl.replace('{Y}', ${yearExpr}).replace('{S}', shown).replace('{T}', total);
         }
         function stop() { if (timer) { clearInterval(timer); timer = null; play.textContent = play.getAttribute('data-play'); } }
         slider.addEventListener('input', function () { stop(); apply(Number(slider.value)); });
@@ -2095,6 +2097,461 @@ ${script}    </section>
 `;
 }
 
+/* ---------------------------------------------------------------------------
+ * Object catalogue (cronologia/cristo: the relics and where they are kept).
+ *
+ * Driven by the optional top-level `catalogue` key; absent, nothing renders
+ * and the build is byte-identical (ADR-0001):
+ *
+ *   catalogue: {
+ *     heading?, navLabel?, intro?,
+ *     items: [{
+ *       id, name,
+ *       site,                  // gazetteer name/variant of the BUILDING (not translated)
+ *       where,                 // what the reader reads: chapel, building, city
+ *       object?, visibility?, attested?, dating?, church?,   // prose, each optional
+ *       image?: { file, width, height, alt, caption?, credit, license, licenseUrl, sourceUrl },
+ *       sources: [refId, ...],
+ *     }],
+ *   }
+ *
+ * Images live in src/img/ and are copied to docs/img/. Only freely licensed
+ * images belong here, and the validator enforces the licence vocabulary and
+ * the attribution fields: a picture on a public site is a publication.
+ *
+ * The map places each object at its building. Objects kept in the same
+ * place — buildings within CATALOGUE_CLUSTER_DEG of each other (about 10 km:
+ * several relics are kept within a few kilometres in Rome) — share one
+ * marker; different cities never do, whatever the map's extent. Every card
+ * also links to the building's exact point on OpenStreetMap, which is the
+ * precise answer the marker can only approximate.
+ * ------------------------------------------------------------------------- */
+
+/** Buildings closer than this (degrees, ~10 km) share one marker: the same city. */
+const CATALOGUE_CLUSTER_DEG = 0.1;
+
+/** Licences a catalogue image may carry: reusable on a public site with attribution. */
+const CATALOGUE_LICENSES = /^(Public domain|CC0( 1\.0)?|CC BY(-SA)? [1-4]\.0( [A-Za-z-]+)?)$/;
+
+function layoutCatalogue(cat, places) {
+  if (!cat || !Array.isArray(cat.items) || cat.items.length === 0) return null;
+  const entries = new Map((((places && places.places) || [])).map((e) => [e.id, e]));
+  const index = placeIndex(places);
+  const items = cat.items.map((it, i) => {
+    const { ids } = resolvePlaceString(it.site || '', index);
+    const geo = ids.map((id) => entries.get(id)).find((e) => e && Number.isFinite(e.lat) && Number.isFinite(e.lon));
+    return { item: it, n: i + 1, geo: geo || null };
+  });
+  const mapped = items.filter((x) => x.geo);
+  if (mapped.length === 0) return { items, pins: [], viewBox: null, nonGeo: items.length };
+
+  const xs = mapped.map((x) => x.geo.lon + 180);
+  const ys = mapped.map((x) => 90 - x.geo.lat);
+  const pad = 4;
+  let minX = Math.min(...xs) - pad; let maxX = Math.max(...xs) + pad;
+  let minY = Math.min(...ys) - pad; let maxY = Math.max(...ys) + pad;
+  const MIN_W = 30; const MIN_H = 18;
+  if (maxX - minX < MIN_W) { const c = (minX + maxX) / 2; minX = c - MIN_W / 2; maxX = c + MIN_W / 2; }
+  if (maxY - minY < MIN_H) { const c = (minY + maxY) / 2; minY = c - MIN_H / 2; maxY = c + MIN_H / 2; }
+  minX = Math.max(0, minX); maxX = Math.min(360, maxX);
+  minY = Math.max(0, minY); maxY = Math.min(180, maxY);
+  const r1 = (v) => Math.round(v * 10) / 10;
+  const vbW = r1(maxX - minX); const vbH = r1(maxY - minY);
+
+  // Cluster greedily, in item order: the same place, not "close at this zoom".
+  const radius = vbW / 90;
+  const pins = [];
+  for (const x of mapped) {
+    const px = x.geo.lon + 180; const py = 90 - x.geo.lat;
+    const near = pins.find((p) => Math.hypot(p.cx - px, p.cy - py) < CATALOGUE_CLUSTER_DEG);
+    if (near) near.members.push(x);
+    else pins.push({ cx: px, cy: py, members: [x] });
+  }
+  for (const p of pins) {
+    p.x = r1(p.members.reduce((a, m) => a + m.geo.lon + 180, 0) / p.members.length);
+    p.y = r1(p.members.reduce((a, m) => a + 90 - m.geo.lat, 0) / p.members.length);
+    p.r = r1(radius * (p.members.length > 1 ? 1.35 : 1));
+    p.fontSize = r1(radius * 1.05);
+  }
+  return {
+    items, pins,
+    viewBox: `${r1(minX)} ${r1(minY)} ${vbW} ${vbH}`,
+    nonGeo: items.length - mapped.length,
+  };
+}
+
+/** A building's exact point on OpenStreetMap (the precise location a marker approximates). */
+function osmLink(geo) {
+  const lat = Math.round(geo.lat * 1e5) / 1e5; const lon = Math.round(geo.lon * 1e5) / 1e5;
+  return `https://www.openstreetmap.org/?mlat=${lat}&mlon=${lon}#map=18/${lat}/${lon}`;
+}
+
+function renderCatalogue(cat, places, world, refNumById, ui) {
+  const layout = layoutCatalogue(cat, places);
+  if (!layout) return '';
+  const t = ui || UI.en;
+  const heading = cat.heading || t.catHeading;
+
+  let mapHtml = '';
+  if (layout.pins.length > 0) {
+    if (!world || typeof world.d !== 'string' || !world.d) {
+      throw new Error('catalogue is declared in the data but src/world-land.json is missing or empty');
+    }
+    const pinMarkup = layout.pins.map((p) => {
+      const first = p.members[0];
+      // One building: name it once. Several: each object with its own building,
+      // so no object is ever labelled with a neighbour's church.
+      const oneSite = p.members.every((m) => m.geo.id === first.geo.id);
+      const label = oneSite
+        ? t.catPinLabel(first.geo.name, p.members.map((m) => `${m.n}. ${m.item.name}`).join('; '))
+        : p.members.map((m) => `${m.n}. ${m.item.name} (${m.geo.name})`).join('; ');
+      // A cluster shows how many objects it holds; the list below the map
+      // spells each one out, so nothing depends on reading tiny numbers.
+      const text = p.members.length > 1 ? `×${p.members.length}` : String(first.n);
+      const fs_ = p.members.length > 1 ? r1f(p.fontSize * 0.8) : p.fontSize;
+      return `            <a class="pm-pin cat-pin${p.members.length > 1 ? ' cat-cluster' : ''}" href="#item-${esc(first.item.id)}" aria-label="${esc(label)}"><circle cx="${p.x}" cy="${p.y}" r="${p.r}"/><text x="${p.x}" y="${p.y}" font-size="${fs_}">${esc(text)}</text><title>${esc(label)}</title></a>`;
+    }).join('\n');
+    const captions = [t.catMapCaption(layout.items.length - layout.nonGeo, layout.pins.length)]
+      .concat(layout.nonGeo ? [t.catNonGeoNote(layout.nonGeo)] : []);
+    // Every marker in words, with a link to each object's card: the map's
+    // text equivalent, and the answer where neighbouring markers overlap.
+    const listItems = layout.pins.map((p) => {
+      const links = p.members.map((m) => `<a href="#item-${esc(m.item.id)}">${m.n}. ${esc(m.item.name)}</a>`);
+      const sites = [...new Set(p.members.map((m) => m.geo.name))];
+      return `          <li>${esc(sites.join(' · '))}: ${links.join(', ')}</li>`;
+    }).join('\n');
+    mapHtml = `      <figure class="places-map cat-map">
+        <div class="viz-scroll">
+          <svg viewBox="${layout.viewBox}" role="img" aria-label="${esc(heading)}" preserveAspectRatio="xMidYMid meet">
+            <path class="pm-land" d="${world.d}" fill-rule="evenodd"/>
+${pinMarkup}
+          </svg>
+        </div>
+        <p class="pm-legend">${esc(t.mapCredit)}</p>
+        <figcaption>${captions.map(esc).join(' ')}</figcaption>
+      </figure>
+      <details class="pm-list cat-list" open>
+        <summary>${esc(t.catListHeading)}</summary>
+        <ol>
+${listItems}
+        </ol>
+      </details>
+`;
+  }
+
+  const row = (label, value) => (value ? `            <dt>${esc(label)}</dt><dd>${renderText(value)}</dd>\n` : '');
+  const cards = layout.items.map(({ item: it, n, geo }) => {
+    const img = it.image;
+    const figure = img && img.file
+      ? `          <figure class="cat-img">
+            <img src="../img/${esc(img.file)}" alt="${esc(img.alt || it.name)}"${img.width ? ` width="${Number(img.width)}"` : ''}${img.height ? ` height="${Number(img.height)}"` : ''} loading="lazy" decoding="async">
+            <figcaption>${img.caption ? `${esc(img.caption)} ` : ''}<span class="cat-credit">${esc(t.catImageLabel)}: <a href="${esc(img.sourceUrl)}" rel="noopener">${esc(img.credit)}</a> · ${img.licenseUrl ? `<a href="${esc(img.licenseUrl)}" rel="license noopener">${esc(img.license)}</a>` : esc(img.license)}</span></figcaption>
+          </figure>\n`
+      : `          <p class="cat-noimg">${esc(t.catNoImage)}</p>\n`;
+    const where = it.where ? `${renderText(it.where)}${geo ? ` · <a href="${esc(osmLink(geo))}" rel="noopener">${esc(t.catOsm)}</a>` : ''}` : '';
+    return `        <article class="cat-item" id="item-${esc(it.id)}">
+${figure}          <h3><span class="cat-num">${n}</span> ${esc(it.name)}</h3>
+          <dl>
+${where ? `            <dt>${esc(t.catWhere)}</dt><dd>${where}</dd>\n` : ''}${row(t.catObject, it.object)}${row(t.catVisibility, it.visibility)}${row(t.catAttested, it.attested)}${row(t.catDating, it.dating)}${row(t.catChurch, it.church)}          </dl>
+          <p class="cat-cites">${renderCites(it.sources, refNumById)}</p>
+        </article>`;
+  }).join('\n');
+
+  return `    <section id="catalogue" class="viz catalogue">
+      <h2>${esc(heading)}</h2>
+${cat.intro ? `      <p class="section-intro">${esc(cat.intro)}</p>\n` : ''}${mapHtml}      <div class="cat-grid">
+${cards}
+      </div>
+    </section>
+
+`;
+}
+const r1f = (v) => Math.round(v * 10) / 10;
+
+/* ---------------------------------------------------------------------------
+ * Time river: the chronology as lane tracks instead of a table (core#108).
+ *
+ * Opt-in per site with `meta.layout: "river"`; absent (or "table"), the
+ * chronology is the table and the page is byte-identical (ADR-0001). The river
+ * renders the SAME events with the SAME caveats as the table: the `?` flag,
+ * the `dateNote`, the citations and the `decade-NNNN` anchors every other
+ * figure links to. What it adds:
+ *
+ * - one vertical track per `meta.threads` lane (one track when the site
+ *   declares none); an event sits on every lane it belongs to;
+ * - a ribbon above the list: every event as a tick on its lane rows, on the
+ *   SAME column model as the spine and the swimlanes (decadeColumns), so a gap
+ *   is collapsed at exactly the decades where those figures collapse it;
+ * - a gap row in the list wherever the ribbon breaks, with the same label;
+ * - filters (per lane, firm dates only) and a find box, added by
+ *   src/river.js. Without the script the controls stay hidden and the page is
+ *   a complete, readable list: nothing is behind the script except filtering.
+ *
+ * The swimlanes table, where a site has one, still renders: it is the
+ * accessible tabular form and carries the lanes' editorial note and bases.
+ * Lane labels render verbatim (the chips use the full label).
+ * ------------------------------------------------------------------------- */
+
+const RIVER_LAYOUTS = new Set(['table', 'river']);
+
+/** Pure layout for the river: lanes, sorted events, ribbon columns and gap rows. */
+function layoutRiver(events, threads) {
+  const withYear = (events || []).filter((e) => Number.isFinite(e.year));
+  if (withYear.length === 0) return null;
+  const declared = threads && Array.isArray(threads.lanes) && threads.lanes.length > 0;
+  const lanes = declared ? threads.lanes.map((l) => ({ id: l.id, label: l.label })) : [{ id: '', label: '' }];
+  const laneIdx = new Map(lanes.map((l, i) => [l.id, i]));
+  const sorted = [...withYear].sort((a, b) => a.year - b.year || String(a.date || '').localeCompare(String(b.date || '')));
+  const columns = decadeColumns(new Set(sorted.map((e) => decadeBucket(e.year))), collapseAfterOf(threads));
+
+  // Ribbon geometry: equal decade columns, fixed-width breaks, in a 1000-wide
+  // viewBox, so the ribbon always spans the full width of the section.
+  const W = 1000; const BRK = 16;
+  const nBreaks = columns.filter((c) => c.type === 'break').length;
+  const nDec = columns.length - nBreaks;
+  const colW = (W - nBreaks * BRK) / Math.max(1, nDec);
+  let x = 0;
+  const colAt = new Map();
+  const r1 = (v) => Math.round(v * 10) / 10;
+  for (const c of columns) {
+    if (c.type === 'break') { c.x = r1(x); c.w = BRK; x += BRK; } else { c.x = r1(x); c.w = r1(colW); colAt.set(c.decade, c); x += colW; }
+  }
+  const width = r1(x);
+
+  const items = sorted.map((ev, i) => {
+    const ids = declared && Array.isArray(ev.threads) ? ev.threads.filter((t) => laneIdx.has(t)) : [];
+    const k = declared ? ids.map((t) => laneIdx.get(t)) : [0];
+    const col = colAt.get(decadeBucket(ev.year));
+    const tx = r1(col.x + ((ev.year - col.decade) + 0.5) / 10 * col.w);
+    return { ev, i, lanes: k, laneIds: ids, x: tx, decade: decadeBucket(ev.year) };
+  });
+  // A gap row goes between two consecutive events whenever a break column
+  // lies between their decades — the same breaks the ribbon draws.
+  const gapsBefore = new Map();
+  for (let i = 1; i < items.length; i += 1) {
+    const brk = columns.find((c) => c.type === 'break' && c.from > items[i - 1].decade && c.to < items[i].decade + 10);
+    if (brk) gapsBefore.set(i, brk);
+  }
+  return { lanes, declared, items, columns, width, gapsBefore, untagged: declared ? items.filter((it) => it.lanes.length === 0).length : 0 };
+}
+
+function renderRiverRibbon(layout, t) {
+  const ROW = 11; const TOP = 2; const nL = layout.lanes.length;
+  const H = TOP + nL * ROW + 16;
+  const rows = layout.lanes.map((l, k) => `<rect class="rv-row" x="0" y="${TOP + k * ROW}" width="${layout.width}" height="${ROW - 2}"/>`).join('');
+  const breaks = layout.columns.filter((c) => c.type === 'break')
+    .map((c) => `<rect class="rv-brk" x="${r1f(c.x + c.w / 2 - 2)}" y="${TOP}" width="4" height="${nL * ROW - 2}"><title>${esc(t.spineBreakLabel(c.count, yearLabel(c.from, t), yearLabel(c.to, t)))}</title></rect>`).join('');
+  const ticks = layout.items.flatMap((it) => it.lanes.map((k) => `<line class="rv-tick rv-l${k % 8}${it.ev.dateVerified === false ? ' rv-u' : ''}" data-i="${it.i}" x1="${it.x}" x2="${it.x}" y1="${TOP + k * ROW + 1.5}" y2="${TOP + k * ROW + ROW - 3.5}"/>`)).join('');
+  // Axis: the first and last year, and each side of every break.
+  const marks = [];
+  const first = layout.items[0].ev.year; const last = layout.items[layout.items.length - 1].ev.year;
+  marks.push({ x: 0, label: yearLabel(first, t), anchor: 'start' });
+  layout.columns.forEach((c, i) => {
+    if (c.type !== 'break') return;
+    const prev = layout.items.filter((it) => it.decade < c.from).pop();
+    const next = layout.items.find((it) => it.decade > c.to);
+    if (prev && i > 0) marks.push({ x: c.x, label: yearLabel(prev.ev.year, t), anchor: 'end' });
+    if (next) marks.push({ x: c.x + c.w, label: yearLabel(next.ev.year, t), anchor: 'start' });
+  });
+  marks.push({ x: layout.width, label: yearLabel(last, t), anchor: 'end' });
+  const seen = new Set(); let lastEnd = -Infinity;
+  const axis = marks.filter((m) => {
+    const key = `${m.label}@${m.anchor}`; if (seen.has(key)) return false; seen.add(key);
+    const w = m.label.length * 6.2;
+    const x0 = m.anchor === 'end' ? m.x - w : m.x; const x1 = m.anchor === 'end' ? m.x : m.x + w;
+    if (x0 < lastEnd + 8 && m !== marks[marks.length - 1]) return false;
+    lastEnd = x1; return true;
+  }).map((m) => `<text class="rv-axis" x="${m.x}" y="${H - 3}" text-anchor="${m.anchor}">${esc(m.label)}</text>`).join('');
+  const label = t.rvRibbonLabel(layout.items.length, layout.declared ? nL : 0);
+  return `        <svg class="rv-ribbon" viewBox="-4 0 ${r1f(layout.width + 8)} ${H}" preserveAspectRatio="xMinYMid meet" role="img" aria-label="${esc(label)}">
+          ${rows}${breaks}
+          ${ticks}
+          ${axis}<rect class="rv-win" x="0" y="0" width="0" height="${nL * ROW + TOP}"/>
+        </svg>`;
+}
+
+function renderRiverItem(it, layout, refNumById, t, anchorId) {
+  const ev = it.ev;
+  const unverified = ev.dateVerified === false;
+  const flag = unverified ? ` <span class="flag" title="${esc(t.flagTitle)}">?</span>` : '';
+  const laneNames = it.laneIds.map((id) => layout.lanes.find((l) => l.id === id).label);
+  const kick = [
+    ...laneNames.map((n, j) => `<span class="rv-lane rv-l${it.lanes[j] % 8}">${esc(n)}</span>`),
+    ev.place ? `<span>${esc(ev.place)}</span>` : '',
+  ].filter(Boolean).join('');
+  const nodes = it.lanes.length
+    ? it.lanes.map((k) => `<i class="rv-l${k % 8}" style="--k:${k}"></i>`).join('')
+    : '<i class="rv-l0 rv-none" style="--k:0"></i>';
+  const text = ev.text ? `\n            <p class="rv-text">${renderText(ev.text)}${renderCites(ev.sources, refNumById)}</p>` : `\n            <p class="rv-text">${renderCites(ev.sources, refNumById)}</p>`;
+  const note = ev.dateNote ? `\n            <p class="date-note">${renderText(ev.dateNote)}</p>` : '';
+  return `        <li class="rv-e${unverified ? ' rv-u' : ''}"${anchorId ? ` id="${anchorId}"` : ''} data-i="${it.i}" data-lanes="${esc(it.laneIds.join(' '))}" data-decade="${esc(decadeLabel(it.decade, t))}">
+          <div class="rv-year">${esc(yearLabel(ev.year, t))}${ev.date ? `<small>${esc(ev.date)}</small>` : ''}${flag}</div>
+          <div class="rv-node" aria-hidden="true">${nodes}</div>
+          <div class="rv-card">
+            ${kick ? `<p class="rv-kick">${kick}</p>\n            ` : ''}<h3>${esc(ev.title)}</h3>${text}${note}
+          </div>
+        </li>`;
+}
+
+/** The chronology section as a river. Called only when meta.layout is "river". */
+function renderRiver(events, threads, refNumById, ui) {
+  const t = ui || UI.en;
+  const layout = layoutRiver(events, threads);
+  const head = (declared) => `    <section id="chronology" class="river${declared ? ' rv-lanes' : ''}">
+      <h2>${esc(t.chronologyHeading)}</h2>
+      <p class="section-intro">${t.chronologyIntro}</p>
+`;
+  if (!layout) return `${head(false)}    </section>\n`;
+  const nL = layout.lanes.length;
+  const chips = layout.declared
+    ? layout.lanes.map((l, k) => `<label class="rv-chip rv-l${k % 8}"><input type="checkbox" data-lane="${esc(l.id)}" checked><span class="rv-sw"></span>${esc(l.label)}</label>`).join('\n          ')
+    : '';
+  const controls = `        <div class="rv-controls" role="group" aria-label="${esc(t.rvFilterLabel)}" hidden>
+          ${chips}${chips ? '\n          ' : ''}<label class="rv-chip rv-firm"><input type="checkbox" data-firm><span class="rv-sw"></span>${esc(t.rvFirm)}</label>
+          <label class="rv-find">${esc(t.rvFind)} <input type="search" autocomplete="off"></label>
+          <p class="rv-status" aria-live="polite" data-all="${esc(t.rvAll('{n}'))}" data-some="${esc(t.rvSome('{n}', '{total}'))}" data-reading="${esc(t.rvReading)}"></p>
+        </div>`;
+  let lastDecade = null;
+  const rows = layout.items.map((it) => {
+    let out = '';
+    const brk = layout.gapsBefore.get(it.i);
+    if (brk) out += `        <li class="rv-gap"><span>${esc(t.spineBreakLabel(brk.count, yearLabel(brk.from, t), yearLabel(brk.to, t)))}</span></li>\n`;
+    const anchor = it.decade !== lastDecade ? `decade-${it.decade}` : '';
+    lastDecade = it.decade;
+    return out + renderRiverItem(it, layout, refNumById, t, anchor);
+  }).join('\n');
+  return `${head(layout.declared)}      <div class="rv-bar">
+${controls}
+${renderRiverRibbon(layout, t)}
+      </div>
+      <ol class="rv-list" style="--lanes:${nL}">
+${rows}
+      </ol>
+      <p class="rv-empty" hidden>${esc(t.rvEmpty)}</p>
+    </section>
+`;
+}
+
+/* ---------------------------------------------------------------------------
+ * The papal consecrations — a Fátima-specific section, not a template feature.
+ *
+ * Driven by the optional top-level `consecrations` key. It renders BELOW the
+ * chronology, not above it, and deliberately not as approval-ladder rungs: a
+ * consecration is an act of devotion by a pope, and letting one appear as a
+ * rung would turn nine acts of devotion into nine steps toward a verdict that
+ * was never given. The ladder's Holy See rung stays "no ruling located" and
+ * says in its own prose that the consecrations were considered and set aside.
+ *
+ * Two closed enums do the work of the summary table, because the whole reason
+ * a reader needs this section is that the acts are NOT interchangeable:
+ *
+ *   russia   named | unnamed | described   was Russia consecrated BY NAME
+ *   bishops  united | alone | unknown      did the pope act WITH the bishops
+ *
+ * They are scored from each act's own published text, and they are the two
+ * conditions the seer's reported request is said to have carried. Whether the
+ * conditions were MET is a judgment the data attributes to whoever made it and
+ * the renderer never computes: there is no "satisfied" column, no tick, no
+ * total. A page that scored the acts itself would be taking a side in a live
+ * dispute while looking like a table of facts.
+ *
+ * `kind` is a third closed enum (consecration | entrustment | exhortation)
+ * because the difference is the section's whole point -- Signum Magnum asks
+ * the faithful to renew their own consecration and is routinely counted as a
+ * papal one, and the 2013 act calls itself an entrustment and never says
+ * "consecrate".
+ * ------------------------------------------------------------------------- */
+
+const CONSECRATION_RUSSIA = new Set(['named', 'unnamed', 'described']);
+const CONSECRATION_BISHOPS = new Set(['united', 'alone', 'unknown']);
+const CONSECRATION_KIND = new Set(['consecration', 'entrustment', 'exhortation']);
+
+/**
+ * Validate the acts, or throw. Same contract as `ladderRungs`: an unknown enum
+ * value is a build failure rather than a silent fallback, and an uncited act
+ * is a build failure too -- every one of these is a claim about a document,
+ * and a claim about a document with no document is the failure mode this whole
+ * project exists to avoid.
+ */
+function consecrationActs(cons) {
+  if (!cons || !Array.isArray(cons.acts) || cons.acts.length === 0) return null;
+  return cons.acts.map((a, i) => {
+    const where = `consecrations.acts[${i}]`;
+    if (!a || !a.date || !a.pope) throw new Error(`${where}: every act needs a date and a pope`);
+    const check = (key, set) => {
+      if (!set.has(a[key])) {
+        throw new Error(`${where} (${a.date}): unknown ${key} ${JSON.stringify(a[key])} — ` +
+          `use one of ${[...set].join(', ')}`);
+      }
+    };
+    check('kind', CONSECRATION_KIND);
+    check('russia', CONSECRATION_RUSSIA);
+    check('bishops', CONSECRATION_BISHOPS);
+    if (!Array.isArray(a.sources) || a.sources.length === 0) {
+      throw new Error(`${where} (${a.date}): cite the act — an uncited consecration is a rumour`);
+    }
+    return a;
+  });
+}
+
+/** Render the consecrations section, or '' when the dataset declares none. */
+function renderConsecrations(cons, refNumById, ui) {
+  const acts = consecrationActs(cons);
+  if (!acts) return '';
+  const t = ui || UI.en;
+  const uid = (i) => `cons-${i + 1}`;
+  const word = (group, key) => (t.consValues && t.consValues[group] && t.consValues[group][key]) || key;
+
+  // The summary table. Its job is the at-a-glance answer to "how many popes,
+  // doing which part" -- the question that sends people to this section.
+  const rows = acts.map((a, i) => `            <tr>
+              <th scope="row"><a href="#${uid(i)}">${esc(a.date)}</a></th>
+              <td>${esc(a.pope)}</td>
+              <td class="cons-kind cons-kind-${esc(a.kind)}">${esc(word('kind', a.kind))}</td>
+              <td class="cons-flag cons-russia-${esc(a.russia)}">${esc(word('russia', a.russia))}</td>
+              <td class="cons-flag cons-bishops-${esc(a.bishops)}">${esc(word('bishops', a.bishops))}</td>
+            </tr>`).join('\n');
+
+  const cards = acts.map((a, i) => {
+    const dn = a.dateNote ? `<p class="date-note">${renderText(a.dateNote)}</p>` : '';
+    const quote = a.quote
+      ? `<blockquote class="cons-quote"${a.quoteLang ? ` lang="${esc(a.quoteLang)}"` : ''}><p>${esc(a.quote)}</p></blockquote>`
+      : '';
+    return `        <article id="${uid(i)}" class="cons-act">
+          <h3 class="cons-act-title"><span class="cons-date">${esc(a.date)}</span> ${esc(a.pope)}</h3>
+          <p class="cons-place">${esc(a.place || '')}</p>
+          <p class="cons-chips"><span class="cons-chip cons-kind-${esc(a.kind)}">${esc(word('kind', a.kind))}</span><span class="cons-chip cons-russia-${esc(a.russia)}">${esc(t.consRussia)}: ${esc(word('russia', a.russia))}</span><span class="cons-chip cons-bishops-${esc(a.bishops)}">${esc(t.consBishops)}: ${esc(word('bishops', a.bishops))}</span></p>
+          <p class="cons-object"><strong>${esc(t.consObject)}:</strong> ${esc(a.object || '')}</p>
+${dn ? '          ' + dn + '\n' : ''}          <p>${renderText(a.text)}</p>
+${quote ? '          ' + quote + '\n' : ''}          <p class="cons-cites">${renderCites(a.sources, refNumById)}</p>
+        </article>`;
+  }).join('\n');
+
+  return `    <section id="consecrations" class="viz">
+      <h2>${esc(cons.heading || t.consHeading)}</h2>
+      <p class="section-intro">${esc(cons.intro || '')}</p>
+      <p class="cons-note">${esc(cons.note || '')}</p>
+      <figure class="cons-summary">
+        <div class="viz-scroll">
+        <table class="cons-table">
+          <thead>
+            <tr><th scope="col">${esc(t.consDate)}</th><th scope="col">${esc(t.consPope)}</th><th scope="col">${esc(t.consKind)}</th><th scope="col">${esc(t.consRussia)}</th><th scope="col">${esc(t.consBishops)}</th></tr>
+          </thead>
+          <tbody>
+${rows}
+          </tbody>
+        </table>
+        </div>
+        <figcaption>${esc(cons.criteria || '')}</figcaption>
+      </figure>
+      <div class="cons-acts">
+${cards}
+      </div>
+    </section>
+
+`;
+}
+
 /** Out-of-vocabulary `references[].type` values seen this build (core#74). */
 const UNKNOWN_REF_TYPES = new Set();
 
@@ -2111,7 +2568,7 @@ function renderEventRow(ev, refNumById, ui) {
     ? `<span class="date-note">${renderText(ev.dateNote)}</span>`
     : '';
   return `        <tr>
-          <td class="year">${esc(ev.year)}</td>
+          <td class="year">${esc(yearLabel(ev.year, ui))}</td>
           <td>${esc(ev.date || '')}${flag}</td>
           <td>${esc(ev.place || '')}</td>
           <td><strong>${esc(ev.title)}</strong>${text}${renderCites(ev.sources, refNumById)}${dateNote}</td>
@@ -2313,21 +2770,23 @@ function renderPage(data, archives, opts = {}) {
   // then byte-identical to a build without these features).
   const lineageHtml = renderLineageSection(lineage, refNumById);
   const branchTimelineHtml = renderBranchTimeline(branchTimeline, refNumById);
-  const numbersChartHtml = renderNumbersChart(numbersChart, refNumById);
+  const numbersChartHtml = renderNumbersChart(numbersChart, refNumById, ui);
   const chronologySpineHtml = renderChronologySpine(chronologySpine, events, ui);
   const approvalLadderHtml = renderApprovalLadder(data.approvalLadder, refNumById, ui);
   const consecrationsHtml = renderConsecrations(data.consecrations, refNumById, ui);
   const placesMapHtml = renderPlacesMap(placesMap, events, opts.places, opts.world, ui);
+  const catalogueHtml = renderCatalogue(data.catalogue, opts.places, opts.world, refNumById, ui);
   const tierMapHtml = renderTierMap(tierMap, refNumById, ui);
   const swimlanesHtml = renderSwimlanes(threads, events, refNumById, ui);
 
+  const river = meta && meta.layout === 'river';
   const sortedEvents = [...events].sort((a, b) => a.year - b.year || String(a.date || '').localeCompare(String(b.date || '')));
 
   // Chronology rows with a decade header row whenever the decade changes.
   let lastDecade = null;
   const eventRows = sortedEvents
     .map((ev) => {
-      const d = decadeOf(ev.year);
+      const d = decadeOf(ev.year, ui);
       const header = d !== lastDecade
         ? `        <tr class="decade-row" id="decade-${Math.floor(ev.year / 10) * 10}"><th colspan="4">${esc(d)}</th></tr>\n`
         : '';
@@ -2360,7 +2819,7 @@ function renderPage(data, archives, opts = {}) {
   <title>${esc(meta.title)}</title>
   <meta name="description" content="${esc(meta.description)}">
 ${ANALYTICS}
-  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="../styles.css">${river ? '\n  <script src="../river.js" defer></script>' : ''}
 ${seoHead(meta, base, route, lang)}
 </head>
 <body>
@@ -2377,7 +2836,7 @@ ${seoHead(meta, base, route, lang)}
   <nav class="site-nav">
     <div class="wrap">
       <a href="#about">${esc(ui.about)}</a>
-      <a href="#chronology">${esc(ui.chronology)}</a>${approvalLadderHtml ? `\n      <a href="#approval-ladder">${esc((data.approvalLadder && data.approvalLadder.navLabel) || ui.ladderHeading)}</a>` : ''}${consecrationsHtml ? `\n      <a href="#consecrations">${esc((data.consecrations && data.consecrations.navLabel) || ui.consHeading)}</a>` : ''}${chronologySpineHtml ? `\n      <a href="#chronology-spine">${esc((chronologySpine && chronologySpine.navLabel) || ui.spineNav)}</a>` : ''}${swimlanesHtml ? `\n      <a href="#threads">${esc((threads && threads.navLabel) || ui.swNav)}</a>` : ''}${placesMapHtml ? `\n      <a href="#places-map">${esc((placesMap && placesMap.navLabel) || ui.mapNav)}</a>` : ''}${tierMapHtml ? `\n      <a href="#map">${esc((tierMap && tierMap.navLabel) || ui.tierMapHeading)}</a>` : ''}${lineageHtml ? `\n      <a href="#lineage">${esc(lineage.navLabel || 'Genealogy')}</a>` : ''}${branchTimelineHtml ? `\n      <a href="#branch-timeline">${esc(branchTimeline.navLabel || 'Divisions')}</a>` : ''}${numbersChartHtml ? `\n      <a href="#numbers-chart">${esc(numbersChart.navLabel || 'Numbers')}</a>` : ''}
+      <a href="#chronology">${esc(ui.chronology)}</a>${approvalLadderHtml ? `\n      <a href="#approval-ladder">${esc((data.approvalLadder && data.approvalLadder.navLabel) || ui.ladderHeading)}</a>` : ''}${consecrationsHtml ? `\n      <a href="#consecrations">${esc((data.consecrations && data.consecrations.navLabel) || ui.consHeading)}</a>` : ''}${chronologySpineHtml ? `\n      <a href="#chronology-spine">${esc((chronologySpine && chronologySpine.navLabel) || ui.spineNav)}</a>` : ''}${swimlanesHtml ? `\n      <a href="#threads">${esc((threads && threads.navLabel) || ui.swNav)}</a>` : ''}${placesMapHtml ? `\n      <a href="#places-map">${esc((placesMap && placesMap.navLabel) || ui.mapNav)}</a>` : ''}${catalogueHtml ? `\n      <a href="#catalogue">${esc((data.catalogue && data.catalogue.navLabel) || ui.catNav)}</a>` : ''}${tierMapHtml ? `\n      <a href="#map">${esc((tierMap && tierMap.navLabel) || ui.tierMapHeading)}</a>` : ''}${lineageHtml ? `\n      <a href="#lineage">${esc(lineage.navLabel || 'Genealogy')}</a>` : ''}${branchTimelineHtml ? `\n      <a href="#branch-timeline">${esc(branchTimeline.navLabel || 'Divisions')}</a>` : ''}${numbersChartHtml ? `\n      <a href="#numbers-chart">${esc(numbersChart.navLabel || 'Numbers')}</a>` : ''}
       <a href="#figures">${esc(ui.figures)}</a>
       <a href="#organizations">${esc(ui.organizations)}</a>
       ${disambigCards ? `<a href="#disambiguation">${esc(ui.disambiguation)}</a>` : ''}
@@ -2394,7 +2853,7 @@ ${factRows}
       </dl>
     </section>
 
-    <section id="chronology">
+${river ? renderRiver(events, threads, refNumById, ui) : `    <section id="chronology">
       <h2>${esc(ui.chronologyHeading)}</h2>
       <p class="section-intro">${ui.chronologyIntro}</p>
       <div class="table-scroll">
@@ -2408,8 +2867,8 @@ ${eventRows}
       </table>
       </div>
     </section>
-
-${consecrationsHtml}${swimlanesHtml}${placesMapHtml}${tierMapHtml}${lineageHtml}${branchTimelineHtml}${numbersChartHtml}    <section id="figures">
+`}
+${consecrationsHtml}${swimlanesHtml}${placesMapHtml}${catalogueHtml}${tierMapHtml}${lineageHtml}${branchTimelineHtml}${numbersChartHtml}    <section id="figures">
       <h2>${esc(ui.figuresHeading)}</h2>
       <div class="party-grid">
 ${figures.map((f) => renderFigureCard(f, refNumById)).join('\n')}
@@ -2468,6 +2927,16 @@ function main() {
   fs.writeFileSync(path.join(OUT_DIR, 'sitemap.xml'), renderSitemap(base, ROUTES));
   fs.writeFileSync(path.join(OUT_DIR, 'robots.txt'), renderRobots(base));
   fs.copyFileSync(path.join(SRC_DIR, 'styles.css'), path.join(OUT_DIR, 'styles.css'));
+  // The river's filters and reading window; copied only for sites that use it.
+  if (data.meta && data.meta.layout === 'river') fs.copyFileSync(path.join(SRC_DIR, 'river.js'), path.join(OUT_DIR, 'river.js'));
+  // Catalogue images: only the files the data references, so docs/ carries
+  // nothing the site does not show.
+  const catImages = ((data.catalogue && data.catalogue.items) || [])
+    .map((it) => it.image && it.image.file).filter(Boolean);
+  if (catImages.length) {
+    fs.mkdirSync(path.join(OUT_DIR, 'img'), { recursive: true });
+    for (const f of catImages) fs.copyFileSync(path.join(SRC_DIR, 'img', f), path.join(OUT_DIR, 'img', f));
+  }
   // Disable Jekyll processing on GitHub Pages.
   fs.writeFileSync(path.join(OUT_DIR, '.nojekyll'), '');
 
@@ -2496,7 +2965,7 @@ function main() {
 if (require.main === module) main();
 
 module.exports = {
-  esc, formatArchiveTs, renderCites, renderVizChips, decadeOf,
+  esc, formatArchiveTs, renderCites, renderVizChips, decadeOf, yearLabel, decadeLabel, spanLabel,
   GLOSSARY_BASE, GLOSSARY_MARKER, glossaryMarkerIds, renderGlossaryLinks, renderText,
   renderLineageNode, lineageHasIndirectEdges, renderLineageLegend, renderLineageSection,
   layoutBranchTimeline, renderBranchTimeline, BT_GEOM,
@@ -2505,10 +2974,12 @@ module.exports = {
   layoutChronologySpine, renderChronologySpine, decadeBucket, decadeColumns, collapseAfterOf,
   layoutSwimlanes, renderSwimlanes,
   PLACE_COMPOUND_SEP, placeIndex, resolvePlaceString, layoutPlacesMap, renderPlacesMap,
+  layoutCatalogue, renderCatalogue, osmLink, CATALOGUE_LICENSES,
+  layoutRiver, renderRiver, RIVER_LAYOUTS,
+  renderConsecrations, consecrationActs, CONSECRATION_KIND, CONSECRATION_RUSSIA, CONSECRATION_BISHOPS,
   loadPlaces, loadWorld,
   renderPage,
   LOCALES, ROUTES, OG_LOCALE, UI, loadDict, loadDictMeta, disclaimerFor, renderApprovalLadder, ladderRungs, STATUS_GLYPH,
-  renderConsecrations, consecrationActs, CONSECRATION_KIND, CONSECRATION_RUSSIA, CONSECRATION_BISHOPS,
   renderEventRow, UNKNOWN_REF_TYPES, renderReference, siteBase, translator, localizeData,
   TRANSLATABLE_KEYS, SUBTREE_TRANSLATABLE, keysFor, collectTranslatable,
   alternates, seoHead, langSwitcher, renderRootStub, renderSitemap, renderRobots,

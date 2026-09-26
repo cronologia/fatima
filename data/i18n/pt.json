@@ -1,7 +1,7 @@
 {
   "_meta": {
     "targetLang": "pt",
-    "coverage": "196/196",
+    "coverage": "211/211",
     "generatedBy": "hand-authored by an LLM (Claude Opus 5) directly against the English source strings — NOT produced by scripts/translate.js and NOT run through a machine-translation service",
     "note": "Exact-key dictionary: every key is a verbatim English string that build.js routes through localizeData (TRANSLATABLE_KEYS plus the subtree allowlists: references/publisherNote and the approvalLadder prose keys (label, when, who, outcome, noDocument, heading, note, caption, navLabel) — the ladder's `status` is a closed enum and is deliberately never translated). String list computed with build.js’s own walk, not with scripts/translate.js --stats. Portuguese proper nouns (Cova da Iria, Loca do Cabeço, Lúcia dos Santos, Francisco and Jacinta Marto, O Século, Ilustração Portuguesa, Documentação Crítica de Fátima) are kept in Portuguese in every locale. Glossary markers [[term-id|text]] keep the id and translate only the visible text. No native speaker has reviewed these strings yet.",
     "humanReviewed": false,
@@ -9,6 +9,10 @@
     "lastAuthored": "2026-08-05"
   },
   "strings": {
+    "1542": "1542",
+    "1918": "1918",
+    "1919": "1919",
+    "1969": "1969",
     "Our Lady of Fátima — Chronology": "Nossa Senhora de Fátima — Cronologia",
     "Chronology of the reported apparitions at Fátima, Portugal, and of what came before and after them (1881–2017)": "Cronologia das aparições relatadas em Fátima, Portugal, e do que as precedeu e se lhes seguiu (1881–2017)",
     "An open, source-referenced chronology of the reported apparitions of Our Lady of the Rosary at the Cova da Iria, Fátima, Portugal (1917): the anticlerical politics and the suppressed diocese that preceded them, the three seers, the Church's canonical judgment of 1930, the shrine, the pilgrimage and the seers' causes that followed, and the reported cures — recorded as accounts and as the Church acts that judged them, never as events.": "Uma cronologia aberta e referenciada a fontes sobre as aparições relatadas de Nossa Senhora do Rosário na Cova da Iria, Fátima, Portugal (1917): a política anticlerical e a diocese suprimida que as precederam, os três videntes, o juízo canónico da Igreja de 1930, o santuário, a peregrinação e as causas dos videntes que se lhes seguiram, e as curas relatadas — registadas como relatos e como os atos da Igreja que os julgaram, nunca como factos.",
