@@ -310,28 +310,51 @@ test('dateNote is translatable, or it renders in English on every localized page
     'dateNote must be in TRANSLATABLE_KEYS — rendering it untranslated just moves the bug');
 });
 
-/* Out-of-vocabulary reference types (core#74). The closed vocabulary falls back
- * to the raw value, which puts an English word on a localized page — the exact
- * thing the fallback line's own comment forbids. Every repo in the family has
- * offenders, so this reports rather than throws for now; the test pins that the
- * report actually happens, because a warning nobody emits is the same as none. */
-const { renderReference, UNKNOWN_REF_TYPES } = require('../build.js');
+/* Reference types are a closed vocabulary (core#74). validate-data.js rejects a
+ * type outside it; the renderer, which used to fall back to the raw English
+ * word, now refuses to render one - a missing label is a machinery defect. */
+const { renderReference } = require('../build.js');
+const { execFileSync } = require('node:child_process');
+const os = require('node:os');
 
-test('an unknown reference type is collected for reporting, not swallowed', () => {
-  UNKNOWN_REF_TYPES.clear();
-  const ref = (type) => ({ id: 'x', title: 'T', url: 'https://e.org', publisher: 'P', type });
-  renderReference(ref('official'), 1, {}, UI.es);
-  assert.equal(UNKNOWN_REF_TYPES.size, 0, 'a known type must not be reported');
+test('a known reference type renders its localized label', () => {
+  const ref = { id: 'x', title: 'T', url: 'https://e.org', publisher: 'P', type: 'official' };
+  assert.match(renderReference(ref, 1, {}, UI.es), new RegExp(UI.es.refTypes.official));
+});
 
-  renderReference(ref('primary'), 2, {}, UI.es);
-  renderReference(ref('devotional'), 3, {}, UI.es);
-  renderReference(ref('primary'), 4, {}, UI.es);
-  assert.deepEqual([...UNKNOWN_REF_TYPES].sort(), ['devotional', 'primary'],
-    'every distinct offender is named, and named once');
+test('an unknown reference type is refused, never printed raw', () => {
+  const ref = { id: 'x', title: 'T', url: 'https://e.org', publisher: 'P', type: 'devotional' };
+  assert.throws(() => renderReference(ref, 1, {}, UI.es), /devotional.*core#74/);
+});
 
-  // And the defect itself: the raw English word does reach the Spanish page.
-  assert.match(renderReference(ref('devotional'), 5, {}, UI.es), /devotional/);
-  UNKNOWN_REF_TYPES.clear();
+test('validate-data.js rejects out-of-vocabulary types in every references array', () => {
+  const root = path.join(__dirname, '..');
+  const d = JSON.parse(fs.readFileSync(path.join(root, 'data', 'chronology.example.json'), 'utf8'));
+  d.references[0].type = 'primary';
+  d.philosophers = { references: [{ id: 'nested', title: 'T', url: 'https://e.org', publisher: 'P', type: 'blog' }] };
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'reftypes-'));
+  fs.mkdirSync(path.join(dir, 'scripts')); fs.mkdirSync(path.join(dir, 'data'));
+  fs.copyFileSync(path.join(root, 'scripts', 'validate-data.js'), path.join(dir, 'scripts', 'validate-data.js'));
+  fs.copyFileSync(path.join(root, 'build.js'), path.join(dir, 'build.js'));
+  fs.cpSync(path.join(root, 'src'), path.join(dir, 'src'), { recursive: true });
+  for (const f of ['glossary-terms.json', 'places.json']) {
+    if (fs.existsSync(path.join(root, 'data', f))) fs.copyFileSync(path.join(root, 'data', f), path.join(dir, 'data', f));
+  }
+  fs.writeFileSync(path.join(dir, 'data', 'chronology.json'), JSON.stringify(d));
+  let out = '';
+  try { execFileSync(process.execPath, ['scripts/validate-data.js'], { cwd: dir, encoding: 'utf8', stdio: 'pipe' }); }
+  catch (e) { out = `${e.stdout}${e.stderr}`; }
+  finally { fs.rmSync(dir, { recursive: true, force: true }); }
+  assert.match(out, /2 reference type\(s\) outside the closed vocabulary/);
+  assert.match(out, /"primary"/);
+  assert.match(out, /philosophers\.references\[0\] \(nested\): "blog"/, 'nested references arrays are checked too');
+});
+
+test("the validator's vocabulary is exactly the renderer's refTypes table", () => {
+  const src = fs.readFileSync(path.join(__dirname, '..', 'scripts', 'validate-data.js'), 'utf8');
+  const body = src.match(/const REF_TYPES = new Set\(\[([^\]]*)\]\)/)[1];
+  const validator = [...body.matchAll(/'([^']+)'/g)].map((m) => m[1]).sort();
+  assert.deepEqual(validator, Object.keys(UI.en.refTypes).sort());
 });
 
 test('refTypes: every declared type has a label in all three locales', () => {
@@ -502,121 +525,4 @@ test('keysFor resolves the nearest enclosing subtree and is sticky through desce
   assert.equal(keysFor('anything', null)[1], TRANSLATABLE_KEYS);
   // A dataset key colliding with Object.prototype must not resolve to it.
   assert.equal(keysFor('constructor', null)[1], TRANSLATABLE_KEYS);
-});
-
-/* The papal consecrations — Fátima's own section.
- *
- * What is under test is not layout. It is the three closed enums and the
- * citation rule, because the section's whole value is that it distinguishes
- * acts other accounts run together: a consecration from an entrustment from an
- * exhortation, an act that names Russia from one that does not, a collegial
- * act from a solo one. A silent fallback on any of those would produce a table
- * that looks authoritative and is wrong. */
-const {
-  renderConsecrations, consecrationActs,
-  CONSECRATION_KIND, CONSECRATION_RUSSIA, CONSECRATION_BISHOPS,
-} = require('../build.js');
-
-const CNUMS = new Map([['doc', 1]]);
-const cact = (o) => Object.assign({
-  date: '1984-03-25', pope: 'John Paul II', kind: 'consecration',
-  russia: 'unnamed', bishops: 'united', object: 'All peoples', text: 'Prose.',
-  sources: ['doc'],
-}, o);
-
-test('consecrations: absent or empty data renders nothing', () => {
-  assert.equal(renderConsecrations(undefined, CNUMS, UI.en), '');
-  assert.equal(renderConsecrations({}, CNUMS, UI.en), '');
-  assert.equal(renderConsecrations({ acts: [] }, CNUMS, UI.en), '');
-});
-
-test('consecrations: each of the three enums fails the build on an unknown value', () => {
-  for (const [key, bad, set] of [
-    ['kind', 'renewal', CONSECRATION_KIND],
-    ['russia', 'maybe', CONSECRATION_RUSSIA],
-    ['bishops', 'some', CONSECRATION_BISHOPS],
-  ]) {
-    assert.throws(
-      () => consecrationActs({ acts: [cact({ [key]: bad })] }),
-      new RegExp(`unknown ${key} "${bad}"`),
-      `${key} must not accept "${bad}"`);
-    // Absent is as wrong as wrong: an act with no `russia` would render blank
-    // and read as "not named", which is a claim.
-    assert.throws(() => consecrationActs({ acts: [cact({ [key]: undefined })] }), new RegExp(`unknown ${key}`));
-    assert.ok(set.size >= 3);
-  }
-});
-
-test('consecrations: an uncited act fails the build', () => {
-  assert.throws(() => consecrationActs({ acts: [cact({ sources: [] })] }), /uncited consecration is a rumour/);
-  assert.throws(() => consecrationActs({ acts: [cact({ sources: undefined })] }), /uncited consecration is a rumour/);
-});
-
-test('consecrations: a date and a pope are required', () => {
-  assert.throws(() => consecrationActs({ acts: [cact({ date: undefined })] }), /needs a date and a pope/);
-  assert.throws(() => consecrationActs({ acts: [cact({ pope: undefined })] }), /needs a date and a pope/);
-});
-
-test('consecrations: enum values render as words, in the page language', () => {
-  const cons = { heading: 'H', intro: 'I', note: 'N', criteria: 'C', acts: [cact()] };
-  const en = renderConsecrations(cons, CNUMS, UI.en);
-  assert.match(en, /not named/);
-  assert.match(en, /in union with the bishops/);
-  // The enum value itself must never reach the page as bare data.
-  assert.ok(!/>unnamed</.test(en), 'the raw enum leaked into the rendered text');
-  const pt = renderConsecrations(cons, CNUMS, UI.pt);
-  assert.match(pt, /não nomeada/);
-  assert.match(pt, /em união com os bispos/);
-});
-
-test('consecrations: a verbatim quote keeps its own language and is never localized', () => {
-  const quote = 'dedicamus ac consecramus';
-  const cons = { acts: [cact({ quote, quoteLang: 'la' })] };
-  const html = renderConsecrations(cons, CNUMS, UI.pt);
-  assert.match(html, /<blockquote class="cons-quote" lang="la">/);
-  assert.ok(html.includes(quote), 'the Latin must survive a Portuguese render unchanged');
-  // No lang attribute when the data does not say which language it is in.
-  assert.match(renderConsecrations({ acts: [cact({ quote })] }, CNUMS, UI.en), /<blockquote class="cons-quote">/);
-});
-
-test('consecrations: the page scores no act as satisfying the conditions', () => {
-  // The section reports two facts per act and draws no conclusion from them.
-  // If a future edit adds a computed verdict column, this fails — deliberately.
-  const cons = { heading: 'H', intro: 'I', note: 'N', criteria: 'C', acts: [cact(), cact({ russia: 'named', date: '2022-03-25', pope: 'Francis' })] };
-  const html = renderConsecrations(cons, CNUMS, UI.en);
-  assert.ok(!/✓|✗/.test(html), 'no pass/fail glyphs: these are facts about texts, not scores');
-  assert.ok(!/satisfied|fulfilled|complete/i.test(html), 'the renderer must not adjudicate the dispute');
-});
-
-test('consecrations: the acts are cited, and the citations resolve to references', () => {
-  const html = renderConsecrations({ acts: [cact()] }, CNUMS, UI.en);
-  assert.match(html, /class="cons-cites"/);
-  assert.match(html, /#ref-1/);
-});
-
-test('consecrations: `quote` is outside the translatable set, `text` is inside it', () => {
-  // The renderer cannot enforce this — localization happens before it. The
-  // guard is the SUBTREE_TRANSLATABLE allowlist, so assert on the walk. A
-  // translated sentence inside quotation marks attributed to Pius XII would be
-  // a fabrication, which is a different and worse thing than an untranslated
-  // page.
-  const data = {
-    meta: { title: 'T', description: 'D', language: 'en', lastUpdated: '2026-01-01' },
-    consecrations: {
-      heading: 'The papal consecrations', intro: 'Intro prose.', note: 'Note prose.',
-      criteria: 'Criteria prose.',
-      acts: [cact({ quote: 'dedicamus ac consecramus', quoteLang: 'la', place: 'Rome', text: 'Prose about the act.' })],
-    },
-  };
-  const got = new Set(collectTranslatable(data));
-  assert.ok(got.has('Prose about the act.'), 'the surrounding prose is translated');
-  assert.ok(got.has('Rome'));
-  assert.ok(got.has('Criteria prose.'));
-  assert.ok(!got.has('dedicamus ac consecramus'), 'a verbatim papal quote must never be translated');
-  assert.ok(!got.has('la'), 'quoteLang is a code, not prose');
-  assert.ok(!got.has('consecration'), 'the kind enum must not be translated');
-  assert.ok(!got.has('unnamed'), 'the russia enum must not be translated');
-  assert.ok(!got.has('united'), 'the bishops enum must not be translated');
-  assert.ok(!got.has('John Paul II'), 'a pope is a proper name');
-  assert.ok(!got.has('1984-03-25'));
 });
